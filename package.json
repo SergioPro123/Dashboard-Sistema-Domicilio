@@ -4,7 +4,8 @@
     "description": "This is the Admin template with the bootstrap 4",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon server/server.js"
     },
     "keywords": [
         "admin",
