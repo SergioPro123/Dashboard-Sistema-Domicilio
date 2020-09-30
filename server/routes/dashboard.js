@@ -25,10 +25,6 @@ data:{
 app.get('/dashboard', (req, res) => {
     res.render('dashboard_admin.hbs', {
         data: {
-            dashboard: {
-                selected: 'selected',
-                active: 'active',
-            },
             estadisticas: {
                 clientesTotales: [999, 1],
                 serviciosMes: [888, 0],
@@ -75,40 +71,14 @@ app.get('/dashboard/estadisticas', (req, res) => {
     res.json(data);
 });
 
-//Renderizamos la seccion de generarServicio
-app.get('/generarServicio', (req, res) => {
-    res.render('generarServicio_admin.hbs', {
-        data: {
-            generarServicio: {
-                selected: 'selected',
-                active: 'active',
-            },
-        },
-    });
-});
-
 //Renderizamos la seccion de CHAT
 app.get('/chat', (req, res) => {
-    res.render('chat.hbs', {
-        data: {
-            chat: {
-                selected: 'selected',
-                active: 'active',
-            },
-        },
-    });
+    res.render('chat.hbs');
 });
 
 //Renderizamos la seccion de CALENDARIO
 app.get('/calendario', (req, res) => {
-    res.render('calendario.hbs', {
-        data: {
-            calendario: {
-                selected: 'selected',
-                active: 'active',
-            },
-        },
-    });
+    res.render('calendario.hbs');
 });
 
 module.exports = {

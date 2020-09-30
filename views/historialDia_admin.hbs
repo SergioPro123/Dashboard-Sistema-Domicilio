@@ -67,13 +67,15 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Generar Servicios</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Historial del Día</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="/dashboard" class="text-muted">Servicios</a>
+                                    <li class="breadcrumb-item text-muted active">Servicios
                                     </li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Generar Servicios
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Historial
+                                    </li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Historial Día
                                     </li>
                                 </ol>
                             </nav>
@@ -96,56 +98,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-primary text-center">
-                                                <h1 class="font-light text-white">{{data.datoServicios.servicioTotales}}
-                                                </h1>
-                                                <h6 class="text-white">Servicios Totales</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-cyan text-center">
-                                                <h1 class="font-light text-white">
-                                                    {{data.datoServicios.servicioEnProceso}}</h1>
-                                                <h6 class="text-white">Servicion en Proceso</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-success text-center">
-                                                <h1 class="font-light text-white">
-                                                    {{data.datoServicios.servicioConcluidos}}</h1>
-                                                <h6 class="text-white">Servicios Concluidos</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                    <div class="col-md-6 col-lg-3 col-xlg-3">
-                                        <div class="card card-hover">
-                                            <div class="p-2 bg-danger text-center">
-                                                <h1 class="font-light text-white">
-                                                    {{data.datoServicios.servicioCancelados}}</h1>
-                                                <h6 class="text-white">Servicios Cancelados</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Column -->
-                                </div>
+
                                 <div class="row">
                                     <!-- Column -->
                                     <div class="col-md-6 col-lg-6 col-xlg-6">
                                         <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
                                             data-target="#signup-modal">
-                                            <i class="fas fa-motorcycle"></i>
-                                            Generar Servicio
+                                            <i class="far fa-file-pdf"></i>
+                                            Descargar Liquidación
                                         </button>
                                     </div>
                                 </div>
