@@ -23,7 +23,7 @@ data:{
 */
 //Renderizamos la seccion de DASHBOARD
 app.get('/dashboard', (req, res) => {
-    res.render('dashboard_admin.hbs', {
+    res.render('admin/dashboard_admin.hbs', {
         data: {
             estadisticas: {
                 clientesTotales: [999, 1],
@@ -69,16 +69,6 @@ app.get('/dashboard/estadisticas', (req, res) => {
         },
     };
     res.json(data);
-});
-
-//Renderizamos la seccion de CHAT
-app.get('/chat', (req, res) => {
-    res.render('chat.hbs');
-});
-
-//Renderizamos la seccion de CALENDARIO
-app.get('/calendario', (req, res) => {
-    res.render('calendario.hbs');
 });
 
 module.exports = {

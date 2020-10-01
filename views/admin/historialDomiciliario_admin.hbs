@@ -67,7 +67,8 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Historial del Día</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Historial Domiciliario
+                        </h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -75,7 +76,8 @@
                                     </li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Historial
                                     </li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Historial Día
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Historial
+                                        Domiciliario
                                     </li>
                                 </ol>
                             </nav>
@@ -93,6 +95,65 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+
+                {{!-- FILTRO --}}
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12 ">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Filtro</h4>
+                                <form>
+                                    <div class="form-group mb-4 col-md-12">
+                                        <label class="mr-sm-2" for="inlineFormCustomSelect">Domiciliario</label>
+                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                            {{#if data.domiciliario }}
+                                            <option value="0" disabled selected>--Seleccione un Cliente--
+                                            </option>
+                                            {{#each data.domiciliario as |item|}}
+                                            <option value="{{item.[0]}}">{{item.[1]}}</option>
+                                            {{/each}}
+
+                                            {{else}}
+                                            <option value="0" disabled selected>No se encuentran Domiciliarios
+                                                registrados
+                                            </option>
+
+                                            {{/if}}
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group mb-4 col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Fecha Inicio</label>
+                                                    <input type="date" class="form-control" placeholder="Fecha Final">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Fecha Final</label>
+                                                    <input type="date" class="form-control" placeholder="Fecha Final">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 col-md-12">
+                                        <div class="form-actions">
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-info">Buscar</button>
+                                                <button type="reset" class="btn btn-dark">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
                 <!-- basic table -->
                 <div class="row">
                     <div class="col-12">
@@ -102,10 +163,9 @@
                                 <div class="row">
                                     <!-- Column -->
                                     <div class="col-md-6 col-lg-6 col-xlg-6">
-                                        <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
-                                            data-target="#signup-modal">
-                                            <i class="fas fa-motorcycle"></i>
-                                            Generar Servicio
+                                        <button type="button" class=" miBtn btn btn-rounded">
+                                            <i class="far fa-file-pdf"></i>
+                                            Descargar Liquidación
                                         </button>
                                     </div>
                                 </div>
@@ -138,90 +198,6 @@
     </div>
 
 
-
-    <!-- Signup modal content -->
-    <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
-                                src="../assets/images/logo-text.png" alt="" height="18"></span>
-                    </div>
-
-                    <form class="pl-3 pr-3" action="#">
-                        <div class="form-group">
-                            <label for="cliente">Cliente</label><br>
-                            <select id="cliente" class="js-example-basic-single " style="width: 100%" name="state"
-                                required="">
-                                {{#if data.clientes }}
-                                <option value="0" disabled selected>--Seleccione un cliente--</option>
-                                {{#each data.clientes as |item|}}
-                                <option value="{{item.[0]}}">{{item.[1]}}</option>
-                                {{/each}}
-
-                                {{else}}
-                                <option value="0" disabled selected>No hay clientes registrados</option>
-
-                                {{/if}}
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="direccion">Direccion</label><br>
-                            <select id="direccion" class="js-example-basic-single " style="width: 100%" name="state"
-                                required="">
-                                <option></option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tipoServicio">Tipo de Servicio</label><br>
-                            <select id="tipoServicio" class="js-example-basic-single " style="width: 100%" name="state"
-                                required="">
-                                {{#if data.tipoServicios }}
-                                <option value="0" disabled selected>--Seleccione el tipo de servicio--</option>
-                                {{#each data.tipoServicios as |item|}}
-                                <option value="{{item.[0]}}">{{item.[1]}}</option>
-                                {{/each}}
-
-                                {{else}}
-                                <option value="0" disabled selected>No se encuentra establecido tipos de servicios
-                                </option>
-
-                                {{/if}}
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="precioServicio">Precio</label>
-                            <input name="precioServicio" id="precioServicio" class="form-control" type="text"
-                                required="" placeholder="$ 0" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="Adicional">Adicional</label>
-                            <input name="Adicional" id="Adicional" class="form-control" type="number" placeholder="$ 0"
-                                min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="descripcion">Descripcion</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control rounded-0"
-                                id="exampleFormControlTextarea2" rows="3"
-                                placeholder="Descripcion del Servicio"></textarea>
-                        </div>
-
-                        <div class="form-group text-center">
-                            <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-primary" type="submit">Generar Servicio</button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->

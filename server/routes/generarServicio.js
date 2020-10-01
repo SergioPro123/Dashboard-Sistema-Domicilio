@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 //Renderizamos la seccion de generarServicio
 app.get('/generarServicio', (req, res) => {
-    res.render('generarServicio_admin.hbs', {
+    res.render('admin/generarServicio_admin.hbs', {
         data: {
             generarServicio: {
                 selected: 'selected',
