@@ -2,14 +2,77 @@
     border-radius: 40px;
 }
 .card-img-top {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: calc(0.25rem - 0);
+    border-top-right-radius: calc(0.25rem - 0);
     border-radius: 40px 40px 0px 0px;
 }
 
+@supports (object-fit: cover) {
+    .card-img-top {
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+}
+
+.card-div-top {
+    width: 100%;
+    height: 15em;
+    border-top-left-radius: calc(0.25rem - 0);
+    border-top-right-radius: calc(0.25rem - 0);
+    border-radius: 40px 40px 0px 0px;
+}
 .card-img-bottom {
     border-radius: 0px 0px 40px 40px;
     text-align: center;
+    height: 2em;
+    padding: 0.2em;
 }
 .card-btn-eliminar {
     text-align: center;
-    height: 20%;
+    height: 2em;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0.2em;
+}
+.card .card-title {
+    margin-bottom: 0px;
+    height: auto;
+}
+
+.search {
+    padding: 13px 43px 13px 28px;
+    color: #b8c3d5;
+    display: inline-block;
+    line-height: 13px;
+}
+.div-search {
+    position: relative;
+}
+
+.a-search {
+    padding: 0 15px;
+    font-size: 1rem;
+    line-height: 80px;
+    color: #b8c3d5;
+}
+
+.icon-search {
+    position: absolute;
+    top: 30px;
+    right: 14px;
+    height: 20px;
+    width: 20px;
+}
+.divInfo {
+    margin-bottom: 1rem;
+}
+
+table.table td a.edit {
+    color: #5f76e8;
+}
+table.table td a.delete {
+    color: #f44336;
 }

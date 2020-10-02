@@ -22,3 +22,7 @@ hbs.registerHelper('iff', function (a, operator, b, opts) {
         return opts.inverse(this);
     }
 });
+
+hbs.registerHelper('minuscula', function (valor) {
+    return valor.toLowerCase(valor);
+});

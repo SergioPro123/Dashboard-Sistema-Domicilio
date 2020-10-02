@@ -14,6 +14,7 @@
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
     <link href="../dist/css/myCss.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- This Page CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/extra-libs/prism/prism.css">
@@ -68,24 +69,16 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Cards</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Clientes</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html" class="text-muted">Home</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Library</li>
+                                    <li class="breadcrumb-item text-muted active">Usuarios
+                                    </li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Clientes
+                                    </li>
                                 </ol>
                             </nav>
-                        </div>
-                    </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select
-                                class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected>Aug 19</option>
-                                <option value="1">July 19</option>
-                                <option value="2">Jun 19</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -100,89 +93,89 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <!-- Row -->
+
+                <!-- basic table -->
                 <div class="row">
                     <div class="col-12">
-                        <!-- Row -->
-                        <div class="row">
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-fluid" src="../assets/images/big/img1.jpg"
-                                        alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Sergio Mauricio</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-6 col-xlg-6">
+                                        <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
+                                            data-target="#modalAñadirPerfil">
+                                            <i class="fas fa-user-plus"></i>
+                                            Añadir Cliente
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- Tabla de servicios -->
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Celular</th>
+                                                <th>Direcciones</th>
+                                                <th>Servicios Atendidos</th>
+                                                <th>Acción</th>
 
-                                    </div>
-                                    <a href="javascript:void(0)"
-                                        class="card-btn-eliminar img-fluid btn-danger">Eliminar</a>
-                                    <a href="javascript:void(0)"
-                                        class="card-img-bottom img-fluid btn-primary">Editar</a>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#if data.clientes}}
+                                            {{#each data.clientes as |item|}}
+                                            <tr>
+                                                <td>{{item.[0]}}</td>
+                                                <td>{{item.[1]}}</td>
+                                                {{#if item.[2].[0]}}
+                                                <td id="{{item.[4]}}"> <a href="#" data-toggle="modal"
+                                                        data-target="#scrollable-modal" id="btnDirecciones">Ver
+                                                        Direcciones</a></td>
+                                                {{else}}
+                                                <td>No hay direcciones</td>
+                                                {{/if}}
+                                                <td>{{item.[3]}}</td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-6" style="text-align: center;"
+                                                            id="{{item.[4]}}">
+                                                            <a href='#' class='edit' data-toggle='modal'
+                                                                data-target="#modalEditarPerfil" id="btnEditar"><i
+                                                                    class='material-icons' data-toggle='tooltip'
+                                                                    title='Editar'>&#xE254;</i></a>
+                                                        </div>
+                                                        <div class="col-6" style="text-align: center;"
+                                                            id="{{item.[4]}}">
+                                                            <a href='#' class='delete' data-toggle='modal'
+                                                                data-target="#danger-header-modal" id="btnEliminar"><i
+                                                                    class='material-icons' data-toggle='tooltip'
+                                                                    title='Eliminar'>&#xE872;</i></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                            {{/if}}
 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Celular</th>
+                                                <th>Direcciones</th>
+                                                <th>Servicios Atendidos</th>
+                                                <th>Acción</th>
+
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
-                                <!-- Card -->
                             </div>
-                            <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-fluid" src="../assets/images/big/img2.jpg"
-                                        alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Card title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
-                                        <a href="javascript:void(0)" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-fluid" src="../assets/images/big/img3.jpg"
-                                        alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Card title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
-                                        <a href="javascript:void(0)" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6 img-fluid">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-fluid" src="../assets/images/big/img4.jpg"
-                                        alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Card title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
-                                        <a href="javascript:void(0)" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
                         </div>
-                        <!-- Row -->
                     </div>
                 </div>
-                <!-- End Row -->
-
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -190,6 +183,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
+            <!-- The Modal Image -->
             <footer class="footer text-center text-muted">
                 All Rights Reserved by Adminmart. Designed and Developed by <a
                     href="https://wrappixel.com">WrapPixel</a>.
@@ -201,7 +195,141 @@
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
+
+        <!-- Modal que visualiza las direcciones del cliente -->
+        <div class="modal fade" id="scrollable-modal" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scrollableModalTitle">Nombre Cliente</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- .row -->
+                        <div class="row modal-dialog">
+                            <div class="col-md-12 col-sm-12 p-12">
+                                <strong class="card-title">Mis Direcciones</strong>
+                                <ul class="list-group" id="direccionesModalScrollable">
+                                    <li class="list-group-item">No hay direcciones registradas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- Modal Confirmacion de eliminar -->
+        <div id="danger-header-modal" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="danger-header-modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-colored-header bg-danger">
+                        <h4 class="modal-title" id="danger-header-modalLabel">Eliminar Cliente</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="mt-0">¿Desea eliminar a <strong id="nombreModalEliminar"> Sergio Aparicio </strong>?
+                        </h5>
+                        <p class=" modal-dialog">Recuerde que esta acción no tiene retroceso.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger">Confirmar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
+    <!-- Modal EDITAR CLIENTE -->
+    <div id="modalEditarPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="text-center mt-2 mb-4">
+                        <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
+                                src="../assets/images/logo-text.png" alt="" height="18"></span>
+                    </div>
+                    <form class="pl-3 pr-3" action="#">
+                        <div class="form-group">
+                            <label for="nombreModalEditar">Nombre</label>
+                            <input name="nombreModalEditar" id="nombreModalEditar" class="form-control" type="text"
+                                required="" placeholder="Nombre" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="celularModaEditar">Celular</label>
+                            <input name="celularModalEditar" id="celularModalEditar" class="form-control" type="number"
+                                placeholder="Cedula" maxlength="11" required="">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="direccionesModaEditar">Direccion</label>
+                            <input name="direccionesModalEditar" id="direccionesModalEditar" class="form-control"
+                                type="text" placeholder="Cedula" maxlength="50" required="">
+                        </div>
+
+                        <br>
+                        <div class="form-group text-center">
+                            <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal AÑADIR CLIENTE -->
+    <div id="modalAñadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center mt-2 mb-4">
+                        <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
+                                src="../assets/images/logo-text.png" alt="" height="18"></span>
+                    </div>
+                    <form class="pl-3 pr-3" action="#">
+                        <div class="form-group">
+                            <label for="nombreModalAñadir">Nombre</label>
+                            <input name="nombreModalAñadir" id="nombreModalAñadir" class="form-control" type="text"
+                                required="" placeholder="Nombre" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="celularModalAñadir">Celular</label>
+                            <input name="celularModalAñadir" id="celularModalAñadir" class="form-control" type="number"
+                                placeholder="Cedula" maxlength="11" required="">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="direccionModalAñadir">Direccion</label>
+                            <input name="direccionModalAñadir" id="direccionModalAñadir" class="form-control"
+                                type="text" placeholder="Cedula" maxlength="50" required="">
+                        </div>
+
+                </div>
+
+                <br>
+                <div class="form-group text-center">
+                    <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" type="submit">Añadir Cliente</button>
+                </div>
+
+                </form>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -228,6 +356,74 @@
     <script src="../dist/js/custom.min.js"></script>
     <!-- This Page JS -->
     <script src="../assets/extra-libs/prism/prism.js"></script>
+    <script>
+        //Recojemos las variables de los domiciliarios que nos envian el servidor por medio de HBS
+        var clientes = {};
+    </script>
+
+    {{#each data.clientes  as |item|}}
+    <script>
+        clientes["{{ item.[4] }}"] = []
+        clientes["{{ item.[4] }}"][0] = "{{ item.[0] }}"
+        clientes["{{ item.[4] }}"][1] = "{{ item.[1] }}"
+
+        clientes["{{ item.[4] }}"][3] = "{{ item.[3] }}"
+        clientes["{{ item.[4] }}"][4] = "{{ item.[4] }}"
+        //Guardamos las direcciones
+        clientes["{{ item.[4] }}"][2] = [];
+    </script>
+
+    {{#each item.[2] as |item2|}}
+    <script>
+
+        clientes["{{ item.[4] }}"][2]["{{ @index }}"] = "{{ item2 }}"
+
+    </script>
+    {{/each}}
+
+    {{/each}}
+    <script>
+        var idUltimoEliminado;
+        var idUltimoEditado;
+        var idUltimoDirecciones;
+
+        $(document).on("click", "#btnEliminar", function () {
+            idUltimoEliminado = $(this).parent().attr("id");
+            let nombre = clientes[idUltimoEliminado][0]
+            $("strong#nombreModalEliminar").text(nombre);
+        })
+
+        $(document).on("click", "#btnEditar", function () {
+            idUltimoEditado = $(this).parent().attr("id");
+
+            //Rellenamos los datos correspondientes en el modal Editar
+            $("#nombreModalEditar").val(clientes[idUltimoEditado][0]);
+            $("#celularModalEditar").val(clientes[idUltimoEditado][1]);
+            $("#direccionesModalEditar").val(clientes[idUltimoEditado][2]);
+        })
+
+        $(document).on("click", "#btnEliminar", function () {
+            idUltimoEliminado = $(this).parent().attr("id");
+            let nombre = clientes[idUltimoEliminado][0]
+            $("strong#nombreModalEliminar").text(nombre);
+        })
+
+        //Mostramos las direcciones de los clientes, mediante un modal
+        $(document).on("click", "#btnDirecciones", function () {
+            idUltimoDirecciones = $(this).parent().attr("id");
+
+            let listaDirecciones = "";
+            if (!(clientes[idUltimoDirecciones][2][0] == "")) {
+                clientes[idUltimoDirecciones][2].forEach(elemento => {
+                    listaDirecciones += `<li class='list-group-item'>${elemento}</li>`;
+                })
+            } else {
+                listaDirecciones += `<li class='list-group-item'>No hay direcciones registradas</li>`;
+            }
+
+            $("ul#direccionesModalScrollable").html(listaDirecciones)
+        })
+    </script>
 </body>
 
 </html>
