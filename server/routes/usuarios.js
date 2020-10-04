@@ -54,6 +54,43 @@ app.get('/domiciliarios', (req, res) => {
     });
 });
 
+//Renderizamos la seccion de domiciliario
+app.get('/administradores', (req, res) => {
+    res.render('superAdmin/administradores_superAdmin.hbs', {
+        data: {
+            administradores: [
+                [
+                    'Sergio Aparicio',
+                    'Sergio@hotmail.com',
+                    '1007733234',
+                    '3142483968',
+                    'Habilitado',
+                    'sergio.jpg',
+                    'id-1',
+                ],
+                [
+                    'Richard Cano',
+                    'Richard@hotmail.com',
+                    '1007733234',
+                    '3142483968',
+                    'Deshabilitado',
+                    'richard.jpg',
+                    'id-2',
+                ],
+                [
+                    'Jhonatan Lagares',
+                    'jhonatan@hotmail.com',
+                    '1007733234',
+                    '3142483968',
+                    'Habilitado',
+                    'jhonatan.jpg',
+                    'id-3',
+                ],
+            ],
+            estados: [['Habilitado'], ['Deshabilitado']],
+        },
+    });
+});
 module.exports = {
     app,
 };

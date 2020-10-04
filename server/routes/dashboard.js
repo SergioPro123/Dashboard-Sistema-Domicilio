@@ -23,7 +23,7 @@ data:{
 */
 //Renderizamos la seccion de DASHBOARD
 app.get('/dashboard', (req, res) => {
-    res.render('admin/dashboard_admin.hbs', {
+    res.render('domiciliario/dashboard_domiciliario.hbs', {
         data: {
             estadisticas: {
                 clientesTotales: [999, 1],

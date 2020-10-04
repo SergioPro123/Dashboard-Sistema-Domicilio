@@ -18,6 +18,8 @@
 
     <!-- This Page CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/extra-libs/prism/prism.css">
+    <link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="../dist/css/select2.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -265,14 +267,14 @@
                         <div class="form-group">
                             <label for="celularModaEditar">Celular</label>
                             <input name="celularModalEditar" id="celularModalEditar" class="form-control" type="number"
-                                placeholder="Cedula" maxlength="11" required="">
+                                placeholder="Cedula" min="0" maxlength="11" required="">
                         </div>
 
 
                         <div class="form-group">
                             <label for="direccionesModaEditar">Direccion</label>
-                            <input name="direccionesModalEditar" id="direccionesModalEditar" class="form-control"
-                                type="text" placeholder="Cedula" maxlength="50" required="">
+                            <select name="direccionesModalEditar" id="direccionesModalEditar" class="form-control"
+                                required="" style="width: 100%"></select>
                         </div>
 
                         <br>
@@ -306,14 +308,14 @@
                         <div class="form-group">
                             <label for="celularModalAñadir">Celular</label>
                             <input name="celularModalAñadir" id="celularModalAñadir" class="form-control" type="number"
-                                placeholder="Cedula" maxlength="11" required="">
+                                placeholder="Cedula" min="0" maxlength="11" required="">
                         </div>
 
 
                         <div class="form-group">
-                            <label for="direccionModalAñadir">Direccion</label>
+                            <label for="direccionModalAñadir">Dirección</label>
                             <input name="direccionModalAñadir" id="direccionModalAñadir" class="form-control"
-                                type="text" placeholder="Cedula" maxlength="50" required="">
+                                type="text" placeholder="Dirección" maxlength="50" required="">
                         </div>
 
                 </div>
@@ -355,7 +357,10 @@
     <!--Custom JavaScript -->
     <script src="../dist/js/custom.min.js"></script>
     <!-- This Page JS -->
+    <script src="../assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
     <script src="../assets/extra-libs/prism/prism.js"></script>
+    <script src="../dist/js/select2.min.js"></script>
     <script>
         //Recojemos las variables de los domiciliarios que nos envian el servidor por medio de HBS
         var clientes = {};
@@ -387,6 +392,8 @@
         var idUltimoEditado;
         var idUltimoDirecciones;
 
+        $("#direccionesModalEditar").select2();
+
         $(document).on("click", "#btnEliminar", function () {
             idUltimoEliminado = $(this).parent().attr("id");
             let nombre = clientes[idUltimoEliminado][0]
@@ -399,7 +406,8 @@
             //Rellenamos los datos correspondientes en el modal Editar
             $("#nombreModalEditar").val(clientes[idUltimoEditado][0]);
             $("#celularModalEditar").val(clientes[idUltimoEditado][1]);
-            $("#direccionesModalEditar").val(clientes[idUltimoEditado][2]);
+            $("#direccionesModalEditar").empty();;
+            $("#direccionesModalEditar").select2({ data: clientes[idUltimoEditado][2], tags: "true" });
         })
 
         $(document).on("click", "#btnEliminar", function () {

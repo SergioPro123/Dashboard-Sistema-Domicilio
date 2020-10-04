@@ -10,11 +10,11 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
-    <!-- This page css -->
-    <!-- This page plugin CSS -->
-    <link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-    <link href="../dist/css/select2.min.css" rel="stylesheet">
+    <title>Super Adminmart Template - The Ultimate Multipurpose admin template</title>
+    <!-- Custom CSS -->
+    <link href="../assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+    <link href="../assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -26,6 +26,7 @@
 </head>
 
 <body>
+
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -49,24 +50,25 @@
         <!-- End Topbar header -->
         <!-- ============================================================== -->
 
+
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{> leftSidebar_admin}}
+        {{> leftSidebar_superAdmin}}
+
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
 
+
+        <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        {{> historialDia}}
+        {{> dashboardAdmin_superAdmin}}
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-
-
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -82,56 +84,17 @@
     <script src="../dist/js/app-style-switcher.js"></script>
     <script src="../dist/js/feather.min.js"></script>
     <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
-    <!--Wave Effects -->
-    <!-- themejs -->
-    <!--Menu sidebar -->
     <script src="../dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../dist/js/custom.min.js"></script>
-    <!--This page plugins -->
-
-    <script src="../assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
-    <script src="../dist/js/select2.min.js"></script>
-    <script src="../dist/js/select2-cascade.js"></script>
-
-    <script>
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function () {
-            selects();
-        });
-
-        async function selects() {
-            await $('.js-example-basic-single#cliente').select2({
-                placeholder: "Seleccione un Cliente",
-                allowClear: true
-
-            })
-            await $('.js-example-basic-single#direccion').select2({
-                placeholder: "Seleccione una Dirección",
-            });
-
-            await $('.js-example-basic-single#tipoServicio').select2({
-                placeholder: "Seleccione el tipo de servicio",
-            });
-
-            let options = { tags: true }
-            let cascadLoading = new Select2Cascade($('.js-example-basic-single#cliente'), $('.js-example-basic-single#direccion'), '/generarServicio/clientes/:parentId:', options);
-            /*cascadLoading.then(function (parent, child, items) {
-                // Open the child listbox immediately
-                //child.select2('open');
-                // or Dump response data
-                console.log(items);
-            })*/
-        }
-
-        $(document).on("change", ".js-example-basic-single#tipoServicio", function () {
-            $("input#precioServicio").val(`$ ${$(this).val()}`)
-        })
-    </script>
+    <!--This page JavaScript -->
+    <script src="../assets/extra-libs/c3/d3.min.js"></script>
+    <script src="../assets/extra-libs/c3/c3.min.js"></script>
+    <script src="../assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="../assets/extra-libs/jvector/jquery-jvectormap-co-merc.js"></script>
+    <script src="../dist/js/pages/dashboards/dashboard1.min.js"></script>
 </body>
 
 </html>

@@ -8,6 +8,8 @@ app.use(require('./registro').app);
 app.use(require('./generarServicio').app);
 app.use(require('./historial').app);
 app.use(require('./usuarios').app);
+app.use(require('./tipoServicios').app);
+app.use(require('./servicios').app);
 
 app.use(dashboardController.error404);
 module.exports = {
