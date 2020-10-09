@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 //Renderizamos la seccion de historialDia
 app.get('/historialDia', (req, res) => {
-    res.render('admin/historialDia_admin.hbs');
+    res.render('domiciliario/historialDia_domiciliario.hbs');
 });
 
 //Renderizamos la seccion de historialTemporal
 app.get('/historialTemporal', (req, res) => {
-    res.render('admin/historialTemporal_admin.hbs');
+    res.render('domiciliario/historialTemporal_domiciliario.hbs');
 });
 
 //Renderizamos la seccion de historialCliente
