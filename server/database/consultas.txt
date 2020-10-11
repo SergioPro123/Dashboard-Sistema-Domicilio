@@ -1,0 +1,17 @@
+
+CALL agregarDomiciliario(nombre,cedula,celular,turno,email,password,pathImage,estadoUsuario);
+
+CALL actualizarDomiciliario(idDomiciliario,nombre,cedula,celular,turno,pathImage,estadoUsuario);
+
+CALL agregarAdmin(nombre,cedula,celular,email,password,pathImage,estadoUsuario);
+
+CALL actualizarDomiciliario(idDomiciliario,nombre,cedula,celular,pathImage,estadoUsuario);
+
+
+CALL agregarDomiciliario("Insert Domiciliario","34555666","3143143145","A","PRUEBAADMIN@GMAIL.COM","myPassword","/image","HABILITADO");
+
+CALL actualizarDomiciliario(12,"UPDATE DOMICILIARIO","111111","22222","B","/image/UPDATE","DESHABILITADO")
+
+CALL actualizarAdmin(11,"UPDATE ADMIN","111111","22222","/image/UPDATE","DESHABILITADO");
+
+CALL agregarAdmin("Insert ADMIN","34555666","3143143145","PRUEBAADMIN@GMAIL.COM","myPassword","/image");
