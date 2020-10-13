@@ -1,49 +1,24 @@
 const express = require('express');
 const app = express();
 
-/*
-******ADMIN******
-dashboard =
-data:{
-    estadistica:{
-        clientesTotales,
-        serviciosMes,
-        dineroMes,
-        domiciliariosTotales,
-        ventasMes:{
-            columns:[],
-            color:[]
-        }
-    },
-    infoPersonal:{
-        nombre
-    },
+const { verificaToken } = require('../middlewares/autenticacion');
+const dashboard = require('../controllers/dashboard');
 
-}
-*/
 //Renderizamos la seccion de DASHBOARD
-app.get('/dashboard', (req, res) => {
-    res.render('domiciliario/dashboard_domiciliario.hbs', {
-        data: {
-            estadisticas: {
-                clientesTotales: [999, 1],
-                serviciosMes: [888, 0],
-                gananciasMes: [123456, -1],
-                domiciliariosTotales: [50, 5],
-            },
-            infoPersonal: {
-                nombre: 'Sergio Mauricio',
-            },
-            ventasMes: {
-                valores: [
-                    ['Valor Prueba 1', 22, 'primary'],
-                    ['Valor Prueba 2', 33, 'danger'],
-                    ['Valor Prueba 3', 55, 'cyan'],
-                    ['Valor Prueba 4', 99, 'success'],
-                ],
-            },
-        },
-    });
+app.get('/dashboard', verificaToken, (req, res) => {
+    console.log(req.usuario);
+    let rol = req.usuario.rol;
+    switch (rol) {
+        case 'SUPER_ADMIN':
+            dashboard.dashboardSUPER_ADMIN(req, res);
+            break;
+        case 'ADMIN':
+            dashboard.dashboardADMIN(req, res);
+            break;
+        case 'USER':
+            dashboard.dashboardDOMICILIARIO(req, res);
+            break;
+    }
 });
 
 app.get('/dashboard/estadisticas', (req, res) => {

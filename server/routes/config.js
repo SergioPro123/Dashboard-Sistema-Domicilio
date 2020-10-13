@@ -11,7 +11,7 @@ app.use(require('./usuarios').app);
 app.use(require('./tipoServicios').app);
 app.use(require('./servicios').app);
 
-app.use(dashboardController.error404);
+//app.use(dashboardController.error404);
 module.exports = {
     app,
 };

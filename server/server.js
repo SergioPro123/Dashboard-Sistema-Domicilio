@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const hbs = require('hbs');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 app.use(express.static(path.resolve(__dirname, '../public')));
 //Express HBS engine
@@ -13,6 +14,7 @@ require('./config/config');
 //requerimos los helpers de HBS
 require('./hbs/helpers');
 
+app.use(cookieParser());
 app.use(require('./routes/config').app);
 
 app.listen(process.env.PORT, () => {

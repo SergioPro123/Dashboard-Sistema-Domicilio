@@ -1,8 +1,21 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
-app.get("/login", (req, res) => {
-    res.render("login.hbs");
+const jwt = require('jsonwebtoken');
+
+let token = jwt.sign(
+    {
+        usuario: {
+            nombre: 'Sergio',
+            rol: 'ADMIN',
+        },
+    },
+    process.env.SEED,
+    { expiresIn: process.env.CADUCIDAD_TOKEN }
+);
+
+app.get('/login', (req, res) => {
+    res.render('login.hbs');
 });
 
 module.exports = {
