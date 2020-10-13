@@ -23,6 +23,25 @@ CALL consultarClientes();
 
 CALL addDireccion(idCliente,direccion,@idDirecciones);
 
+CALL consultarDirecciones();
+
+CALL consultarDireccionesIndividual(idCliente);
+
+
+CALL generarServicio(idCliente, idAdmin, direccion, tipoServicio,descripcion, adicional);
+
+CALL aceptarServicio(idDomiciliario,idServicio,horaInicio);
+
+CALL concluirServicio(idServicio,horaInicio,horaFinal);
+
+CALL consultarServicios_SINASIGNAR();
+
+CALL consultarServicios();
+
+CALL addEvidencia(idServicio,pahtEvidencia);
+
+CALL consultarEvidencias();
+
 
 //Ejemplos ------
 
@@ -38,4 +57,10 @@ CALL eliminarUsuario(11);
 
 
 CALL agregarCliente("Cliente Prueba 1","3192030220","Calle ####");
+
+CALL generarServicio(4,17,"CALLE ","Vuelta Banco","Esto es una prueba",5200);
+CALL aceptarServicio(14,1,"20:00:00");
+CALL concluirServicio(3,"20:00:00","21:00:00");
+
+
 
