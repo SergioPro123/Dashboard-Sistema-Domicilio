@@ -6,7 +6,6 @@ const dashboard = require('../controllers/dashboard');
 
 //Renderizamos la seccion de DASHBOARD
 app.get('/dashboard', verificaToken, (req, res) => {
-    console.log(req.usuario);
     let rol = req.usuario.rol;
     switch (rol) {
         case 'SUPER_ADMIN':
@@ -18,10 +17,13 @@ app.get('/dashboard', verificaToken, (req, res) => {
         case 'USER':
             dashboard.dashboardDOMICILIARIO(req, res);
             break;
+        default:
+            res.redirect('/login');
+            break;
     }
 });
 
-app.get('/dashboard/estadisticas', (req, res) => {
+app.get('/dashboard/estadisticas', verificaToken, (req, res) => {
     let data = {
         estadistica: {
             ventasMes: {

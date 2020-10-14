@@ -1,4 +1,6 @@
 
+CALL loginCredenciales(email,password);
+
 CALL agregarDomiciliario(nombre,cedula,celular,turno,email,password,pathImage,estadoUsuario);
 
 CALL actualizarDomiciliario(idDomiciliario,nombre,cedula,celular,turno,pathImage,estadoUsuario);
