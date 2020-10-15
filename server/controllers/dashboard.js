@@ -18,6 +18,8 @@ data:{
 
 }
 */
+
+const { capitalizar } = require('../functions/funciones');
 const dashboardSUPER_ADMIN = (req, res) => {
     return res.render('superAdmin/dashboard_superAdmin.hbs', {
         data: {
@@ -28,7 +30,7 @@ const dashboardSUPER_ADMIN = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: req.usuario.nombre,
+                nombre: capitalizar(req.usuario.nombre),
             },
             ventasMes: {
                 valores: [
@@ -52,7 +54,7 @@ const dashboardADMIN = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: req.usuario.nombre,
+                nombre: capitalizar(req.usuario.nombre),
             },
             ventasMes: {
                 valores: [
@@ -76,7 +78,7 @@ const dashboardDOMICILIARIO = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: req.usuario.nombre,
+                nombre: capitalizar(req.usuario.nombre),
             },
             ventasMes: {
                 valores: [

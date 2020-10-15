@@ -60,7 +60,7 @@ const consultarClientes = (req, res) => {
                 data: {
                     clientes,
                     infoPersonal: {
-                        nombre: req.usuario.nombre,
+                        nombre: capitalizar(req.usuario.nombre),
                     },
                 },
             });
@@ -109,7 +109,7 @@ const actualizarClientes = (req, res) => {
         }
     });
 };
-const domiciliarios = (req, res) => {
+const consutalDomiciliarios = (req, res) => {
     let query = 'CALL consultarDomiciliarios();';
     let domiciliarios = [];
     //Se hace la respectiva consulta a MySql
@@ -143,13 +143,86 @@ const domiciliarios = (req, res) => {
                 domiciliarios,
                 estados: [['Habilitado'], ['Deshabilitado']],
                 infoPersonal: {
-                    nombre: req.usuario.nombre,
+                    nombre: capitalizar(req.usuario.nombre),
                 },
             },
         });
     });
 };
 
+agregarDomiciliarios = (req, res) => {
+    let nombre = MySQL.instance.conexion.escape(req.body.nombreModalAnadir);
+    let cedula = MySQL.instance.conexion.escape(req.body.cedulaModalAnadir);
+    let celular = MySQL.instance.conexion.escape(req.body.celularModalAnadir);
+    let turno = MySQL.instance.conexion.escape(req.body.turnoModalAnadir);
+    let email = MySQL.instance.conexion.escape(req.body.correoModalAnadir);
+    let pathImage = 'domiciliario/' + req.file.filename;
+    let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalAnadir);
+    let password = cedula;
+
+    console.log(pathImage);
+    let query = `CALL agregarDomiciliario(${nombre},${cedula},${celular},${turno},${email},${password},'${pathImage}',${estadoUsuario});`;
+    console.log(query);
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Domiciliario agregado',
+            });
+        }
+    });
+};
+
+eliminarDomiciliarios = (req, res) => {
+    let idDomiciliario = MySQL.instance.conexion.escape(req.body.idDomiciliario);
+    let query = `CALL eliminarUsuario(${idDomiciliario});`;
+
+    MySQL.ejecutarQuery(query, (err, result) => {
+        console.log('eliminado');
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Domiciliario Eliminado',
+            });
+        }
+    });
+};
+
+const actualizarDomiciliarios = (req, res) => {
+    let idDomiciliario = MySQL.instance.conexion.escape(req.body.idDomiciliario);
+    let nombre = MySQL.instance.conexion.escape(req.body.nombreModalEditar);
+    let cedula = MySQL.instance.conexion.escape(req.body.cedulaModalEditar);
+    let celular = MySQL.instance.conexion.escape(req.body.celularModalEditar);
+    let turno = MySQL.instance.conexion.escape(req.body.turnoModalEditar);
+    let pathImage = 'domiciliario/' + req.file.filename;
+    let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalEditar);
+
+    let query = `CALL actualizarDomiciliario(${idDomiciliario},${nombre},${cedula},${celular},${turno},'${pathImage}',${estadoUsuario});`;
+
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Usuario Actualizado',
+            });
+        }
+    });
+};
 const administradores = (req, res) => {
     let query = 'CALL consultarAdmins();';
     let administradores = [];
@@ -182,7 +255,7 @@ const administradores = (req, res) => {
                 administradores,
                 estados: [['Habilitado'], ['Deshabilitado']],
                 infoPersonal: {
-                    nombre: req.usuario.nombre,
+                    nombre: capitalizar(req.usuario.nombre),
                 },
             },
         });
@@ -191,8 +264,11 @@ const administradores = (req, res) => {
 
 module.exports = {
     consultarClientes,
-    domiciliarios,
+    consutalDomiciliarios,
     administradores,
     agregarClientes,
     actualizarClientes,
+    agregarDomiciliarios,
+    eliminarDomiciliarios,
+    actualizarDomiciliarios,
 };

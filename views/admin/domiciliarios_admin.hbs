@@ -111,7 +111,7 @@
                     <!-- Column -->
                     <div class="col-md-6 col-lg-6 col-xlg-6">
                         <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
-                            data-target="#modalAñadirPerfil">
+                            data-target="#modalAnadirPerfil">
                             <i class="fas fa-user-plus"></i>
                             Añadir Domiciliario
                         </button>
@@ -221,7 +221,6 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
 
-
         <!-- Modal Confirmacion de eliminar -->
         <div id="danger-header-modal" class="modal fade" tabindex="-1" role="dialog"
             aria-labelledby="danger-header-modalLabel" aria-hidden="true">
@@ -238,7 +237,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger">Confirmar</button>
+                        <button type="button" class="btn btn-danger" id="eliminarUsuarioConfirmacion">Confirmar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -254,16 +253,16 @@
                         <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
                                 src="../assets/images/logo-text.png" alt="" height="18"></span>
                     </div>
-                    <form class="pl-3 pr-3" action="#">
+                    <form class="pl-3 pr-3" id="formModalEditarDomiciliario" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="nombreModalEditar">Nombre</label>
                             <input name="nombreModalEditar" id="nombreModalEditar" class="form-control" type="text"
                                 required="" placeholder="Nombre" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="fotoModalAñadir">Foto de perfil</label>
-                            <input name="fotoModalAñadir" id="fotoModalAñadir" class="form-control-file " type="file"
-                                accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
+                            <label for="pathImageModalEditar">Foto de perfil</label>
+                            <input name="pathImageModalEditar" id="pathImageModalEditar" class="form-control-file "
+                                type="file" accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
                         </div>
                         <div class="row">
                             <div class="col-6">
@@ -322,7 +321,7 @@
     </div><!-- /.modal -->
 
     <!-- Modal AÑADIR DOMICILIARIO -->
-    <div id="modalAñadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="modalAnadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -331,35 +330,35 @@
                         <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
                                 src="../assets/images/logo-text.png" alt="" height="18"></span>
                     </div>
-                    <form class="pl-3 pr-3" action="#">
+                    <form class="pl-3 pr-3" id="formModalAnadirDomiciliario" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="nombreModalAñadir">Nombre</label>
-                            <input name="nombreModalAñadir" id="nombreModalAñadir" class="form-control" type="text"
+                            <label for="nombreModalAnadir">Nombre</label>
+                            <input name="nombreModalAnadir" id="nombreModalAnadir" class="form-control" type="text"
                                 required="" placeholder="Nombre" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label for="fotoModalAñadir">Foto de perfil</label>
-                            <input name="fotoModalAñadir" id="fotoModalAñadir" class="form-control-file " type="file"
-                                accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
+                            <label for="pathImageModalAnadir">Foto de perfil</label>
+                            <input id="pathImageModalAnadir" class="form-control-file " type="file" accept="image/*"
+                                required="" placeholder="Foto de Perfil" maxlength="50" name="pathImageModalAnadir">
                         </div>
                         <div class="form-group">
-                            <label for="correoModalAñadir">Correo Electronico</label>
-                            <input name="correoModalAñadir" id="correoModalAñadir" class="form-control" type="email"
+                            <label for="correoModalAnadir">Correo Electronico</label>
+                            <input name="correoModalAnadir" id="correoModalAnadir" class="form-control" type="email"
                                 placeholder="Correo Electronico">
                         </div>
 
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="cedulaModalAñadir">Cedula</label>
-                                    <input name="cedulaModalAñadir" id="cedulaModaAñadirr" class="form-control"
+                                    <label for="cedulaModalAnadir">Cedula</label>
+                                    <input name="cedulaModalAnadir" id="cedulaModaAnadir" class="form-control"
                                         type="number" placeholder="Cedula" maxlength="10">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="celularModalAñadir">Celular</label>
-                                    <input name="celularModalAñadir" id="celularModalAñadir" class="form-control"
+                                    <label for="celularModalAnadir">Celular</label>
+                                    <input name="celularModalAnadir" id="celularModalAnadir" class="form-control"
                                         type="number" placeholder="Cedula" maxlength="11">
                                 </div>
                             </div>
@@ -367,8 +366,8 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="turnoModalAñadir">Turno</label>
-                                    <select name="turnoModalAñadir" id="turnoModalAñadir" class="form-control">
+                                    <label for="turnoModalAnadir">Turno</label>
+                                    <select name="turnoModalAnadir" id="turnoModalAnadir" class="form-control">
                                         <option value="A">A (5am - 5pm)</option>
                                         <option value="B">B (5pm - 5am)</option>
                                     </select>
@@ -376,8 +375,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="estadoModalAñadir">Estado</label>
-                                    <select name="estadoModalAñadir" id="estadoModalAñadir" class="form-control">
+                                    <label for="estadoModalAnadir">Estado</label>
+                                    <select name="estadoModalAnadir" id="estadoModalAnadir" class="form-control">
                                         {{#if data.estados }}
                                         {{#each data.estados as |item|}}
                                         <option value="{{ item.[0]}}">{{item.[0]}}</option>
@@ -467,10 +466,102 @@
             $("#celularModalEditar").val(domiciliarios[idUltimoEditado][3]);
             $("#turnoModalEditar").val(domiciliarios[idUltimoEditado][4]);
             $("#estadoModalEditar").val(domiciliarios[idUltimoEditado][5]);
-
-
-
         })
+
+        //Añadimos un Domiciliario
+        $(document).on("submit", "form#formModalAnadirDomiciliario", function (e) {
+            e.stopPropagation();
+
+            let info = $(this).serializeArray();
+
+            dataAjax = new FormData();
+            dataAjax.append("pathImageModalAnadir", $('#pathImageModalAnadir')[0].files[0]);
+
+            $.each(info, function (i, array) {
+                dataAjax.append(array.name, array.value);
+            });
+            $.ajax({
+                url: '/domiciliarios',
+                data: dataAjax,
+                contentType: false,
+                cache: false,
+                processData: false,
+                method: 'post', //en este caso
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        })
+
+        //Editamos un Domiciliario
+        $(document).on("submit", "form#formModalEditarDomiciliario", function (e) {
+
+            e.stopPropagation();
+
+            let info = $(this).serializeArray();
+
+            dataAjax = new FormData();
+            dataAjax.append("pathImageModalEditar", $('#pathImageModalEditar')[0].files[0]);
+
+            $.each(info, function (i, array) {
+                dataAjax.append(array.name, array.value);
+            });
+            dataAjax.append("idDomiciliario", idUltimoEditado);
+            $.ajax({
+                url: '/domiciliarios',
+                data: dataAjax,
+                contentType: false,
+                cache: false,
+                processData: false,
+                method: 'put', //en este caso
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        })
+
+        //Eliminamos un usuario
+        $(document).on("click", "#eliminarUsuarioConfirmacion", function (e) {
+            e.stopPropagation();
+            $.ajax({
+                url: '/domiciliarios',
+                data: {
+                    idDomiciliario: idUltimoEliminado
+                },
+                method: 'delete', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: " + error);
+                }
+            });
+            e.preventDefault();
+        });
     </script>
 </body>
 

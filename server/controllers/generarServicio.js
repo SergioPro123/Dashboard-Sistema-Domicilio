@@ -1,3 +1,4 @@
+const { capitalizar } = require('../functions/funciones');
 const generarServicio = (req, res) => {
     let rol = req.usuario.rol;
     if (rol == 'ADMIN') {
@@ -26,7 +27,7 @@ const generarServicio = (req, res) => {
                     servicioCancelados: 88,
                 },
                 infoPersonal: {
-                    nombre: req.usuario.nombre,
+                    nombre: capitalizar(req.usuario.nombre),
                 },
             },
         });

@@ -416,7 +416,7 @@
             $("#modalAnadirPerfil").modal('hide');
             e.preventDefault();
         });
-        //Enviamos los datos a nuestro servidor, para agregar un nuevo cliente a nuestro sistema.
+        //Enviamos los datos a nuestro servidor, para actualizar un nuevo cliente a nuestro sistema.
         $(document).on("submit", "form#formModalEditarPerfil", function (e) {
             e.stopPropagation();
             let info = $(this).serializeArray();
