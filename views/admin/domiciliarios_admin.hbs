@@ -138,12 +138,11 @@
                             <!-- column -->
                             {{#if data.domiciliarios }}
                             {{#each data.domiciliarios  as |item|}}
-                            <div class="col-lg-3 col-md-6">
+                            <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                 <!-- Card -->
                                 <div class="card" id="{{item.[7]}}">
                                     <div class="card-div-top" id="imagen">
-                                        <img class=" card-img-top "
-                                            src="../assets/images/perfil-domiciliarios/{{item.[6]}}"
+                                        <img class=" card-img-top " src="uploads/images/{{item.[6]}}"
                                             data-target="#modalIMG" data-toggle="modal" alt="Card image cap">
 
                                     </div>

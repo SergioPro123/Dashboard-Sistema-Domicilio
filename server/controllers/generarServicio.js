@@ -25,6 +25,9 @@ const generarServicio = (req, res) => {
                     servicioConcluidos: 66,
                     servicioCancelados: 88,
                 },
+                infoPersonal: {
+                    nombre: req.usuario.nombre,
+                },
             },
         });
     } else {

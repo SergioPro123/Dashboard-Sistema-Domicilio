@@ -19,7 +19,7 @@ CALL eliminarUsuario(idUsuario);
 
 CALL agregarCliente(nombre,celular,dirección);
 
-CALL actualizarCliente(idCliente,nombre,celular);
+CALL actualizarCliente(idCliente,nombre,celular,direccion);
 
 CALL consultarClientes();
 
@@ -32,7 +32,7 @@ CALL consultarDireccionesIndividual(idCliente);
 
 CALL generarServicio(idCliente, idAdmin, direccion, tipoServicio,descripcion, adicional);
 
-CALL aceptarServicio(idDomiciliario,idServicio,horaInicio);
+CALL aceptarServicio(idDomiciliario,idServicio,fecha,horaInicio);
 
 CALL concluirServicio(idServicio,horaInicio,horaFinal);
 
@@ -61,7 +61,7 @@ CALL eliminarUsuario(11);
 CALL agregarCliente("Cliente Prueba 1","3192030220","Calle ####");
 
 CALL generarServicio(4,17,"CALLE ","Vuelta Banco","Esto es una prueba",5200);
-CALL aceptarServicio(14,1,"20:00:00");
+CALL aceptarServicio(14,1,"2020-10-13","20:00:00");
 CALL concluirServicio(3,"20:00:00","21:00:00");
 
 

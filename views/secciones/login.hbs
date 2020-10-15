@@ -59,14 +59,14 @@
                                     <div class="form-group">
                                         <label class="text-dark" for="uname">Email</label>
                                         <input class="form-control" id="uname" type="email" name="email"
-                                            placeholder="Ingresa tu Email">
+                                            placeholder="Ingresa tu Email" required="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="pwd">Contraseña</label>
                                         <input class="form-control" id="pwd" type="password" name="password"
-                                            placeholder="Ingresa tu Contraseña">
+                                            placeholder="Ingresa tu Contraseña" required="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
@@ -95,7 +95,7 @@
     <script>
         $(".preloader ").fadeOut();
 
-        $(document).on("click", "form button:submit", function (e) {
+        $(document).on("submit", "form", function (e) {
             e.preventDefault();
             let info = $("form#login").serializeArray();
             let data = {};

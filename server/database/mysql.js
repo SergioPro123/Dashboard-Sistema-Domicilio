@@ -9,6 +9,7 @@ class MySQL {
             password: '123456',
             database: 'sistemadomicilio',
         });
+
         this.conectarDB();
     }
     static get instance() {

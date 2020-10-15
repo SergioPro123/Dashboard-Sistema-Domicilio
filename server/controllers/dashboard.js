@@ -28,7 +28,7 @@ const dashboardSUPER_ADMIN = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: 'Sergio Mauricio',
+                nombre: req.usuario.nombre,
             },
             ventasMes: {
                 valores: [
@@ -52,7 +52,7 @@ const dashboardADMIN = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: 'Sergio Mauricio',
+                nombre: req.usuario.nombre,
             },
             ventasMes: {
                 valores: [
@@ -76,7 +76,7 @@ const dashboardDOMICILIARIO = (req, res) => {
                 domiciliariosTotales: [50, 5],
             },
             infoPersonal: {
-                nombre: 'Sergio Mauricio',
+                nombre: req.usuario.nombre,
             },
             ventasMes: {
                 valores: [
