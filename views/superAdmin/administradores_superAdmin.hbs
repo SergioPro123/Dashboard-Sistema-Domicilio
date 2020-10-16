@@ -111,7 +111,7 @@
                     <!-- Column -->
                     <div class="col-md-6 col-lg-6 col-xlg-6">
                         <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
-                            data-target="#modalAñadirPerfil">
+                            data-target="#modalAnadirPerfil">
                             <i class="fas fa-user-plus"></i>
                             Añadir Administrador
                         </button>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger">Confirmar</button>
+                        <button type="button" class="btn btn-danger" id="eliminarUsuarioConfirmacion">Confirmar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -246,16 +246,17 @@
                         <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
                                 src="../assets/images/logo-text.png" alt="" height="18"></span>
                     </div>
-                    <form class="pl-3 pr-3" action="#">
+                    <form class="pl-3 pr-3" id="formModalEditarDomiciliario">
                         <div class="form-group">
                             <label for="nombreModalEditar">Nombre</label>
                             <input name="nombreModalEditar" id="nombreModalEditar" class="form-control" type="text"
-                                required="" placeholder="Nombre" maxlength="50">
+                                required="" placeholder="Nombre" maxlength="50" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="fotoModalAñadir">Foto de perfil</label>
-                            <input name="fotoModalAñadir" id="fotoModalAñadir" class="form-control-file " type="file"
-                                accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
+                            <label for="pathImageModalEditar">Foto de perfil</label>
+                            <input name="pathImageModalEditar" id="pathImageModalEditar" class="form-control-file "
+                                type="file" accept="image/*" placeholder="Foto de Perfil" maxlength="50"
+                                autocomplete="off">
                         </div>
 
                         <div class="row">
@@ -263,14 +264,14 @@
                                 <div class="form-group">
                                     <label for="cedulaModalEditar">Cedula</label>
                                     <input name="cedulaModalEditar" id="cedulaModalEditar" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="10">
+                                        type="number" placeholder="Cedula" maxlength="10" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="celularModalEditar">Celular</label>
                                     <input name="celularModalEditar" id="celularModalEditar" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="11">
+                                        type="number" placeholder="Cedula" maxlength="11" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -278,7 +279,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="estadoModalEditar">Estado</label>
-                                    <select name="estadoModalEditar" id="estadoModalEditar" class="form-control">
+                                    <select name="estadoModalEditar" id="estadoModalEditar" class="form-control"
+                                        autocomplete="off">
                                         {{#if data.estados }}
                                         {{#each data.estados as |item|}}
                                         <option value="{{ item.[0]}}">{{item.[0]}}</option>
@@ -306,53 +308,55 @@
     </div><!-- /.modal -->
 
     <!-- Modal AÑADIR ADMINISTRADOR -->
-    <div id="modalAñadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="modalAnadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <div class="modal-body">
                     <div class="text-center mt-2 mb-4">
                         <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
-                                src="../assets/images/logo-text.png" alt="" height="18"></span>
+                                src="../assets/images/logo-text.png" alt="" height="18" autocomplete="off"></span>
                     </div>
-                    <form class="pl-3 pr-3" action="#">
+                    <form class="pl-3 pr-3" id="formModalAnadirAdmin">
                         <div class="form-group">
-                            <label for="nombreModalAñadir">Nombre</label>
-                            <input name="nombreModalAñadir" id="nombreModalAñadir" class="form-control" type="text"
-                                required="" placeholder="Nombre" maxlength="50">
+                            <label for="nombreModalAnadir">Nombre</label>
+                            <input name="nombreModalAnadir" id="nombreModalAnadir" class="form-control" type="text"
+                                required="" placeholder="Nombre" maxlength="50" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="fotoModalAñadir">Foto de perfil</label>
-                            <input name="fotoModalAñadir" id="fotoModalAñadir" class="form-control-file " type="file"
-                                accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
+                            <label for="pathImageModalAnadir">Foto de perfil</label>
+                            <input name="pathImageModalAnadir" id="pathImageModalAnadir" class="form-control-file "
+                                type="file" accept="image/*" placeholder="Foto de Perfil" maxlength="50"
+                                autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="correoModalAñadir">Correo Electronico</label>
-                            <input name="correoModalAñadir" id="correoModalAñadir" class="form-control" type="email"
-                                placeholder="Correo Electronico">
+                            <label for="correoModalAnadir">Correo Electronico</label>
+                            <input name="correoModalAnadir" id="correoModalAnadir" class="form-control" type="email"
+                                placeholder="Correo Electronico" autocomplete="off">
                         </div>
 
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="cedulaModalAñadir">Cedula</label>
-                                    <input name="cedulaModalAñadir" id="cedulaModaAñadirr" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="10">
+                                    <label for="cedulaModalAnadir">Cedula</label>
+                                    <input name="cedulaModalAnadir" id="cedulaModaAnadir" class="form-control"
+                                        type="number" placeholder="Cedula" maxlength="10" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="celularModalAñadir">Celular</label>
-                                    <input name="celularModalAñadir" id="celularModalAñadir" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="11">
+                                    <label for="celularModalAnadir">Celular</label>
+                                    <input name="celularModalAnadir" id="celularModalAnadir" class="form-control"
+                                        type="number" placeholder="Cedula" maxlength="11" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="estadoModalAñadir">Estado</label>
-                                    <select name="estadoModalAñadir" id="estadoModalAñadir" class="form-control">
+                                    <label for="estadoModalAnadir">Estado</label>
+                                    <select name="estadoModalAnadir" id="estadoModalAnadir" class="form-control"
+                                        autocomplete="off">
                                         {{#if data.estados }}
                                         {{#each data.estados as |item|}}
                                         <option value="{{ item.[0]}}">{{item.[0]}}</option>
@@ -440,10 +444,106 @@
             $("#cedulaModalEditar").val(administradores[idUltimoEditado][2]);
             $("#celularModalEditar").val(administradores[idUltimoEditado][3]);
             $("#estadoModalEditar").val(administradores[idUltimoEditado][4]);
-
-
-
         })
+
+        //Añadimos un Administrador
+        $(document).on("submit", "form#formModalAnadirAdmin", function (e) {
+            e.stopPropagation();
+            let info = $(this).serializeArray();
+            dataAjax = new FormData();
+            //Revisamos si subio una imagen. 
+            if ($('#pathImageModalAnadir')[0].files.length) {
+                dataAjax.append("pathImageModalAnadir", $('#pathImageModalAnadir')[0].files[0]);
+            }
+            $.each(info, function (i, array) {
+                dataAjax.append(array.name, array.value);
+            });
+            $.ajax({
+                url: '/administradores',
+                data: dataAjax,
+                contentType: false,
+                cache: false,
+                processData: false,
+                method: 'post', //en este caso
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        })
+        //Editamos un Domiciliario
+        $(document).on("submit", "form#formModalEditarDomiciliario", function (e) {
+
+            e.stopPropagation();
+
+            let info = $(this).serializeArray();
+
+            dataAjax = new FormData();
+            //Revisamos si subio una nueva imagen, de lo contrario enviamos el path del que ya tenia. 
+            if ($('#pathImageModalEditar')[0].files.length) {
+                dataAjax.append("pathImageModalEditar", $('#pathImageModalEditar')[0].files[0]);
+            } else {
+                dataAjax.append("pathImageModalEditar", administradores[idUltimoEditado][5]);
+            }
+            $.each(info, function (i, array) {
+                dataAjax.append(array.name, array.value);
+            });
+
+            dataAjax.append("idAdministrador", idUltimoEditado);
+            $.ajax({
+                url: '/administradores',
+                data: dataAjax,
+                contentType: false,
+                cache: false,
+                processData: false,
+                method: 'put', //en este caso
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        })
+
+        //Eliminamos un usuario
+        $(document).on("click", "#eliminarUsuarioConfirmacion", function (e) {
+            e.stopPropagation();
+            $.ajax({
+                url: '/administradores',
+                data: {
+                    idAdministrador: idUltimoEliminado
+                },
+                method: 'delete', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        });
     </script>
 </body>
 

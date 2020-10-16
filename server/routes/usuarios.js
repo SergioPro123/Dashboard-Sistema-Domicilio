@@ -31,6 +31,27 @@ const uploadDomiciliario = multer({
     },
 });
 
+const storageAdministrador = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, path.join(__dirname, '../../public/uploads/images/admin'));
+    },
+    filename(req, file, cb) {
+        cb(null, uuid.v4() + path.extname(file.originalname));
+    },
+});
+
+const uploadAdministrador = multer({
+    storage: storageAdministrador,
+    fileFilter(req, file, next) {
+        const isPhoto = file.mimetype.startsWith('image/');
+        if (isPhoto) {
+            next(null, true);
+        } else {
+            next({ message: 'El tipo de archivo no es válido' }, false);
+        }
+    },
+});
+
 //--------------------------------
 //             Fin MULTER
 //--------------------------------
@@ -82,7 +103,7 @@ app.get('/domiciliarios', verificaToken, (req, res) => {
     }
 });
 
-//Renderizamos la seccion de domiciliario
+//Agregamos un nuevo domicliario
 app.post('/domiciliarios', [verificaToken, uploadDomiciliario.single('pathImageModalAnadir')], (req, res) => {
     let rol = req.usuario.rol;
     if (rol == 'ADMIN') {
@@ -123,7 +144,7 @@ app.delete('/domiciliarios', verificaToken, (req, res) => {
     }
 });
 
-//Renderizamos la seccion de domiciliario
+//Renderizamos la seccion de Administradores
 app.get('/administradores', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     if (rol == 'SUPER_ADMIN') {
@@ -132,6 +153,48 @@ app.get('/administradores', verificaToken, (req, res) => {
         return res.redirect('/dashboard');
     }
 });
+
+//Agregamos un nuevo Administrador
+app.post('/administradores', [verificaToken, uploadAdministrador.single('pathImageModalAnadir')], (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'SUPER_ADMIN') {
+        usuariosFunciones.agregarAdministradores(req, res);
+    } else {
+        return res.status(401).json({
+            ok: false,
+            msj: 'No Autorizado',
+        });
+    }
+    return res;
+});
+
+//Actualizamos un administrador de la base de datos
+app.put('/administradores', [verificaToken, uploadAdministrador.single('pathImageModalEditar')], (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'SUPER_ADMIN') {
+        usuariosFunciones.actualizarAdministradores(req, res);
+    } else {
+        return res.status(401).json({
+            ok: false,
+            msj: 'No Autorizado',
+        });
+    }
+    return res;
+});
+
+//Eliminamos algun administrador
+app.delete('/administradores', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'SUPER_ADMIN') {
+        usuariosFunciones.eliminarAdministradores(req, res);
+    } else {
+        return res.status(401).json({
+            ok: false,
+            msj: 'No Autorizado',
+        });
+    }
+});
+
 module.exports = {
     app,
 };

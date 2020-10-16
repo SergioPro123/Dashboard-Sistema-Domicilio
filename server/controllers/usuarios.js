@@ -270,6 +270,84 @@ const administradores = (req, res) => {
     });
 };
 
+agregarAdministradores = (req, res) => {
+    let nombre = MySQL.instance.conexion.escape(req.body.nombreModalAnadir);
+    let cedula = MySQL.instance.conexion.escape(req.body.cedulaModalAnadir);
+    let celular = MySQL.instance.conexion.escape(req.body.celularModalAnadir);
+    let email = MySQL.instance.conexion.escape(req.body.correoModalAnadir);
+    let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalAnadir);
+    let password = cedula;
+
+    let pathImage;
+
+    if (req.file != undefined) {
+        pathImage = MySQL.instance.conexion.escape('admin/' + req.file.filename);
+    } else {
+        pathImage = MySQL.instance.conexion.escape('admin/defaultAdmin.png');
+    }
+    let query = `CALL agregarAdmin(${nombre},${cedula},${celular},${email},${password},${pathImage},${estadoUsuario});`;
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Administrador agregado',
+            });
+        }
+    });
+};
+
+const actualizarAdministradores = (req, res) => {
+    let idAdministrador = MySQL.instance.conexion.escape(req.body.idAdministrador);
+    let nombre = MySQL.instance.conexion.escape(req.body.nombreModalEditar);
+    let cedula = MySQL.instance.conexion.escape(req.body.cedulaModalEditar);
+    let celular = MySQL.instance.conexion.escape(req.body.celularModalEditar);
+    let pathImage;
+    if (req.file != undefined) {
+        pathImage = MySQL.instance.conexion.escape('admin/' + req.file.filename);
+    } else {
+        pathImage = MySQL.instance.conexion.escape(req.body.pathImageModalEditar);
+    }
+    let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalEditar);
+
+    let query = `CALL actualizarAdmin(${idAdministrador},${nombre},${cedula},${celular},${pathImage},${estadoUsuario});`;
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Usuario Actualizado',
+            });
+        }
+    });
+};
+eliminarAdministradores = (req, res) => {
+    let idAdministrador = MySQL.instance.conexion.escape(req.body.idAdministrador);
+    let query = `CALL eliminarUsuario(${idAdministrador});`;
+
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Administrador Eliminado',
+            });
+        }
+    });
+};
+
 module.exports = {
     consultarClientes,
     consutalDomiciliarios,
@@ -279,4 +357,7 @@ module.exports = {
     agregarDomiciliarios,
     eliminarDomiciliarios,
     actualizarDomiciliarios,
+    agregarAdministradores,
+    actualizarAdministradores,
+    eliminarAdministradores,
 };
