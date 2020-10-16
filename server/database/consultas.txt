@@ -1,6 +1,7 @@
 
 CALL loginCredenciales(email,password);
 
+
 CALL agregarDomiciliario(nombre,cedula,celular,turno,email,password,pathImage,estadoUsuario);
 
 CALL actualizarDomiciliario(idDomiciliario,nombre,cedula,celular,turno,pathImage,estadoUsuario);
@@ -10,7 +11,7 @@ CALL consultarDomiciliarios();
 
 CALL agregarAdmin(nombre,cedula,celular,email,password,pathImage,estadoUsuario);
 
-CALL actualizarDomiciliario(idDomiciliario,nombre,cedula,celular,pathImage,estadoUsuario);
+CALL actualizarAdmin(idDomiciliario,nombre,cedula,celular,pathImage,estadoUsuario);
 
 CALL consultarAdmins();
 
@@ -63,6 +64,7 @@ CALL agregarCliente("Cliente Prueba 1","3192030220","Calle ####");
 CALL generarServicio(4,17,"CALLE ","Vuelta Banco","Esto es una prueba",5200);
 CALL aceptarServicio(14,1,"2020-10-13","20:00:00");
 CALL concluirServicio(3,"20:00:00","21:00:00");
+
 
 
 

@@ -257,26 +257,27 @@
                         <div class="form-group">
                             <label for="nombreModalEditar">Nombre</label>
                             <input name="nombreModalEditar" id="nombreModalEditar" class="form-control" type="text"
-                                required="" placeholder="Nombre" maxlength="50">
+                                required="" placeholder="Nombre" maxlength="50" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="pathImageModalEditar">Foto de perfil</label>
                             <input name="pathImageModalEditar" id="pathImageModalEditar" class="form-control-file "
-                                type="file" accept="image/*" required="" placeholder="Foto de Perfil" maxlength="50">
+                                type="file" accept="image/*" placeholder="Foto de Perfil" maxlength="50"
+                                autocomplete="off">
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cedulaModalEditar">Cedula</label>
                                     <input name="cedulaModalEditar" id="cedulaModalEditar" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="10">
+                                        type="number" placeholder="Cedula" maxlength="10" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="celularModalEditar">Celular</label>
                                     <input name="celularModalEditar" id="celularModalEditar" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="11">
+                                        type="number" placeholder="Cedula" maxlength="11" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -284,7 +285,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="turnoModalEditar">Turno</label>
-                                    <select name="turnoModalEditar" id="turnoModalEditar" class="form-control">
+                                    <select name="turnoModalEditar" id="turnoModalEditar" class="form-control"
+                                        autocomplete="off">
                                         <option value="A">A (5am - 5pm)</option>
                                         <option value="B">B (5pm - 5am)</option>
                                     </select>
@@ -293,7 +295,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="estadoModalEditar">Estado</label>
-                                    <select name="estadoModalEditar" id="estadoModalEditar" class="form-control">
+                                    <select name="estadoModalEditar" id="estadoModalEditar" class="form-control"
+                                        autocomplete="off">
                                         {{#if data.estados }}
                                         {{#each data.estados as |item|}}
                                         <option value="{{ item.[0]}}">{{item.[0]}}</option>
@@ -334,17 +337,17 @@
                         <div class="form-group">
                             <label for="nombreModalAnadir">Nombre</label>
                             <input name="nombreModalAnadir" id="nombreModalAnadir" class="form-control" type="text"
-                                required="" placeholder="Nombre" maxlength="50">
+                                required="" placeholder="Nombre" maxlength="50" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="pathImageModalAnadir">Foto de perfil</label>
                             <input id="pathImageModalAnadir" class="form-control-file " type="file" accept="image/*"
-                                required="" placeholder="Foto de Perfil" maxlength="50" name="pathImageModalAnadir">
+                                placeholder="Foto de Perfil" maxlength="50" name="pathImageModalAnadir">
                         </div>
                         <div class="form-group">
                             <label for="correoModalAnadir">Correo Electronico</label>
                             <input name="correoModalAnadir" id="correoModalAnadir" class="form-control" type="email"
-                                placeholder="Correo Electronico">
+                                placeholder="Correo Electronico" autocomplete="off">
                         </div>
 
                         <div class="row">
@@ -352,14 +355,14 @@
                                 <div class="form-group">
                                     <label for="cedulaModalAnadir">Cedula</label>
                                     <input name="cedulaModalAnadir" id="cedulaModaAnadir" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="10">
+                                        type="number" placeholder="Cedula" maxlength="10" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="celularModalAnadir">Celular</label>
                                     <input name="celularModalAnadir" id="celularModalAnadir" class="form-control"
-                                        type="number" placeholder="Cedula" maxlength="11">
+                                        type="number" placeholder="Cedula" maxlength="11" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -367,7 +370,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="turnoModalAnadir">Turno</label>
-                                    <select name="turnoModalAnadir" id="turnoModalAnadir" class="form-control">
+                                    <select name="turnoModalAnadir" id="turnoModalAnadir" class="form-control"
+                                        autocomplete="off">
                                         <option value="A">A (5am - 5pm)</option>
                                         <option value="B">B (5pm - 5am)</option>
                                     </select>
@@ -376,7 +380,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="estadoModalAnadir">Estado</label>
-                                    <select name="estadoModalAnadir" id="estadoModalAnadir" class="form-control">
+                                    <select name="estadoModalAnadir" id="estadoModalAnadir" class="form-control"
+                                        autocomplete="off">
                                         {{#if data.estados }}
                                         {{#each data.estados as |item|}}
                                         <option value="{{ item.[0]}}">{{item.[0]}}</option>
@@ -475,8 +480,11 @@
             let info = $(this).serializeArray();
 
             dataAjax = new FormData();
-            dataAjax.append("pathImageModalAnadir", $('#pathImageModalAnadir')[0].files[0]);
 
+            //Revisamos si subio una imagen. 
+            if ($('#pathImageModalAnadir')[0].files.length) {
+                dataAjax.append("pathImageModalAnadir", $('#pathImageModalAnadir')[0].files[0]);
+            }
             $.each(info, function (i, array) {
                 dataAjax.append(array.name, array.value);
             });
@@ -510,11 +518,16 @@
             let info = $(this).serializeArray();
 
             dataAjax = new FormData();
-            dataAjax.append("pathImageModalEditar", $('#pathImageModalEditar')[0].files[0]);
-
+            //Revisamos si subio una nueva imagen, de lo contrario enviamos el path del que ya tenia. 
+            if ($('#pathImageModalEditar')[0].files.length) {
+                dataAjax.append("pathImageModalEditar", $('#pathImageModalEditar')[0].files[0]);
+            } else {
+                dataAjax.append("pathImageModalEditar", domiciliarios[idUltimoEditado][6]);
+            }
             $.each(info, function (i, array) {
                 dataAjax.append(array.name, array.value);
             });
+
             dataAjax.append("idDomiciliario", idUltimoEditado);
             $.ajax({
                 url: '/domiciliarios',
@@ -557,7 +570,7 @@
                     }
                 },
                 error: function (error) {
-                    console.log("Error: " + error);
+                    console.log("Error: ", error);
                 }
             });
             e.preventDefault();

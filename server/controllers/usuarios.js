@@ -156,13 +156,17 @@ agregarDomiciliarios = (req, res) => {
     let celular = MySQL.instance.conexion.escape(req.body.celularModalAnadir);
     let turno = MySQL.instance.conexion.escape(req.body.turnoModalAnadir);
     let email = MySQL.instance.conexion.escape(req.body.correoModalAnadir);
-    let pathImage = 'domiciliario/' + req.file.filename;
     let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalAnadir);
     let password = cedula;
 
-    console.log(pathImage);
-    let query = `CALL agregarDomiciliario(${nombre},${cedula},${celular},${turno},${email},${password},'${pathImage}',${estadoUsuario});`;
-    console.log(query);
+    let pathImage;
+
+    if (req.file != undefined) {
+        pathImage = MySQL.instance.conexion.escape('domiciliario/' + req.file.filename);
+    } else {
+        pathImage = MySQL.instance.conexion.escape('domiciliario/defaultUser.png');
+    }
+    let query = `CALL agregarDomiciliario(${nombre},${cedula},${celular},${turno},${email},${password},${pathImage},${estadoUsuario});`;
     MySQL.ejecutarQuery(query, (err, result) => {
         if (err) {
             return res.json({
@@ -183,7 +187,6 @@ eliminarDomiciliarios = (req, res) => {
     let query = `CALL eliminarUsuario(${idDomiciliario});`;
 
     MySQL.ejecutarQuery(query, (err, result) => {
-        console.log('eliminado');
         if (err) {
             return res.json({
                 ok: false,
@@ -204,10 +207,15 @@ const actualizarDomiciliarios = (req, res) => {
     let cedula = MySQL.instance.conexion.escape(req.body.cedulaModalEditar);
     let celular = MySQL.instance.conexion.escape(req.body.celularModalEditar);
     let turno = MySQL.instance.conexion.escape(req.body.turnoModalEditar);
-    let pathImage = 'domiciliario/' + req.file.filename;
+    let pathImage;
+    if (req.file != undefined) {
+        pathImage = MySQL.instance.conexion.escape('domiciliario/' + req.file.filename);
+    } else {
+        pathImage = MySQL.instance.conexion.escape(req.body.pathImageModalEditar);
+    }
     let estadoUsuario = MySQL.instance.conexion.escape(req.body.estadoModalEditar);
 
-    let query = `CALL actualizarDomiciliario(${idDomiciliario},${nombre},${cedula},${celular},${turno},'${pathImage}',${estadoUsuario});`;
+    let query = `CALL actualizarDomiciliario(${idDomiciliario},${nombre},${cedula},${celular},${turno},${pathImage},${estadoUsuario});`;
 
     MySQL.ejecutarQuery(query, (err, result) => {
         if (err) {

@@ -58,7 +58,7 @@ app.post('/clientes', verificaToken, (req, res) => {
         });
     }
 });
-//Actualizamos datos
+//Actualizamos datos de un cliente
 app.put('/clientes', verificaToken, (req, res) => {
     console.log('update');
     let rol = req.usuario.rol;
@@ -108,6 +108,19 @@ app.put('/domiciliarios', [verificaToken, uploadDomiciliario.single('pathImageMo
         });
     }
     return res;
+});
+
+//Eliminamos algun domicliario
+app.delete('/domiciliarios', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'ADMIN') {
+        usuariosFunciones.eliminarDomiciliarios(req, res);
+    } else {
+        return res.status(401).json({
+            ok: false,
+            msj: 'No Autorizado',
+        });
+    }
 });
 
 //Renderizamos la seccion de domiciliario
