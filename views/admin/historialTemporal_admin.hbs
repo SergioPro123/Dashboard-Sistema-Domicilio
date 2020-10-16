@@ -100,38 +100,7 @@
     <script src="../dist/js/select2-cascade.js"></script>
 
     <script>
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function () {
-            selects();
-        });
 
-        async function selects() {
-            await $('.js-example-basic-single#cliente').select2({
-                placeholder: "Seleccione un Cliente",
-                allowClear: true
-
-            })
-            await $('.js-example-basic-single#direccion').select2({
-                placeholder: "Seleccione una Dirección",
-            });
-
-            await $('.js-example-basic-single#tipoServicio').select2({
-                placeholder: "Seleccione el tipo de servicio",
-            });
-
-            let options = { tags: true }
-            let cascadLoading = new Select2Cascade($('.js-example-basic-single#cliente'), $('.js-example-basic-single#direccion'), '/generarServicio/clientes/:parentId:', options);
-            /*cascadLoading.then(function (parent, child, items) {
-                // Open the child listbox immediately
-                //child.select2('open');
-                // or Dump response data
-                console.log(items);
-            })*/
-        }
-
-        $(document).on("change", ".js-example-basic-single#tipoServicio", function () {
-            $("input#precioServicio").val(`$ ${$(this).val()}`)
-        })
     </script>
 </body>
 

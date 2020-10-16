@@ -1,0 +1,45 @@
+<div class="table-responsive">
+    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+        <thead>
+            <tr>
+                <th>Administrador</th>
+                <th>Domiciliario</th>
+                <th>Cliente</th>
+                <th>Detalles</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data.historial  as |item|}}
+            <tr>
+                <td>{{ item.[0] }}</td>
+                <td>{{ item.[1] }}</td>
+                <td>{{ item.[2] }}</td>
+                <td id="{{ @index }}"> <a href="#" data-toggle="modal" data-target="#scrollable-modal"
+                        id="btnDirecciones">Ver
+                        Más</a>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col" style="text-align: center;" id="">
+                            <a href='#' class='edit' data-toggle='modal' data-target="#modalEditarPerfil"
+                                id="btnEditar"><i class='material-icons' data-toggle='tooltip' title='Cancelar'
+                                    style="color: #ff4f70;">&#xe5c9;</i></a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            {{/each}}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Administrador</th>
+                <th>Domiciliario</th>
+                <th>Cliente</th>
+                <th>Detalles</th>
+                <th>Acción</th>
+        </tfoot>
+    </table>
+</div>

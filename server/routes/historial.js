@@ -11,7 +11,43 @@ app.get('/historialDia', verificaToken, (req, res) => {
             return res.render('superAdmin/historialDia_superAdmin.hbs');
             break;
         case 'ADMIN':
-            return res.render('admin/historialDia_admin.hbs');
+            return res.render('admin/historialDia_admin.hbs', {
+                data: {
+                    historial: [
+                        [
+                            'Insert ADMIN 1',
+                            'domiciliario',
+                            'cliente',
+                            'estado',
+                            'direccion',
+                            'tipoServicio',
+                            'valorServicio',
+                            'valorAdicional',
+                            'descripcion',
+                            'fecha',
+                            'horaInicio',
+                            'horaFinal',
+                        ],
+                        [
+                            'Insert ADMIN 2',
+                            'domiciliario',
+                            'cliente',
+                            'estado',
+                            'direccion',
+                            'tipoServicio',
+                            'valorServicio',
+                            'valorAdicional',
+                            'descripcion',
+                            'fecha',
+                            'horaInicio',
+                            'horaFinal',
+                        ],
+                    ],
+                    infoPersonal: {
+                        nombre: req.usuario.nombre,
+                    },
+                },
+            });
             break;
         case 'USER':
             return res.render('domiciliario/historialDia_domiciliario.hbs');

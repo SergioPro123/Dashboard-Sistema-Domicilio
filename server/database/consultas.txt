@@ -41,6 +41,15 @@ CALL consultarServicios_SINASIGNAR();
 
 CALL consultarServicios();
 
+CALL consultarServiciosDia(fechaDia);
+
+CALL consultarServiciosTemporal(desde,hasta)
+
+CALL consultarServiciosCliente(idCliente);
+
+CALL consultarServiciosDomiciliario(idDomiciliario);
+
+
 CALL addEvidencia(idServicio,pahtEvidencia);
 
 CALL consultarEvidencias();
@@ -56,7 +65,7 @@ CALL actualizarAdmin(11,"UPDATE ADMIN","111111","22222","/image/UPDATE","DESHABI
 
 CALL agregarAdmin("Insert ADMIN","34555666","3143143145","PRUEBAADMIN@GMAIL.COM","myPassword","/image","HABILITADO");
 
-CALL eliminarUsuario(11);
+CALL eliminarUsuario(11,desde,hasta);
 
 
 CALL agregarCliente("Cliente Prueba 1","3192030220","Calle ####");
@@ -65,6 +74,7 @@ CALL generarServicio(4,17,"CALLE ","Vuelta Banco","Esto es una prueba",5200);
 CALL aceptarServicio(14,1,"2020-10-13","20:00:00");
 CALL concluirServicio(3,"20:00:00","21:00:00");
 
-
-
-
+CALL consultarServiciosDia("2020-10-13");
+CALL consultarServiciosTemporal("2020-10-13","2020-10-15")
+CALL consultarServiciosCliente(4);
+CALL consultarServiciosDomiciliario(14,"2020-10-14","2020-10-15");

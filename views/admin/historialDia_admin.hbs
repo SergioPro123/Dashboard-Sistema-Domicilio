@@ -67,6 +67,30 @@
     </div>
 
 
+
+
+    <script>
+        //Recojemos las variables del historial que nos envian el servidor por medio de HBS
+        var historial = {};
+    </script>
+    {{#each data.historial  as |item|}}
+    <script>
+        historial["{{ @index }}"] = []
+        historial["{{ @index }}"][0] = "{{ item.[0] }}"
+        historial["{{ @index }}"][1] = "{{ item.[1] }}"
+        historial["{{ @index }}"][2] = "{{ item.[2] }}"
+        historial["{{ @index }}"][3] = "{{ item.[3] }}"
+        historial["{{ @index }}"][4] = "{{ item.[4] }}"
+        historial["{{ @index }}"][5] = "{{ item.[5] }}"
+        historial["{{ @index }}"][6] = "{{ item.[6] }}"
+        historial["{{ @index }}"][7] = "{{ item.[7] }}"
+        historial["{{ @index }}"][8] = "{{ item.[8] }}"
+        historial["{{ @index }}"][9] = "{{ item.[9] }}"
+        historial["{{ @index }}"][10] = "{{ item.[10] }}"
+        historial["{{ @index }}"][11] = "{{ item.[11] }}"
+    </script>
+    {{/each}}
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -95,41 +119,23 @@
 
     <script src="../assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
-    <script src="../dist/js/select2.min.js"></script>
-    <script src="../dist/js/select2-cascade.js"></script>
 
     <script>
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function () {
-            selects();
-        });
+        $(document).on("click", "#btnDetalles", function (e) {
+            let id = $(this).parent().attr("id")
+            $("#fechaDescripcionModal").text(historial[id][9]);
+            $("#adminDescripcionModal").text(historial[id][0]);
+            $("#domiciliarioDescripcionModal").text(historial[id][1]);
+            $("#descripcionDescripcionModal").text(historial[id][8]);
+            $("#tipoServicioDescripcionModal").text(historial[id][5]);
+            $("#estadoServicioDescripcionModal").text(historial[id][3]);
+            $("#valorServicioDescripcionModal").text(historial[id][6]);
+            $("#valorAdicionalDescripcionModal").text(historial[id][7]);
+            $("#horaInicioDescripcionModal").text(historial[id][10]);
+            $("#horaFinalDescripcionModal").text(historial[id][11]);
+            $("#nombreClienteDescripcionModal").text(historial[id][2]);
+            $("#direccionDescripcionModal").text(historial[id][4]);
 
-        async function selects() {
-            await $('.js-example-basic-single#cliente').select2({
-                placeholder: "Seleccione un Cliente",
-                allowClear: true
-
-            })
-            await $('.js-example-basic-single#direccion').select2({
-                placeholder: "Seleccione una Dirección",
-            });
-
-            await $('.js-example-basic-single#tipoServicio').select2({
-                placeholder: "Seleccione el tipo de servicio",
-            });
-
-            let options = { tags: true }
-            let cascadLoading = new Select2Cascade($('.js-example-basic-single#cliente'), $('.js-example-basic-single#direccion'), '/generarServicio/clientes/:parentId:', options);
-            /*cascadLoading.then(function (parent, child, items) {
-                // Open the child listbox immediately
-                //child.select2('open');
-                // or Dump response data
-                console.log(items);
-            })*/
-        }
-
-        $(document).on("change", ".js-example-basic-single#tipoServicio", function () {
-            $("input#precioServicio").val(`$ ${$(this).val()}`)
         })
     </script>
 </body>
