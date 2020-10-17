@@ -41,6 +41,27 @@ app.get('/historialTemporal', verificaToken, (req, res) => {
     }
 });
 
+//Renderizamos la seccion de historialTemporal
+app.get('/historialTemporal/getData', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    switch (rol) {
+        case 'SUPER_ADMIN':
+            historialConstrollers.historialTemporalAdministrador(req, res);
+            break;
+        case 'ADMIN':
+            historialConstrollers.historialTemporalAdministrador(req, res);
+            break;
+        case 'USER':
+            historialConstrollers.historialTemporalDomiciliario(req, res);
+            break;
+        default:
+            return res.status(401).json({
+                ok: false,
+                msj: 'No Autorizado',
+            });
+    }
+});
+
 //Renderizamos la seccion de historialCliente
 app.get('/historialCliente', verificaToken, (req, res) => {
     let rol = req.usuario.rol;

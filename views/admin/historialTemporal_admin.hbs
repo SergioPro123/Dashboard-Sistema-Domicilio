@@ -100,6 +100,62 @@
     <script src="../dist/js/select2-cascade.js"></script>
 
     {{> scriptModalHistorial}}
+    <script>
+        $(document).on("submit", "form#filtroFechas", function (e) {
+            e.preventDefault();
+
+            let data = {
+                desde: $("#desde").val(),
+                hasta: $("#hasta").val()
+            }
+            $.ajax({
+                url: '/historialTemporal/getData',
+                dataType: 'json',
+                data,
+                method: 'get', //en este caso
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        alimentarTabla(response)
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: " + error);
+                }
+            });
+            //cerramos el modal
+            $("#modalAnadirPerfil").modal('hide');
+
+        })
+
+        let alimentarTabla = (data) => {
+            let tableConstrida = "";
+            //Recorremos los datos enviados por el servidor
+            for (let i = 0; i < data.data.historial.length; i++) {
+                tableConstrida += '<tr>' +
+                    `<td> ${data.data.historial[i][0]}</td>` +
+                    `<td> ${data.data.historial[i][1]}</td>` +
+                    `<td> ${data.data.historial[i][2]}</td>` +
+                    `<td id="${i}">` +
+                    `<a href="#" data-toggle="modal" data-target="#detallesServicio" id="btnDetalles">Ver Más</a>` +
+                    `</td>` +
+                    `</tr>`;
+            }
+            //Recorremos nuevamente, pero esta vez para guardarla en la variable grobla 'historial'
+            for (let i = 0; i < data.data.historial.length; i++) {
+                historial[i] = [];
+                for (let j = 0; j <= 12; j++) {
+                    historial[i][j] = data.data.historial[i][j];
+                }
+            }
+            $("table#zero_config tbody").html(tableConstrida)
+
+        }
+    </script>
+
+
 
 </body>
 

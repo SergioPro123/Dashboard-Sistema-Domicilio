@@ -18,7 +18,9 @@ const historialDiaAdministrador = (req, res) => {
 };
 
 const historialTemporalAdministrador = (req, res) => {
-    let query = `CALL consultarServiciosTemporal('${req.body.desde}','${req.body.hasta}')`;
+    let desde = MySQL.instance.conexion.escape(req.query.desde);
+    let hasta = MySQL.instance.conexion.escape(req.query.hasta);
+    let query = `CALL consultarServiciosTemporal(${desde},${hasta})`;
     consultarHistorialMysql(req, res, query, false);
 };
 
@@ -70,6 +72,7 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
         } else {
             //Respondo  con los datos con Json
             return res.json({
+                ok: true,
                 data: {
                     historial,
                 },
