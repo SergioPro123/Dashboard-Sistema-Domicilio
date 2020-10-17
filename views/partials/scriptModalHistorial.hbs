@@ -1,0 +1,41 @@
+<script>
+    //Recojemos las variables del historial que nos envian el servidor por medio de HBS
+    var historial = {};
+</script>
+{{#each data.historial  as |item|}}
+<script>
+    historial["{{ @index }}"] = []
+    historial["{{ @index }}"][0] = "{{ item.[0] }}"
+    historial["{{ @index }}"][1] = "{{ item.[1] }}"
+    historial["{{ @index }}"][2] = "{{ item.[2] }}"
+    historial["{{ @index }}"][3] = "{{ item.[3] }}"
+    historial["{{ @index }}"][4] = "{{ item.[4] }}"
+    historial["{{ @index }}"][5] = "{{ item.[5] }}"
+    historial["{{ @index }}"][6] = "{{ item.[6] }}"
+    historial["{{ @index }}"][7] = "{{ item.[7] }}"
+    historial["{{ @index }}"][8] = "{{ item.[8] }}"
+    historial["{{ @index }}"][9] = "{{ item.[9] }}"
+    historial["{{ @index }}"][10] = "{{ item.[10] }}"
+    historial["{{ @index }}"][11] = "{{ item.[11] }}"
+    historial["{{ @index }}"][12] = "{{ item.[12] }}"
+
+</script>
+{{/each}}
+<script>
+    $(document).on("click", "#btnDetalles", function (e) {
+        let id = $(this).parent().attr("id")
+        $("#fechaDescripcionModal").text(historial[id][9]);
+        $("#adminDescripcionModal").text(historial[id][0]);
+        $("#domiciliarioDescripcionModal").text(historial[id][1]);
+        $("#descripcionDescripcionModal").text(historial[id][8]);
+        $("#tipoServicioDescripcionModal").text(historial[id][5]);
+        $("#estadoServicioDescripcionModal").text(historial[id][3]);
+        $("#valorServicioDescripcionModal").text("$ " + historial[id][6]);
+        $("#valorAdicionalDescripcionModal").text("$ " + historial[id][7]);
+        $("#horaInicioDescripcionModal").text(historial[id][10]);
+        $("#horaFinalDescripcionModal").text(historial[id][11]);
+        $("#nombreClienteDescripcionModal").text(historial[id][2]);
+        $("#direccionDescripcionModal").text(historial[id][4]);
+        $("#numeroClienteDescripcionModal").text(historial[id][12]);
+    })
+</script>

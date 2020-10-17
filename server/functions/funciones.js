@@ -6,6 +6,20 @@ const capitalizar = (myString) => {
     return palabras.join(' ');
 };
 
+const fechaActual = () => {
+    let date = new Date();
+    let fechaActual = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    return fechaActual;
+};
+
+const devolverFecha = (fechaObjeto) => {
+    let date = new Date(fechaObjeto);
+    let fecha = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    return fecha;
+};
+
 module.exports = {
     capitalizar,
+    fechaActual,
+    devolverFecha,
 };

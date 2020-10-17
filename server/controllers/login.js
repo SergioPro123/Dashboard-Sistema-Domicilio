@@ -16,7 +16,7 @@ const verificaCredenciales = (req, res) => {
             });
         }
         //Si no devuelve resultado, es porque no encontro las credenciales
-        if (result.affectedRows == undefined) {
+        if (result.length > 0 && result[0][0] != undefined) {
             usuario = JSON.stringify(result[0][0]);
             usuario = JSON.parse(usuario);
 

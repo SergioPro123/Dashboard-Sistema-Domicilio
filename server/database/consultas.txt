@@ -39,15 +39,17 @@ CALL concluirServicio(idServicio,horaInicio,horaFinal);
 
 CALL consultarServicios_SINASIGNAR();
 
-CALL consultarServicios();
+	
 
-CALL consultarServiciosDia(fechaDia);
+CALL consultarServiciosDia(fechaDia); //Para administradores y el super administrador
 
-CALL consultarServiciosTemporal(desde,hasta)
+CALL consultarServiciosTemporal(desde,hasta) //Para administradores y el super administrador
 
-CALL consultarServiciosCliente(idCliente);
+CALL consultarServiciosCliente(idCliente); //Para administradores y el super administrador
 
-CALL consultarServiciosDomiciliario(idDomiciliario);
+CALL consultarServiciosDomiciliario(idDomiciliario,desde,hasta); //Para administradores y el super administrador 
+							         // y para el domiciliario( solo su historial)
+
 
 
 CALL addEvidencia(idServicio,pahtEvidencia);
