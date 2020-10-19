@@ -9,7 +9,12 @@ const historialDiaDomiciliario = (req, res) => {
     consultarHistorialMysql(req, res, query, true, rutaHBS);
 };
 
-const historialTemporalDomiciliario = (req, res) => {};
+const historialTemporalDomiciliario = (req, res) => {
+    let desde = MySQL.instance.conexion.escape(req.query.desde);
+    let hasta = MySQL.instance.conexion.escape(req.query.hasta);
+    let query = `CALL consultarServiciosDomiciliario('${req.usuario.id_usuario}',${desde},${hasta})`;
+    consultarHistorialMysql(req, res, query, false);
+};
 
 const historialDiaAdministrador = (req, res) => {
     let query = `CALL consultarServiciosDia('${fechaActual()}')`;
@@ -28,6 +33,9 @@ const historialClienteAdministrador = (req, res) => {};
 
 const historialDomiciliarioAdministrador = (req, res) => {};
 
+//Esta funcion es servida para las demas funciones, ya que se encarga de
+//de procesar la informacion devuelta por el servidor, de acuerdo a cada
+// consulta de los historiales.
 const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
     let historial = [];
     MySQL.ejecutarQuery(query, (err, result) => {
