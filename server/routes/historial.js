@@ -101,14 +101,36 @@ app.get('/historialDomiciliario', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     switch (rol) {
         case 'SUPER_ADMIN':
-            return res.render('superAdmin/historialDomiciliario_superAdmin.hbs');
+            historialConstrollers.historialDomiciliarioAdministrador(
+                req,
+                res,
+                'superAdmin/historialDomiciliario_superAdmin.hbs'
+            );
             break;
         case 'ADMIN':
-            return res.render('admin/historialDomiciliario_admin.hbs');
+            historialConstrollers.historialDomiciliarioAdministrador(req, res, 'admin/historialDomiciliario_admin.hbs');
             break;
         default:
             return res.redirect('/dashboard');
             break;
+    }
+});
+
+//Esta API, obtiene informacion desde la base de datos sobre el historial de algun Domiciliario.
+app.get('/historialDomiciliario/getData', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    switch (rol) {
+        case 'SUPER_ADMIN':
+            historialConstrollers.historialDomiciliarioData(req, res);
+            break;
+        case 'ADMIN':
+            historialConstrollers.historialDomiciliarioData(req, res);
+            break;
+        default:
+            return res.status(401).json({
+                ok: false,
+                msj: 'No Autorizado',
+            });
     }
 });
 

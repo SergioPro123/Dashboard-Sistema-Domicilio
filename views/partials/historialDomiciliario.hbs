@@ -40,14 +40,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Filtro</h4>
-                        <form>
+                        <form id="formDomiciliarios">
                             <div class="form-group mb-4 col-md-12">
                                 <label class="mr-sm-2" for="inlineFormCustomSelect">Domiciliario</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                    {{#if data.domiciliario }}
-                                    <option value="0" disabled selected>--Seleccione un Cliente--
+                                    {{#if data.dataUsuarios }}
+                                    <option value="0" disabled selected>--Seleccione un Domiciliario--
                                     </option>
-                                    {{#each data.domiciliario as |item|}}
+                                    {{#each data.dataUsuarios as |item|}}
                                     <option value="{{item.[0]}}">{{item.[1]}}</option>
                                     {{/each}}
 
@@ -57,26 +57,28 @@
                                     </option>
 
                                     {{/if}}
-                                </select>
-                            </div>
 
+                                </select>
+
+                            </div>
 
                             <div class="form-group mb-4 col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Fecha Inicio</label>
-                                            <input type="date" class="form-control" placeholder="Fecha Final">
+                                            <input type="date" class="form-control" id="desde">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Fecha Final</label>
-                                            <input type="date" class="form-control" placeholder="Fecha Final">
+                                            <input type="date" class="form-control" id="hasta">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group mb-4 col-md-12">
                                 <div class="form-actions">
                                     <div class="text-right">

@@ -29,36 +29,8 @@ const historialTemporalAdministrador = (req, res) => {
 };
 
 const historialClienteAdministrador = (req, res, rutaHBS) => {
-    let clientes = [];
     let query = 'CALL consultarClientes();';
-    MySQL.ejecutarQuery(query, (err, result) => {
-        if (err) {
-            return res.json({
-                ok: false,
-                msj: 'Error en la consulta',
-            });
-        }
-        //Verifico que haya devuelto datos
-        if (result.length > 0) {
-            let index = 0;
-            //Recorro cada registro
-            while (result[0][index]) {
-                clientes[index] = [];
-                clientes[index][0] = result[0][index].id_cliente;
-                clientes[index][1] = capitalizar(result[0][index].nombre);
-                index++;
-            }
-        }
-        //Respondo  con los datos y renderizacion al cliente
-        return res.render(rutaHBS, {
-            data: {
-                clientes,
-                infoPersonal: {
-                    nombre: capitalizar(req.usuario.nombre),
-                },
-            },
-        });
-    });
+    consultarUsuarios(req, res, query, rutaHBS);
 };
 
 const historialClienteData = (req, res) => {
@@ -67,7 +39,18 @@ const historialClienteData = (req, res) => {
     consultarHistorialMysql(req, res, query, false);
 };
 
-const historialDomiciliarioAdministrador = (req, res) => {};
+const historialDomiciliarioAdministrador = (req, res, rutaHBS) => {
+    let query = 'CALL consultarDomiciliarios();';
+    consultarUsuarios(req, res, query, rutaHBS);
+};
+
+const historialDomiciliarioData = (req, res) => {
+    let idDomiciliario = MySQL.instance.conexion.escape(req.query.idDomiciliario);
+    let desde = MySQL.instance.conexion.escape(req.query.desde);
+    let hasta = MySQL.instance.conexion.escape(req.query.hasta);
+    let query = `CALL consultarServiciosDomiciliario(${idDomiciliario},${desde},${hasta})`;
+    consultarHistorialMysql(req, res, query, false);
+};
 
 //Esta funcion es servida para las demas funciones, ya que se encarga de
 //de procesar la informacion devuelta por el servidor, de acuerdo a cada
@@ -124,6 +107,41 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
         }
     });
 };
+
+//Esta funcion sirve para renderizar al cliente su vista HBS, pero
+// primero hace una consulta a la base de datos lo cual devuelve
+// una serie de datos, requeridos para esa vista.
+const consultarUsuarios = (req, res, query, rutaHBS) => {
+    let dataUsuarios = [];
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        }
+        //Verifico que haya devuelto datos
+        if (result.length > 0) {
+            let index = 0;
+            //Recorro cada registro
+            while (result[0][index]) {
+                dataUsuarios[index] = [];
+                dataUsuarios[index][0] = result[0][index].id_cliente || result[0][index].id_usuario;
+                dataUsuarios[index][1] = capitalizar(result[0][index].nombre);
+                index++;
+            }
+        }
+        //Respondo  con los datos y renderizacion al cliente
+        return res.render(rutaHBS, {
+            data: {
+                dataUsuarios,
+                infoPersonal: {
+                    nombre: capitalizar(req.usuario.nombre),
+                },
+            },
+        });
+    });
+};
 module.exports = {
     historialDiaDomiciliario,
     historialTemporalDomiciliario,
@@ -132,4 +150,5 @@ module.exports = {
     historialClienteAdministrador,
     historialDomiciliarioAdministrador,
     historialClienteData,
+    historialDomiciliarioData,
 };

@@ -265,3 +265,35 @@
 
     })
 </script>
+<script>
+    $(document).on("submit", "form#formDomiciliarios", function (e) {
+        e.preventDefault();
+
+        if ($("#inlineFormCustomSelect").val() === null) { return; }
+        let data = {
+            desde: $("#desde").val(),
+            hasta: $("#hasta").val(),
+            idDomiciliario: $("#inlineFormCustomSelect").val(),
+        }
+        $.ajax({
+            url: '/historialDomiciliario/getData',
+            dataType: 'json',
+            data,
+            method: 'get', //en este caso
+            success: function (response) {
+                //codigo de exito
+                if (response.ok) {
+                    alimentarTabla(response)
+                } else {
+                    alert("Error en el Servidor: " + response.msj);
+                }
+            },
+            error: function (error) {
+                console.log("Error: " + error);
+            }
+        });
+        //cerramos el modal
+        $("#modalAnadirPerfil").modal('hide');
+
+    })
+</script>
