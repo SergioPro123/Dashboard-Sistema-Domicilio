@@ -38,12 +38,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Filtro</h4>
-                        <form>
+                        <form id="formClientes">
                             <div class="form-group mb-4 col-md-12">
                                 <label class="mr-sm-2" for="inlineFormCustomSelect">Cliente</label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                                     {{#if data.clientes }}
-                                    <option value="0" disabled selected>--Seleccione el tipo de servicio--
+                                    <option value="0" disabled selected>--Seleccione un Cliente--
                                     </option>
                                     {{#each data.clientes as |item|}}
                                     <option value="{{item.[0]}}">{{item.[1]}}</option>

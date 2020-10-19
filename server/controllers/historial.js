@@ -16,9 +16,8 @@ const historialTemporalDomiciliario = (req, res) => {
     consultarHistorialMysql(req, res, query, false);
 };
 
-const historialDiaAdministrador = (req, res) => {
+const historialDiaAdministrador = (req, res, rutaHBS) => {
     let query = `CALL consultarServiciosDia('${fechaActual()}')`;
-    let rutaHBS = 'admin/historialDia_admin.hbs';
     consultarHistorialMysql(req, res, query, true, rutaHBS);
 };
 
@@ -29,7 +28,44 @@ const historialTemporalAdministrador = (req, res) => {
     consultarHistorialMysql(req, res, query, false);
 };
 
-const historialClienteAdministrador = (req, res) => {};
+const historialClienteAdministrador = (req, res, rutaHBS) => {
+    let clientes = [];
+    let query = 'CALL consultarClientes();';
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        }
+        //Verifico que haya devuelto datos
+        if (result.length > 0) {
+            let index = 0;
+            //Recorro cada registro
+            while (result[0][index]) {
+                clientes[index] = [];
+                clientes[index][0] = result[0][index].id_cliente;
+                clientes[index][1] = capitalizar(result[0][index].nombre);
+                index++;
+            }
+        }
+        //Respondo  con los datos y renderizacion al cliente
+        return res.render(rutaHBS, {
+            data: {
+                clientes,
+                infoPersonal: {
+                    nombre: capitalizar(req.usuario.nombre),
+                },
+            },
+        });
+    });
+};
+
+const historialClienteData = (req, res) => {
+    let idCliente = MySQL.instance.conexion.escape(req.query.idCliente);
+    let query = `CALL consultarServiciosCliente(${idCliente})`;
+    consultarHistorialMysql(req, res, query, false);
+};
 
 const historialDomiciliarioAdministrador = (req, res) => {};
 
@@ -95,4 +131,5 @@ module.exports = {
     historialTemporalAdministrador,
     historialClienteAdministrador,
     historialDomiciliarioAdministrador,
+    historialClienteData,
 };

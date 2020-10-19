@@ -55,6 +55,7 @@ const consultarClientes = (req, res) => {
                     }
                 }
             }
+            console.log(clientes);
             //Enviamos los datos al cliente
             return res.render('admin/clientes_admin.hbs', {
                 data: {

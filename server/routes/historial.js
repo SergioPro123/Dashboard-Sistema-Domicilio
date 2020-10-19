@@ -8,10 +8,10 @@ app.get('/historialDia', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     switch (rol) {
         case 'SUPER_ADMIN':
-            historialConstrollers.historialDiaAdministrador(req, res);
+            historialConstrollers.historialDiaAdministrador(req, res, 'superAdmin/historialTemporal_superAdmin.hbs');
             break;
         case 'ADMIN':
-            historialConstrollers.historialDiaAdministrador(req, res);
+            historialConstrollers.historialDiaAdministrador(req, res, 'admin/historialDia_admin.hbs');
             break;
         case 'USER':
             historialConstrollers.historialDiaDomiciliario(req, res);
@@ -41,7 +41,7 @@ app.get('/historialTemporal', verificaToken, (req, res) => {
     }
 });
 
-//Renderizamos la seccion de historialTemporal
+//Esta API, obtiene informacion desde la base de datos sobre el historial temporal.
 app.get('/historialTemporal/getData', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     switch (rol) {
@@ -67,14 +67,32 @@ app.get('/historialCliente', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     switch (rol) {
         case 'SUPER_ADMIN':
-            return res.render('superAdmin/historialCliente_superAdmin.hbs');
+            historialConstrollers.historialClienteAdministrador(req, res, 'superAdmin/historialCliente_superAdmin.hbs');
             break;
         case 'ADMIN':
-            return res.render('admin/historialCliente_admin.hbs');
+            historialConstrollers.historialClienteAdministrador(req, res, 'admin/historialCliente_admin.hbs');
             break;
         default:
             return res.redirect('/dashboard');
             break;
+    }
+});
+
+//Esta API, obtiene informacion desde la base de datos sobre el historial de algun cliente.
+app.get('/historialCliente/getData', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    switch (rol) {
+        case 'SUPER_ADMIN':
+            historialConstrollers.historialClienteData(req, res);
+            break;
+        case 'ADMIN':
+            historialConstrollers.historialClienteData(req, res);
+            break;
+        default:
+            return res.status(401).json({
+                ok: false,
+                msj: 'No Autorizado',
+            });
     }
 });
 

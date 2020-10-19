@@ -234,3 +234,34 @@
 
     }
 </script>
+
+<script>
+    $(document).on("submit", "form#formClientes", function (e) {
+        e.preventDefault();
+
+        if ($("#inlineFormCustomSelect").val() === null) { return; }
+        let data = {
+            idCliente: $("#inlineFormCustomSelect").val(),
+        }
+        $.ajax({
+            url: '/historialCliente/getData',
+            dataType: 'json',
+            data,
+            method: 'get', //en este caso
+            success: function (response) {
+                //codigo de exito
+                if (response.ok) {
+                    alimentarTabla(response)
+                } else {
+                    alert("Error en el Servidor: " + response.msj);
+                }
+            },
+            error: function (error) {
+                console.log("Error: " + error);
+            }
+        });
+        //cerramos el modal
+        $("#modalAnadirPerfil").modal('hide');
+
+    })
+</script>
