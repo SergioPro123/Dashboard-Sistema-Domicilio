@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
+    <!-- This Page CSS -->
+    <link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="../dist/css/select2.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../dist/css/style.min.css" rel="stylesheet">
+    <link href="../dist/css/myCss.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    <style>
+        th.precio {
+            width: 25% !important;
+        }
+
+        th.accion {
+            width: 15% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> header}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+
+
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{> leftSidebar_superAdmin}}
+
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Tipo de Servicios</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item text-muted active">Servicios
+                                    </li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Tipo de Servicios
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+
+                <!-- basic table -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Column -->
+                                    <div class="col-md-6 col-lg-6 col-xlg-6">
+                                        <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
+                                            data-target="#modalAnadirPerfil">
+                                            <i class="fas fa-user-plus"></i>
+                                            Añadir Tipo de Servicio
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- Tabla de servicios -->
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Servicio</th>
+                                                <th class="precio">Precio</th>
+                                                <th class="accion">Acción</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#if data.tipoServicios}}
+                                            {{#each data.tipoServicios as |item|}}
+                                            <tr>
+                                                <td>{{item.[0]}}</td>
+                                                <td>{{item.[1]}}</td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col" style="text-align: center;" id="{{item.[2]}}">
+                                                            <a href='#' class='edit' data-toggle='modal'
+                                                                data-target="#modalEditarPerfil" id="btnEditar"><i
+                                                                    class='material-icons' data-toggle='tooltip'
+                                                                    title='Editar'>&#xE254;</i></a>
+                                                        </div>
+                                                        <div class="col" style="text-align: center;" id="{{item.[2]}}">
+                                                            <a href='#' class='delete' data-toggle='modal'
+                                                                data-target="#modalEliminarServicio" id="btnEliminar"><i
+                                                                    class='material-icons' data-toggle='tooltip'
+                                                                    title='Eliminar'>&#xE872;</i></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                            {{/if}}
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Servicio</th>
+                                                <th>Precio</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <!-- The Modal Image -->
+            <footer class="footer text-center text-muted">
+                All Rights Reserved by Adminmart. Designed and Developed by <a
+                    href="https://wrappixel.com">WrapPixel</a>.
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+        <!-- Modal Confirmacion de eliminar -->
+        <div id="modalEliminarServicio" class="modal fade" tabindex="-1" role="dialog"
+            aria-labelledby="danger-header-modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-colored-header bg-danger">
+                        <h4 class="modal-title" id="danger-header-modalLabel">Eliminar Tipo de Servicio</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="mt-0">¿Desea eliminar <strong id="nombreModalEliminar"> Servicio </strong>?
+                        </h5>
+                        <p class=" modal-dialog">Recuerde que esta acción no tiene retroceso.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="eliminarUsuarioConfirmacion">Confirmar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- Modal EDITAR Tipo Servicio -->
+        <div id="modalEditarPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div class="text-center mt-2 mb-4">
+                            <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
+                                    src="../assets/images/logo-text.png" alt="" height="18"></span>
+                        </div>
+                        <form class="pl-3 pr-3" action="#" id="formModalEditarPerfil">
+                            <div class="form-group">
+                                <label for="servicioModalEditar">Servicio</label>
+                                <input name="servicioModalEditar" id="servicioModalEditar" class="form-control"
+                                    type="text" required="" placeholder="Nombre" maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="precioModaEditar">Precio</label>
+                                <input name="precioModalEditar" id="precioModalEditar" class="form-control"
+                                    type="number" placeholder="Cedula" min="0" maxlength="11" required="">
+                            </div>
+
+                            <br>
+                            <div class="form-group text-center">
+                                <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal AÑADIR Tipo Servicio -->
+        <div id="modalAnadirPerfil" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="text-center mt-2 mb-4">
+                            <span><img class="mr-2" src="../assets/images/logo-icon.png" alt="" height="18"><img
+                                    src="../assets/images/logo-text.png" alt="" height="18"></span>
+                        </div>
+                        <form class="pl-3 pr-3" id="formModalAnadirPerfil">
+                            <div class="form-group">
+                                <label for="servicioModalAnadir">Servicio</label>
+                                <input name="servicioModalAnadir" id="servicioModalAnadir" class="form-control"
+                                    type="text" required="" placeholder="Nombre" maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="precioModalAnadir">Precio</label>
+                                <input name="precioModalAnadir" id="precioModalAnadir" class="form-control"
+                                    type="number" min="0" maxlength="11" required="">
+                            </div>
+                    </div>
+
+                    <br>
+                    <div class="form-group text-center">
+                        <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" type="submit" id="agregarClienteBtn">Añadir Cliente</button>
+                    </div>
+
+                    </form>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <!-- apps -->
+    <script src="../dist/js/app-style-switcher.js"></script>
+    <script src="../dist/js/feather.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <!-- themejs -->
+    <!--Menu sidebar -->
+    <script src="../dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../dist/js/custom.min.js"></script>
+    <!-- This Page JS -->
+    <script src="../assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="../assets/extra-libs/prism/prism.js"></script>
+    <script src="../dist/js/select2.min.js"></script>
+    <script>
+        //Recojemos las variables de los clientes que nos envian el servidor por medio de HBS
+        var tipoServicios = {};
+    </script>
+
+    {{#each data.tipoServicios  as |item|}}
+    <script>
+        tipoServicios["{{ item.[2] }}"] = []
+        tipoServicios["{{ item.[2] }}"][0] = "{{ item.[0] }}"
+        tipoServicios["{{ item.[2] }}"][1] = "{{ item.[1] }}"
+        tipoServicios["{{ item.[2] }}"][2] = "{{ item.[2] }}"
+
+    </script>
+    {{/each}}
+    <script>
+        var idUltimoEliminado;
+        var idUltimoEditado;
+
+        $(document).on("click", "#btnEditar", function () {
+            idUltimoEditado = $(this).parent().attr("id");
+
+            //Rellenamos los datos correspondientes en el modal Editar
+            $("#servicioModalEditar").val(tipoServicios[idUltimoEditado][0]);
+            $("#precioModalEditar").val(tipoServicios[idUltimoEditado][1]);
+        })
+        $(document).on("click", "#btnEliminar", function () {
+            idUltimoEliminado = $(this).parent().attr("id");
+
+            //Rellenamos los datos correspondientes en el modal Editar
+            $("#nombreModalEliminar").text(tipoServicios[idUltimoEliminado][0]);
+        })
+        //Enviamos los datos a nuestro servidor, para agregar un nuevo cliente a nuestro sistema.
+        $(document).on("submit", "form#formModalAnadirPerfil", function (e) {
+            e.stopPropagation();
+            let info = $(this).serializeArray();
+            let data = {};
+            $.each(info, function (i, array) {
+                data[array.name] = array.value;
+            });
+            $.ajax({
+                url: '/clientes',
+                data,
+                method: 'post', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: " + error);
+                }
+            });
+            //cerramos el modal
+            $("#modalAnadirPerfil").modal('hide');
+            e.preventDefault();
+        });
+        //Enviamos los datos a nuestro servidor, para actualizar un nuevo cliente a nuestro sistema.
+        $(document).on("submit", "form#formModalEditarPerfil", function (e) {
+            e.stopPropagation();
+            let info = $(this).serializeArray();
+            let data = {};
+            $.each(info, function (i, array) {
+                data[array.name] = array.value;
+            });
+            data.idTipoServicio = idUltimoEditado;
+            console.log(data);
+            $.ajax({
+                url: '/tipoServicios',
+                data,
+                method: 'put', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            //cerramos el modal
+            $("#modalAnadirPerfil").modal('hide');
+
+            e.preventDefault();
+        });
+        //Enviamos los datos a nuestro servidor, para actualizar un nuevo cliente a nuestro sistema.
+        $(document).on("submit", "#eliminarUsuarioConfirmacion", function (e) {
+            e.stopPropagation();
+            $.ajax({
+                url: '/tipoServicios',
+                data: {
+                    idTipoServicio: idUltimoEliminado
+                },
+                method: 'delete', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

@@ -4,10 +4,6 @@ const generarServicio = (req, res) => {
     if (rol == 'ADMIN') {
         return res.render('admin/generarServicio_admin.hbs', {
             data: {
-                generarServicio: {
-                    selected: 'selected',
-                    active: 'active',
-                },
                 clientes: [
                     ['20150415', 'Chittagong Zila'],
                     ['20190901', 'Comilla Zila'],

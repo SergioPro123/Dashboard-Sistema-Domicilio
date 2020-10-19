@@ -50,6 +50,14 @@ CALL consultarServiciosCliente(idCliente); //Para administradores y el super adm
 CALL consultarServiciosDomiciliario(idDomiciliario,desde,hasta); //Para administradores y el super administrador 
 							         // y para el domiciliario( solo su historial)
 
+CALL totalEstadoServicios(estadoServicio); //Devuelve el total de servicios pasado por parametro, eje: "COMPLETADO"
+
+
+CALL consultarTipoServicios();//Consulta los tipos de servicios existentes, para el Super Adminisrador
+
+CALL actualizarTipoServicios(idTipoServicio,servicio,precio);
+
+CALL eliminarTipoServicios(idTipoServicio);
 
 
 CALL addEvidencia(idServicio,pahtEvidencia);
