@@ -352,8 +352,9 @@
             $.each(info, function (i, array) {
                 data[array.name] = array.value;
             });
+            console.log(data)
             $.ajax({
-                url: '/clientes',
+                url: '/tipoServicios',
                 data,
                 method: 'post', //en este caso
                 dataType: 'json',
@@ -366,7 +367,7 @@
                     }
                 },
                 error: function (error) {
-                    console.log("Error: " + error);
+                    console.log("Error: ", error);
                 }
             });
             //cerramos el modal
@@ -405,9 +406,10 @@
 
             e.preventDefault();
         });
-        //Enviamos los datos a nuestro servidor, para actualizar un nuevo cliente a nuestro sistema.
-        $(document).on("submit", "#eliminarUsuarioConfirmacion", function (e) {
+        //Eliminamos un tipo de servicio de nuestro sistema
+        $(document).on("click", "#eliminarUsuarioConfirmacion", function (e) {
             e.stopPropagation();
+            console.log('okk')
             $.ajax({
                 url: '/tipoServicios',
                 data: {

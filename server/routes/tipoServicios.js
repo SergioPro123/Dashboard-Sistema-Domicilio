@@ -12,6 +12,14 @@ app.get('/tipoServicios', verificaToken, (req, res) => {
     }
 });
 
+//Eliminamos tipoServicios
+app.post('/tipoServicios', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'SUPER_ADMIN') {
+        tipoServiciosControllers.agregarTipoServicios(req, res);
+    }
+});
+
 //Actualizamos tipoServicios
 app.put('/tipoServicios', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
@@ -20,6 +28,13 @@ app.put('/tipoServicios', verificaToken, (req, res) => {
     }
 });
 
+//Eliminamos tipoServicios
+app.delete('/tipoServicios', verificaToken, (req, res) => {
+    let rol = req.usuario.rol;
+    if (rol == 'SUPER_ADMIN') {
+        tipoServiciosControllers.eliminarTipoServicios(req, res);
+    }
+});
 module.exports = {
     app,
 };

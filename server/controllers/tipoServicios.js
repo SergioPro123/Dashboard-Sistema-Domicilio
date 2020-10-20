@@ -40,7 +40,6 @@ const actualizarTipoServicios = (req, res) => {
     let servicio = MySQL._instance.conexion.escape(req.body.servicioModalEditar);
     let precio = MySQL._instance.conexion.escape(req.body.precioModalEditar);
     let query = `CALL actualizarTipoServicios(${idTipoServicio},${servicio},${precio});`;
-    let tipoServicios = [];
     MySQL.ejecutarQuery(query, (err, result) => {
         if (err) {
             return res.json({
@@ -56,7 +55,46 @@ const actualizarTipoServicios = (req, res) => {
     });
 };
 
+const eliminarTipoServicios = (req, res) => {
+    let idTipoServicio = MySQL._instance.conexion.escape(req.body.idTipoServicio);
+    let query = `CALL eliminarTipoServicios(${idTipoServicio});`;
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Tipo de Servicio Eliminado',
+            });
+        }
+    });
+};
+
+const agregarTipoServicios = (req, res) => {
+    let servicio = MySQL._instance.conexion.escape(req.body.servicioModalAnadir);
+    let precio = MySQL._instance.conexion.escape(req.body.precioModalAnadir);
+    let query = `CALL agregarTipoServicios(${servicio},${precio});`;
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        } else {
+            return res.json({
+                ok: true,
+                msj: 'Tipo de Servicio Agregado',
+            });
+        }
+    });
+};
+
 module.exports = {
     renderTipoServicios,
     actualizarTipoServicios,
+    eliminarTipoServicios,
+    agregarTipoServicios,
 };

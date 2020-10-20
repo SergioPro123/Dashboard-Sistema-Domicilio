@@ -59,6 +59,9 @@ CALL actualizarTipoServicios(idTipoServicio,servicio,precio);
 
 CALL eliminarTipoServicios(idTipoServicio);
 
+CALL agregarTipoServicios(tipoServicios,valor);
+
+
 
 CALL addEvidencia(idServicio,pahtEvidencia);
 
@@ -88,3 +91,7 @@ CALL consultarServiciosDia("2020-10-13");
 CALL consultarServiciosTemporal("2020-10-13","2020-10-15")
 CALL consultarServiciosCliente(4);
 CALL consultarServiciosDomiciliario(14,"2020-10-14","2020-10-15");
+
+
+
+
