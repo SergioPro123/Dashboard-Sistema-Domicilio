@@ -73,7 +73,7 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
                 historial[index][0] = capitalizar(result[0][index].nombreAdmin);
                 historial[index][1] = capitalizar(result[0][index].nombreDomiciliario);
                 historial[index][2] = capitalizar(result[0][index].nombreCliente);
-                historial[index][3] = capitalizar(result[0][index].estadoservicio);
+                historial[index][3] = result[0][index].estadoservicio;
                 historial[index][4] = capitalizar(result[0][index].direccion);
                 historial[index][5] = capitalizar(result[0][index].tiposervicio);
                 historial[index][6] = result[0][index].valorServicio;

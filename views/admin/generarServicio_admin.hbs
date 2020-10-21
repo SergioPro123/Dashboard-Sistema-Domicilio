@@ -192,7 +192,7 @@
                                 src="../assets/images/logo-text.png" alt="" height="18"></span>
                     </div>
 
-                    <form class="pl-3 pr-3" action="#">
+                    <form class="pl-3 pr-3" id="formGenerarServicio">
                         <div class="form-group">
                             <label for="cliente">Cliente</label><br>
                             <select id="cliente" class="js-example-basic-single " style="width: 100%" name="state"
@@ -225,11 +225,11 @@
                                 {{#if data.tipoServicios }}
                                 <option value="0" disabled selected>--Seleccione el tipo de servicio--</option>
                                 {{#each data.tipoServicios as |item|}}
-                                <option value="{{item.[0]}}">{{item.[1]}}</option>
+                                <option value="{{item.[0]}}">{{item.[2]}}</option>
                                 {{/each}}
 
                                 {{else}}
-                                <option value="0" disabled selected>No se encuentra establecido tipos de servicios
+                                <option value=" 0" disabled selected>No se encuentra establecido tipos de servicios
                                 </option>
 
                                 {{/if}}
@@ -243,7 +243,7 @@
                         </div>
                         <div class="form-group">
                             <label for="Adicional">Adicional</label>
-                            <input name="Adicional" id="Adicional" class="form-control" type="number" placeholder="$ 0"
+                            <input name="Adicional" id="adicional" class="form-control" type="number" placeholder="$ 0"
                                 min="0">
                         </div>
                         <div class="form-group">
@@ -276,12 +276,10 @@
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- apps -->
     <!-- apps -->
-    <script src="../dist/js/app-style-switcher.js"></script>
     <script src="../dist/js/feather.min.js"></script>
     <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
     <!--Wave Effects -->
     <!-- themejs -->
     <!--Menu sidebar -->
@@ -294,6 +292,21 @@
     <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
     <script src="../dist/js/select2.min.js"></script>
     <script src="../dist/js/select2-cascade.js"></script>
+
+    <script>
+        //Recojemos las variables de los domiciliarios que nos envian el servidor por medio de HBS
+        var tipoServicios = {};
+    </script>
+
+    {{#each data.tipoServicios  as |item|}}
+    <script>
+        tipoServicios["{{ item.[0] }}"] = []
+        tipoServicios["{{ item.[0] }}"][0] = "{{ item.[1] }}"
+        tipoServicios["{{ item.[0] }}"][1] = "{{ item.[2] }}"
+    </script>
+
+    {{/each}}
+
 
     <script>
         // In your Javascript (external .js resource or <script> tag)
@@ -326,8 +339,46 @@
         }
 
         $(document).on("change", ".js-example-basic-single#tipoServicio", function () {
-            $("input#precioServicio").val(`$ ${$(this).val()}`)
+            $("input#precioServicio").val(`$ ${tipoServicios[$(this).val()][0]}`)
         })
+    </script>
+    {{> scriptModalHistorial}}
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="../assets/js/socket-custom.js"></script>
+    <script>
+        //Enviamos los datos a nuestro servidor, para agregar un nuevo cliente a nuestro sistema.
+        $(document).on("submit", "form#formGenerarServicio", function (e) {
+            e.stopPropagation();
+            let info = $(this).serializeArray();
+            let data = {
+                idCliente: $("#cliente").val(),
+                direccion: $("#direccion").val(),
+                tipoServicio: tipoServicios[$(".js-example-basic-single#tipoServicio").val()][1],
+                valorTipoServicio: tipoServicios[$(".js-example-basic-single#tipoServicio").val()][0],
+                descripcion: $("#descripcion").val(),
+                adicional: $("#adicional").val()
+            };
+            $.ajax({
+                url: '/generarServicio',
+                data,
+                method: 'post', //en este caso
+                dataType: 'json',
+                success: function (response) {
+                    //codigo de exito
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error en el Servidor: " + response.msj);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                }
+            });
+            //cerramos el modal
+            $("#modalAnadirPerfil").modal('hide');
+            e.preventDefault();
+        });
     </script>
 </body>
 

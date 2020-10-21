@@ -1,5 +1,9 @@
 const express = require('express');
+const socketIO = require('socket.io');
+const http = require('http');
+
 const app = express();
+
 const hbs = require('hbs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -21,9 +25,15 @@ require('./config/config');
 //requerimos los helpers de HBS
 require('./hbs/helpers');
 
+let server = http.createServer(app);
+// IO = esta es la comunicacion del backend
+module.exports.io = socketIO(server);
+
+require('./sockets/socket_generarServicio');
+
 app.use(cookieParser());
 app.use(require('./routes/config').app);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log('Escuchando en el puerto ' + process.env.PORT);
 });

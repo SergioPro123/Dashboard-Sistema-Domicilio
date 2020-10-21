@@ -8,7 +8,7 @@ app.get('/historialDia', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     switch (rol) {
         case 'SUPER_ADMIN':
-            historialConstrollers.historialDiaAdministrador(req, res, 'superAdmin/historialTemporal_superAdmin.hbs');
+            historialConstrollers.historialDiaAdministrador(req, res, 'superAdmin/historialDia_superAdmin.hbs');
             break;
         case 'ADMIN':
             historialConstrollers.historialDiaAdministrador(req, res, 'admin/historialDia_admin.hbs');

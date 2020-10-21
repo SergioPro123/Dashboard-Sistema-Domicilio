@@ -15,16 +15,17 @@
                 <td>{{ item.[0] }}</td>
                 <td>{{ item.[1] }}</td>
                 <td>{{ item.[2] }}</td>
-                <td id="{{ @index }}"> <a href="#" data-toggle="modal" data-target="#scrollable-modal"
-                        id="btnDirecciones">Ver
+                <td id="{{ @index }}">
+                    <a href="#" data-toggle="modal" data-target="#detallesServicio" id="btnDetalles">Ver
                         Más</a>
                 </td>
                 <td>
                     <div class="row">
                         <div class="col" style="text-align: center;" id="">
-                            <a href='#' class='edit' data-toggle='modal' data-target="#modalEditarPerfil"
-                                id="btnEditar"><i class='material-icons' data-toggle='tooltip' title='Cancelar'
-                                    style="color: #ff4f70;">&#xe5c9;</i></a>
+                            <a href='#' data-toggle='modal' data-target="#" id="btnCancelar">
+                                <i class='material-icons' style="color: #ff4f70;" data-toggle='tooltip'
+                                    title='Cancelar'>&#xe5c9;</i>
+                            </a>
                         </div>
                     </div>
                 </td>

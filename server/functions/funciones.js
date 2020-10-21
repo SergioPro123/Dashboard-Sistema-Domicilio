@@ -1,4 +1,10 @@
 const capitalizar = (myString) => {
+    if (!myString) {
+        if (myString == null || myString == undefined) {
+            return '';
+        }
+        return myString;
+    }
     let palabras = myString.split(' ');
     palabras.forEach((palabra, index) => {
         palabras[index] = palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();

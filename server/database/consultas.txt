@@ -31,13 +31,15 @@ CALL consultarDirecciones();
 CALL consultarDireccionesIndividual(idCliente);
 
 
-CALL generarServicio(idCliente, idAdmin, direccion, tipoServicio,descripcion, adicional);
+CALL generarServicio(idCliente, idAdmin, direccion, tipoServicio,valorTipoServicio,descripcion, adicional);
 
 CALL aceptarServicio(idDomiciliario,idServicio,fecha,horaInicio);
 
 CALL concluirServicio(idServicio,horaInicio,horaFinal);
 
 CALL consultarServicios_SINASIGNAR();
+
+CALL consultarServicios_enPROCESO();
 
 	
 
@@ -50,7 +52,7 @@ CALL consultarServiciosCliente(idCliente); //Para administradores y el super adm
 CALL consultarServiciosDomiciliario(idDomiciliario,desde,hasta); //Para administradores y el super administrador 
 							         // y para el domiciliario( solo su historial)
 
-CALL totalEstadoServicios(estadoServicio); //Devuelve el total de servicios pasado por parametro, eje: "COMPLETADO"
+CALL totalServicios(estadoServicio); //Devuelve el total de servicios pasado por parametro, eje: "COMPLETADO"
 
 
 CALL consultarTipoServicios();//Consulta los tipos de servicios existentes, para el Super Adminisrador
@@ -83,7 +85,7 @@ CALL eliminarUsuario(11,desde,hasta);
 
 CALL agregarCliente("Cliente Prueba 1","3192030220","Calle ####");
 
-CALL generarServicio(4,17,"CALLE ","Vuelta Banco","Esto es una prueba",5200);
+CALL generarServicio(4,17,"CALLE ","Punto a Punto",8000,"Esto es una prueba",5200);
 CALL aceptarServicio(14,1,"2020-10-13","20:00:00");
 CALL concluirServicio(3,"20:00:00","21:00:00");
 
