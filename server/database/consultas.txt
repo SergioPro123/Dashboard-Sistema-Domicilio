@@ -33,11 +33,15 @@ CALL consultarDireccionesIndividual(idCliente);
 
 CALL generarServicio(idCliente, idAdmin, direccion, tipoServicio,valorTipoServicio,descripcion, adicional);
 
-CALL aceptarServicio(idDomiciliario,idServicio,fecha,horaInicio);
+CALL aceptarServicio(idServicio,idDomiciliario);
 
-CALL concluirServicio(idServicio,horaInicio,horaFinal);
+CALL concluirServicio(idServicio);
+
+CALL cancelarServicio(idServicio);
 
 CALL consultarServicios_SINASIGNAR();
+
+CALL consultarServicios_ASIGNADO();
 
 CALL consultarServicios_enPROCESO();
 

@@ -8,6 +8,7 @@ const hbs = require('hbs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const { verificaTokenSocket } = require('./middlewares/autenticacion');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,8 +28,11 @@ require('./hbs/helpers');
 
 let server = http.createServer(app);
 // IO = esta es la comunicacion del backend
-module.exports.io = socketIO(server);
-
+let io = socketIO(server);
+io.use(function (client, next) {
+    verificaTokenSocket(client, next);
+});
+module.exports.io = io;
 require('./sockets/socket_generarServicio');
 
 app.use(cookieParser());

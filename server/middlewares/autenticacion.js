@@ -1,7 +1,7 @@
-var jwt = require('jsonwebtoken');
-
+const jwt = require('jsonwebtoken');
+const cookie = require('cookie');
 //=================================
-//       Verificar token
+//    Verificar token para API
 //=================================
 
 let verificaToken = (req, res, next) => {
@@ -15,6 +15,29 @@ let verificaToken = (req, res, next) => {
     });
 };
 
+//=======================================
+// Verificar token para Conexion Sockets
+//=======================================
+
+let verificaTokenSocket = (client, next) => {
+    let miCookie = cookie.parse(client.request.headers.cookie);
+    let token = miCookie.Authorization;
+    jwt.verify(token, process.env.SEED, (err, decode) => {
+        if (err) {
+            client.disconnect();
+        } else {
+            client.usuario = decode.usuario;
+
+            if (client.usuario.rol === 'USER') {
+                next();
+            } else {
+                client.disconnect();
+            }
+        }
+    });
+};
+
 module.exports = {
     verificaToken,
+    verificaTokenSocket,
 };

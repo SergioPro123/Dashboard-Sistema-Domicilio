@@ -366,7 +366,8 @@
                 success: function (response) {
                     //codigo de exito
                     if (response.ok) {
-                        location.reload();
+                        //location.reload();
+                        console.log("Servicio Generado!!")
                     } else {
                         alert("Error en el Servidor: " + response.msj);
                     }
