@@ -1,6 +1,10 @@
-var socket = io();
+var socket = io({ transports: ['websocket'] });
 //on = Escuchar Información
 //emit = Emitir información
+
+window.onbeforeunload = function (e) {
+    socket.disconnect();
+};
 
 socket.on('connect', function () {
     console.log('Conectado al Servidor');
@@ -21,6 +25,20 @@ socket.emit(
     }
 );
 
-socket.on('enviarMensaje', function (data) {
-    console.log(data);
+//----------------------------------------------
+//             SERVICIOS
+//----------------------------------------------
+var idServicioGlobal;
+socket.on('servicios', function (data) {
+    //Comprobamos si hay servicios asignados
+    if (data.ok) {
+        console.log(data);
+        idServicioGlobal = data.idServicio;
+        $('#pathImageAdmin').attr('src', 'uploads/images/' + data.pathImageAdmin);
+        $('#serviciosSinAsignar').show();
+        $('#aceptarServicio').attr('disabled', false);
+        $('#rechazarServicio').attr('disabled', false);
+    } else {
+        $('#serviciosSinAsignar').hide();
+    }
 });

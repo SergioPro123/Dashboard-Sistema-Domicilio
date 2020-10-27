@@ -92,14 +92,14 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" id="serviciosSinAsignar" style="display: none;">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row align-items-center" style="text-align: center;">
                                     <div class="col-lg-2 col-md-12 mb-4 mb-md-0">
                                         <img src="../assets/images/users/5.jpg" alt="image" class="rounded-circle"
-                                            width="100">
+                                            width="100" id="pathImageAdmin">
                                     </div>
 
                                     <div class="col-lg-7 col-md-12 ">
@@ -111,16 +111,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-3 col-md-12" id="idServicio">
                                         <div class="row mb-2">
                                             <div class="col-12">
-                                                <button type="button" style="width: 100%;"
+                                                <button type="button" style="width: 100%;" id="aceptarServicio"
                                                     class="btn  btn-rounded btn-success">Aceptar Servicio</button>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <button type="button" style="width: 100%;"
+                                                <button type="button" style="width: 100%;" id="rechazarServicio"
                                                     class="btn  btn-rounded btn-danger">Rechazar Servicio</button>
 
                                             </div>
@@ -263,6 +263,26 @@
     <script src="../dist/js/select2-cascade.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="../assets/js/socket-custom.js"></script>
+    <script>
+        $(document).on('click', "#aceptarServicio", function () {
+            //Aceptamos el servicio en el backend
+            socket.emit('aceptarServicio', idServicioGlobal, function () {
+                $('#serviciosSinAsignar').hide();
+            });
+            $(this).attr("disabled", "disabled")
+            $("#rechazarServicio").attr("disabled", "disabled")
+
+        })
+        $(document).on('click', "#rechazarServicio", function () {
+            socket.emit('rechazarServicio', idServicioGlobal, function () {
+                $('#serviciosSinAsignar').hide();
+            });
+            $(this).attr("disabled", "disabled")
+            $("#aceptarServicio").attr("disabled", "disabled")
+        })
+    </script>
+
+
 </body>
 
 </html>

@@ -1,255 +1,183 @@
-const { MySQL } = require('../database/mysql');
-const { capitalizar, devolverFecha } = require('../functions/funciones');
-class Servicio {
-    constructor(callback) {
-        this.servicios = [];
-        this.servicionEnProceso = [];
-        //Cada vez que se reinicia el servidor, este busca en la base de datos si quedaron servicios
-        //sin asignar.
-        this.getServiciosAsignados(() => {
-            this.getServiciosSinAsignar(callback);
-        });
-    }
-    getServiciosSinAsignar(callback) {
-        this.servicios = [];
-        //Buscamos en la base de datos, los servicios que no estan asignados aún y lo agregamos a nuestra
-        //propiedad "this.servicios"
-        MySQL.ejecutarQuery('CALL consultarServicios_SINASIGNAR();', (err, result) => {
-            if (err) {
-                return callback({
-                    ok: false,
-                });
-            }
-            //Verifico que haya devuelto datos
-            if (result.length > 0) {
-                let index = 0;
-                //Recorro cada registro
-                while (result[0][index]) {
-                    let idServicio = result[0][index].id_servicios;
-                    this.servicios[index] = [];
-                    this.servicios[index][0] = capitalizar(result[0][index].nombreAdmin);
-                    this.servicios[index][1] = capitalizar(result[0][index].nombreDomiciliario);
-                    this.servicios[index][2] = capitalizar(result[0][index].nombreCliente);
-                    this.servicios[index][3] = result[0][index].estadoservicio;
-                    this.servicios[index][4] = capitalizar(result[0][index].direccion);
-                    this.servicios[index][5] = capitalizar(result[0][index].tiposervicio);
-                    this.servicios[index][6] = result[0][index].valorServicio;
-                    this.servicios[index][7] = result[0][index].valorAdicional;
-                    this.servicios[index][8] = result[0][index].descripcion;
-                    this.servicios[index][9] = devolverFecha(result[0][index].Fecha);
-                    this.servicios[index][10] = result[0][index].horaInicio;
-                    this.servicios[index][11] = result[0][index].horaFinal;
-                    this.servicios[index][12] = result[0][index].celularCliente;
-                    this.servicios[index]['idServicio'] = idServicio;
-                    this.servicios[index]['solicitado'] = false;
+const { Servicio } = require('./servicios');
 
-                    index++;
-                }
-                callback({
-                    ok: true,
-                });
-            }
-        });
-    }
-
-    getServiciosAsignados(callback) {
-        this.servicionEnProceso = [];
-        //Buscamos en la base de datos, los servicios que no estan asignados aún y lo agregamos a nuestra
-        //propiedad "this.servicios"
-        MySQL.ejecutarQuery('CALL consultarServicios_ASIGNADO();', (err, result) => {
-            if (err) {
-                return callback({
-                    ok: false,
-                });
-            }
-            //Verifico que haya devuelto datos
-            if (result.length > 0) {
-                let index = 0;
-                //Recorro cada registro
-                while (result[0][index]) {
-                    let idServicio = result[0][index].id_servicios;
-                    this.servicionEnProceso[index] = [];
-                    this.servicionEnProceso[index][0] = capitalizar(result[0][index].nombreAdmin);
-                    this.servicionEnProceso[index][1] = capitalizar(result[0][index].nombreDomiciliario);
-                    this.servicionEnProceso[index][2] = capitalizar(result[0][index].nombreCliente);
-                    this.servicionEnProceso[index][3] = result[0][index].estadoservicio;
-                    this.servicionEnProceso[index][4] = capitalizar(result[0][index].direccion);
-                    this.servicionEnProceso[index][5] = capitalizar(result[0][index].tiposervicio);
-                    this.servicionEnProceso[index][6] = result[0][index].valorServicio;
-                    this.servicionEnProceso[index][7] = result[0][index].valorAdicional;
-                    this.servicionEnProceso[index][8] = result[0][index].descripcion;
-                    this.servicionEnProceso[index][9] = devolverFecha(result[0][index].Fecha);
-                    this.servicionEnProceso[index][10] = result[0][index].horaInicio;
-                    this.servicionEnProceso[index][11] = result[0][index].horaFinal;
-                    this.servicionEnProceso[index][12] = result[0][index].celularCliente;
-                    this.serviciosEnProceso[index]['idServicio'] = idServicio;
-                    this.serviciosEnProceso[index]['solicitado'] = true;
-                    index++;
-                }
-                callback({
-                    ok: true,
-                });
-            }
-        });
-    }
-
-    cancelarServicio(idServicio, callback) {
-        idServicio = MySQL.instance.conexion.escape(idServicio);
-        let query = `CALL cancelarServicio(${idServicio});`;
-        MySQL.ejecutarQuery(query, (err, result) => {
-            if (err) {
-                let response = {
-                    ok: false,
-                    msj: 'No se pudo cancelar el servicio',
-                };
-                callback(response);
-            } else {
-                //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
-                for (let i = 0; i < this.serviciosEnProceso.length; i++) {
-                    if (this.serviciosEnProceso['idServicio'] == data.idServicio) {
-                        this.serviciosEnProceso.splice(i, 1);
-                        return callback({
-                            ok: true,
-                        });
-                    }
-                }
-                for (let i = 0; i < this.servicios.length; i++) {
-                    if (this.servicios['idServicio'] == data.idServicio) {
-                        this.servicios.splice(i, 1);
-                        return callback({
-                            ok: true,
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    aceptarServicio(data, callback) {
-        let idServicio = MySQL.instance.conexion.escape(data.idServicio);
-        let idDomiciliario = MySQL.instance.conexion.escape(data.idDomiciliario);
-
-        let query = `CALL aceptarServicio(${idServicio},${idDomiciliario});`;
-        MySQL.ejecutarQuery(query, (err, result) => {
-            if (err) {
-                let response = {
-                    ok: false,
-                    msj: 'No se pudo aceptar el  servicio',
-                };
-                return callback(response);
-            } else {
-                //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
-                let indexServicioAceptado;
-                for (let i = 0; i < this.servicios.length; i++) {
-                    if (this.servicios['idServicio'] == data.idServicio) {
-                        indexServicioAceptado = i;
-                        break;
-                    }
-                }
-                //Pasamos el servicio que esta sin asignar, al objeto que contiene los servicios ya asignados.
-                this.servicionEnProceso.push(this.servicios[indexServicioAceptado]);
-                this.servicios.splice(indexServicioAceptado, 1);
-                callback({
-                    ok: true,
-                });
-            }
-        });
-    }
-
-    concluirServicio(data, callback) {
-        let idServicio = MySQL.instance.conexion.escape(data.idServicio);
-        let query = `CALL concluirServicio(${idServicio});`;
-        MySQL.ejecutarQuery(query, (err, result) => {
-            if (err) {
-                let response = {
-                    ok: false,
-                    msj: 'No se pudo concluir el  servicio',
-                };
-                return callback(response);
-            } else {
-                //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
-                for (let i = 0; i < this.serviciosEnProceso.length; i++) {
-                    if (this.serviciosEnProceso['idServicio'] == data.idServicio) {
-                        this.serviciosEnProceso.splice(i, 1);
-                        break;
-                    }
-                }
-                callback({
-                    ok: true,
-                });
-            }
-        });
-    }
-
-    agregarServicio(data, callback) {
-        let idCliente = MySQL.instance.conexion.escape(data.idCliente);
-        let idAdmin = MySQL.instance.conexion.escape(data.idAdmin);
-        let direccion = MySQL.instance.conexion.escape(data.direccion);
-        let tipoServicio = MySQL.instance.conexion.escape(data.tipoServicio);
-        let valorTipoServicio = MySQL.instance.conexion.escape(data.valorTipoServicio);
-        let descripcion = MySQL.instance.conexion.escape(data.descripcion);
-        let adicional = MySQL.instance.conexion.escape(data.adicional);
-
-        let query = `CALL generarServicio(${idCliente}, ${idAdmin}, ${direccion}, ${tipoServicio},${valorTipoServicio},${descripcion}, ${adicional});`;
-        MySQL.ejecutarQuery(query, (err, result) => {
-            if (err) {
-                let response = {
-                    ok: false,
-                    msj: 'No se pudo generar un nuevo servicio',
-                };
-                return callback(response);
-            } else {
-                this.getServiciosSinAsignar(callback);
-            }
-        });
-    }
-
-    get solicitarServicio() {
-        //Recorremos los servicios SIN ASIGNAR, para devolver y ponemos en estado SOLICITADO (mas no asignado)
-        for (let i = 0; i < this.servicios.length; i++) {
-            //Buscamos algun servicio disponible
-            if (!this.servicios[i].solicitado) {
-                this.servicios[i].solicitado = true;
-                return this.servicios[i];
-            }
-            //Si llega aca, es porque no hay servicios SIN ASIGNAR, devolvemos array vacio.
-            return [];
-        }
+class serviciosAsignados {
+    constructor(idDomiciliario, servicio) {
+        this.idDomiciliario = idDomiciliario;
+        this.servicio = servicio;
     }
 }
 
 class Domiciliario {
     constructor(callback) {
+        //Esta propiedad, almacena los usuarios conectados en sockets
         this.user = [];
+        //Esta propiedad, almacena los usuarios conectados en sockets, la diferencia es que no repides ID de usuarios.
+        //Tambien sera referencia del orden de los domiciliarios
+        this.userUnique = [];
+        //Esta propiedad, almacena los domiciliarios con un servicio en espera de aceptacion
+        this.servicioSinAceptar = [];
+        //Esta propiedad, almacena los domiciliarios con un servicio en estado de ejecucion
+        this.serviciosAceptados = [];
+        //Instancia de la Clase Servicio
         this.servicio = new Servicio(() => {
             callback();
         });
     }
 
-    agregarUser(idSocket, idUser, callback) {
-        //QUEDAMOS AQUI......
-        let persona = { idSocket, idUser };
+    aceptarServicio(idServicio, idDomiciliario, callback) {
+        console.log('Servicio aceptado:' + idServicio + '  -  ' + idDomiciliario);
+        callback();
+    }
 
+    rechazarServicio(idServicio, idDomiciliario, callback) {
+        console.log('Servicio rechazado:', this.servicioSinAceptar);
+        console.log('Usuarios en cola:', this.userUnique);
+
+        //Si por alguna razon no hay usuarios, entonces se devuelve el servicio
+        if (this.userUnique.length == 0) {
+            this.servicio.devolverServicio(idServicio);
+            this.servicioSinAceptar = this.servicioSinAceptar.filter(
+                (servicio) => servicio.servicio.idServicio != idServicio
+            );
+            return callback({
+                ok: false,
+            });
+        }
+        //Recorremos todos los usuarios almacenados en UserUnique, para asignarle este servicio recien rechazado
+        for (let i = 0; i < this.userUnique.length; i++) {
+            if (this.userUnique[i].idUser == idDomiciliario) {
+                //Volvemos a hacer el ciclo para respetar el turno
+                for (let j = i; j < this.userUnique.length; j++) {
+                    //revisamos si el usuario ya tiene un servicio por aceptar o por realizar
+                    let servicioSinAceptar =
+                        this.servicioSinAceptar.find(
+                            (servicio) => servicio.idDomiciliario === this.userUnique[j].idUser
+                        ) ||
+                        this.serviciosAceptados.find(
+                            (servicio) => servicio.idDomiciliario === this.userUnique[j].idUser
+                        );
+                    if (servicioSinAceptar == undefined) {
+                        //Si entra aca, es por que se encontro un domiciliario en espera de servicios.
+                        let servicioActualizado;
+                        this.servicioSinAceptar = this.servicioSinAceptar.filter((servicio) => {
+                            if (servicio.servicio.idServicio == idServicio) {
+                                servicio.idDomiciliario = this.userUnique[j].idUser;
+                                servicioActualizado = servicio.servicio;
+                            }
+                            return true;
+                        });
+                        return callback({
+                            ok: true,
+                            nuevoDomiciliario: this.userUnique[j].idUser,
+                            servicio: servicioActualizado,
+                        });
+                    }
+                }
+            }
+        }
+        //Si llega aca, es porque ya paso por todos los domiciliarios, lo que hace es volver desde el principio a asignar ese servicio
+        for (let i = 0; i < this.userUnique.length; i++) {
+            //revisamos si el usuario ya tiene un servicio por aceptar o por realizar
+            let servicioSinAceptar =
+                this.servicioSinAceptar.find((servicio) => servicio.idDomiciliario === this.userUnique[i].idUser) ||
+                this.serviciosAceptados.find((servicio) => servicio.idDomiciliario === this.userUnique[i].idUser);
+            if (servicioSinAceptar == undefined) {
+                //Si entra aca, es por que se encontro un domiciliario en espera de servicios.
+                let servicioActualizado;
+                this.servicioSinAceptar = this.servicioSinAceptar.filter((servicio) => {
+                    if (servicio.servicio.idServicio == idServicio) {
+                        servicio.idDomiciliario = this.userUnique[i].idUser;
+                        servicioActualizado = servicio.servicio;
+                    }
+                    return true;
+                });
+                return callback({
+                    ok: true,
+                    nuevoDomiciliario: this.userUnique[i].idUser,
+                    servicio: servicioActualizado,
+                });
+            }
+        }
+        callback({ ok: false });
+    }
+
+    agregarUser(idSocket, idUser, callback) {
+        //Agregamos la nueva conexion a nuestro array de domiciliarios
+        let persona = { idSocket, idUser };
         this.user.push(persona);
+        //Invocamos a la funcion que se encarga de registrar los usuarios unicos
+        this.agregarUserUnique(persona, callback);
 
         return this.user;
+    }
+
+    agregarUserUnique(persona, callback) {
+        //Verificamos que esa nueva conexion no exista en la variable UserUnique
+        for (let i = 0; i < this.userUnique.length; i++) {
+            if (this.userUnique[i].idUser == persona.idUser) {
+                //revisamos si el usuario ya tiene un servicio por aceptar o por realizar
+                let servicioSinAceptar =
+                    this.servicioSinAceptar.find((servicio) => servicio.idDomiciliario === persona.idUser) ||
+                    this.serviciosAceptados.find((servicio) => servicio.idDomiciliario === persona.idUser);
+                if (servicioSinAceptar == undefined) {
+                    return callback({ ok: false, msj: 'No hay servicios Disponibles', idDomiciliario: persona.idUser });
+                } else {
+                    return callback({ ok: true, servicio: servicioSinAceptar });
+                }
+            }
+        }
+        //Si llega aca es porque no esta registrado, y procedemos a registrarlo
+        this.userUnique.push(persona);
+
+        //revisamos si el usuario ya tiene un servicio por aceptar o por realizar
+        let servicioSinAceptar =
+            this.servicioSinAceptar.find((servicio) => servicio.idDomiciliario === persona.idUser) ||
+            this.serviciosAceptados.find((servicio) => servicio.idDomiciliario === persona.idUser);
+
+        if (servicioSinAceptar != undefined) {
+            return callback({ ok: true, servicio: servicioSinAceptar });
+        } else {
+            //Solicitamos un servicio
+            let servicio = this.servicio.solicitarServicio;
+            //Preguntamos si hay un servicio
+            if (servicio.length > 0) {
+                //Asigmanos un servicio al usuario, en espera que lo acepte
+                let servicioSinAceptar = new serviciosAsignados(persona.idUser, servicio);
+                this.servicioSinAceptar.push(servicioSinAceptar);
+                return callback({ ok: true, servicio: servicioSinAceptar });
+            } else {
+                return callback({ ok: false, msj: 'No hay servicios Disponibles.', idDomiciliario: persona.idUser });
+            }
+        }
     }
 
     getUserByIdSocket(idSocket) {
         let persona = this.user.filter((persona) => {
             return persona.idSocket === idSocket;
         })[0];
-
         return persona;
-    }
-
-    getUsers() {
-        return this.user;
     }
 
     borrarUserByIdSocket(idSocket) {
         let personaBorrada = this.getUserByIdSocket(idSocket);
+        //Borramos ese usuario
         this.user = this.user.filter((persona) => {
+            return persona.idSocket != idSocket;
+        });
+        //Borramos tambien ese usuario de la variable UserUnique
+        this.userUnique = this.userUnique.filter((persona) => {
+            //Este proceso se hace con el fin de verificar si existe el usuario con el mismo ID
+            //conectado desde otro dispositivo, para reemplazar su idSocket en el UserUnique
+            if (persona.idSocket == idSocket) {
+                for (let i = 0; i < this.user.length; i++) {
+                    if (persona.idUser == this.user[i].idUser) {
+                        persona.idSocket = this.user[i].idSocket;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
             return persona.idSocket != idSocket;
         });
         return personaBorrada;
