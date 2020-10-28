@@ -132,14 +132,14 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" id="ServicioDetalle" style="display: none;">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row align-items-center" style="text-align: center;">
                                     <div class="col-12 col-lg-2 col-md-12 col-md-12 mb-4 mb-md-0">
                                         <img src="../assets/images/users/5.jpg" alt="image" class="rounded-circle"
-                                            width="100">
+                                            width="100" id="pathImageAdminServicio">
                                     </div>
                                     <div class="col-12  col-lg-10 col-md-12 col-sm-12 ">
                                         <div class="row">
@@ -154,27 +154,49 @@
                                                 <div class="row divInfo">
                                                     <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
                                                         <h4 class=" card-title">Cliente</h4>
-                                                        <p class="card-text">Sergio Mauricio</p>
+                                                        <p class="card-text" id="clienteServicio">Sergio Mauricio</p>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
                                                         <h4 class=" card-title">Celular</h4>
-                                                        <p class="card-text">3142483968</p>
+                                                        <p class="card-text" id="celularServicio">3142483968</p>
                                                     </div>
                                                 </div>
                                                 <div class="row divInfo">
                                                     <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
                                                         <h4 class=" card-title">Dirección</h4>
-                                                        <p class="card-text">Calle 61 #35 - 09</p>
+                                                        <p class="card-text" id="direccionServicio">Calle 61 #35 - 09
+                                                        </p>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
                                                         <h4 class=" card-title">Tipo de Servicio</h4>
-                                                        <p class="card-text">Domicilio Normal</p>
+                                                        <p class="card-text" id="tipoServicioServicio">Domicilio Normal
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="row divInfo">
-                                                    <div class="col-lg-12 col-md-12 col-12 col-sm-6 mb-3">
+                                                    <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
+                                                        <h4 class=" card-title">Valor Servicio</h4>
+                                                        <p class="card-text" id="valorServicio">$ 0</p>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-12 col-sm-6 mb-3">
+                                                        <h4 class=" card-title">Valor Adicional</h4>
+                                                        <p class="card-text" id="adicionalServicio">$ 0
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row divInfo">
+                                                    <div class="col-lg-12 col-md-12 col-12 col-sm-12 mb-3">
+                                                        <h4 class=" card-title">Valor Total del Servicio</h4>
+                                                        <p class="card-text text-justify text-center"
+                                                            id="valorTotalServicio">$ 0
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row divInfo">
+                                                    <div class="col-lg-12 col-md-12 col-12 col-sm-12 mb-3">
                                                         <h4 class=" card-title">Descripción</h4>
-                                                        <p class="card-text text-justify">Lorem ipsum dolor sit amet
+                                                        <p class="card-text text-justify" id="descripcionServicio">Lorem
+                                                            ipsum dolor sit amet
                                                             consectetur
                                                             adipisicing elit. Corporis officia ut laudantium consectetur
                                                             error aliquid nihil omnis delectus at modi dicta consequatur
@@ -266,11 +288,30 @@
     <script>
         $(document).on('click', "#aceptarServicio", function () {
             //Aceptamos el servicio en el backend
-            socket.emit('aceptarServicio', idServicioGlobal, function () {
-                $('#serviciosSinAsignar').hide();
+            socket.emit('aceptarServicio', idServicioGlobal, function (data) {
+                //Si sale todo correcto, entonces procedemos a mostrar los detalles de ese servicio
+                if (data.ok) {
+                    //Ocultamos la carta de solicitud, y mostrmos el servicio con los detalles entregados por el servidor
+                    $('#serviciosSinAsignar').hide();
+                    console.log(data.servicio.servicio)
+                    $("#pathImageAdminServicio").attr("src", 'uploads/images/' + data.servicio.servicio[13]);
+                    $("#clienteServicio").text(data.servicio.servicio[2]);
+                    $("#direccionServicio").text(data.servicio.servicio[4]);
+                    $("#celularServicio").text(data.servicio.servicio[12]);
+                    $("#tipoServicioServicio").text(data.servicio.servicio[5]);
+                    $("#descripcionServicio").text(data.servicio.servicio[8]);
+                    $("#valorServicio").text("$ " + data.servicio.servicio[6]);
+                    $("#adicionalServicio").text("$ " + data.servicio.servicio[7]);
+                    $("#valorTotalServicio").text("$ " + (data.servicio.servicio[6] + data.servicio.servicio[7]));
+                    $('#ServicioDetalle').show();
+                } else {
+                    //De lo contrario, le habilitamos nuevamente las opciones para que vuelva a intentar
+                    $(this).attr("disabled", false);
+                    $("#rechazarServicio").attr("disabled", false);
+                }
             });
-            $(this).attr("disabled", "disabled")
-            $("#rechazarServicio").attr("disabled", "disabled")
+            $(this).attr("disabled", "disabled");
+            $("#rechazarServicio").attr("disabled", "disabled");
 
         })
         $(document).on('click', "#rechazarServicio", function () {

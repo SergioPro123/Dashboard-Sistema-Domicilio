@@ -20,19 +20,62 @@ class Domiciliario {
         this.serviciosAceptados = [];
         //Instancia de la Clase Servicio
         this.servicio = new Servicio(() => {
+            let serviciosAsignado = this.servicio.serviciosEnProceso;
+            //Recorremos cada servicio Asignado, con la intencion de intanciar con la clase 'ServiciosAsignados'
+            for (let i = 0; i < serviciosAsignado.length; i++) {
+                let servicios = new serviciosAsignados(serviciosAsignado[i].idDomiciliario, serviciosAsignado[i]);
+                this.serviciosAceptados.push(servicios);
+            }
             callback();
         });
     }
 
     aceptarServicio(idServicio, idDomiciliario, callback) {
-        console.log('Servicio aceptado:' + idServicio + '  -  ' + idDomiciliario);
-        callback();
+        //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
+        for (let i = 0; i < this.servicioSinAceptar.length; i++) {
+            if (
+                this.servicioSinAceptar[i].idDomiciliario == idDomiciliario &&
+                this.servicioSinAceptar[i].servicio.idServicio == idServicio
+            ) {
+                let _this = this;
+                //Aceptamos el servicio con la clase 'this.servicio', que se encarga de hacer este cambio en la base de datos
+                this.servicio.aceptarServicio(
+                    {
+                        idServicio,
+                        idDomiciliario,
+                    },
+                    function (data) {
+                        if (data.ok) {
+                            //Como este servicio fue aceptado por el domiciliario entonces pasamos este servicio a la variable
+                            //ServicioAceptados, que se encarga de retener los servicios que fueron aceptados.
+                            let serviciosAsignado = _this.servicio.serviciosEnProceso;
+                            //Recorremos cada servicio Asignado, con la intencion de intanciar con la clase 'ServiciosAsignados'
+
+                            _this.serviciosAceptados = [];
+                            for (let j = 0; j < serviciosAsignado.length; j++) {
+                                let servicios = new serviciosAsignados(
+                                    serviciosAsignado[j].idDomiciliario,
+                                    serviciosAsignado[j]
+                                );
+                                _this.serviciosAceptados.push(servicios);
+                            }
+                            _this.servicioSinAceptar.splice(i, 1);
+                            return callback({
+                                ok: true,
+                                servicio: _this.serviciosAceptados[_this.serviciosAceptados.length - 1],
+                            });
+                        } else {
+                            return callback({ ok: false });
+                        }
+                    }
+                );
+            } else {
+                return callback({ ok: false });
+            }
+        }
     }
 
     rechazarServicio(idServicio, idDomiciliario, callback) {
-        console.log('Servicio rechazado:', this.servicioSinAceptar);
-        console.log('Usuarios en cola:', this.userUnique);
-
         //Si por alguna razon no hay usuarios, entonces se devuelve el servicio
         if (this.userUnique.length == 0) {
             this.servicio.devolverServicio(idServicio);

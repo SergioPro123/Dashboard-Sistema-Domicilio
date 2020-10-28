@@ -3,7 +3,7 @@ const { capitalizar, devolverFecha } = require('../functions/funciones');
 class Servicio {
     constructor(callback) {
         this.servicios = [];
-        this.servicionEnProceso = [];
+        this.serviciosEnProceso = [];
         //Cada vez que se reinicia el servidor, este busca en la base de datos si quedaron servicios
         //sin asignar.
         this.getServiciosAsignados(() => {
@@ -54,7 +54,7 @@ class Servicio {
     }
 
     getServiciosAsignados(callback) {
-        this.servicionEnProceso = [];
+        this.serviciosEnProceso = [];
         //Buscamos en la base de datos, los servicios que no estan asignados aún y lo agregamos a nuestra
         //propiedad "this.servicios"
         MySQL.ejecutarQuery('CALL consultarServicios_ASIGNADO();', (err, result) => {
@@ -69,23 +69,25 @@ class Servicio {
                 //Recorro cada registro
                 while (result[0][index]) {
                     let idServicio = result[0][index].id_servicios;
-                    this.servicionEnProceso[index] = [];
-                    this.servicionEnProceso[index][0] = capitalizar(result[0][index].nombreAdmin);
-                    this.servicionEnProceso[index][1] = capitalizar(result[0][index].nombreDomiciliario);
-                    this.servicionEnProceso[index][2] = capitalizar(result[0][index].nombreCliente);
-                    this.servicionEnProceso[index][3] = result[0][index].estadoservicio;
-                    this.servicionEnProceso[index][4] = capitalizar(result[0][index].direccion);
-                    this.servicionEnProceso[index][5] = capitalizar(result[0][index].tiposervicio);
-                    this.servicionEnProceso[index][6] = result[0][index].valorServicio;
-                    this.servicionEnProceso[index][7] = result[0][index].valorAdicional;
-                    this.servicionEnProceso[index][8] = result[0][index].descripcion;
-                    this.servicionEnProceso[index][9] = devolverFecha(result[0][index].Fecha);
-                    this.servicionEnProceso[index][10] = result[0][index].horaInicio;
-                    this.servicionEnProceso[index][11] = result[0][index].horaFinal;
-                    this.servicionEnProceso[index][12] = result[0][index].celularCliente;
-                    this.servicionEnProceso[index][13] = result[0][index].pathImageAdmin;
+                    this.serviciosEnProceso[index] = [];
+                    this.serviciosEnProceso[index][0] = capitalizar(result[0][index].nombreAdmin);
+                    this.serviciosEnProceso[index][1] = capitalizar(result[0][index].nombreDomiciliario);
+                    this.serviciosEnProceso[index][2] = capitalizar(result[0][index].nombreCliente);
+                    this.serviciosEnProceso[index][3] = result[0][index].estadoservicio;
+                    this.serviciosEnProceso[index][4] = capitalizar(result[0][index].direccion);
+                    this.serviciosEnProceso[index][5] = capitalizar(result[0][index].tiposervicio);
+                    this.serviciosEnProceso[index][6] = result[0][index].valorServicio;
+                    this.serviciosEnProceso[index][7] = result[0][index].valorAdicional;
+                    this.serviciosEnProceso[index][8] = result[0][index].descripcion;
+                    this.serviciosEnProceso[index][9] = devolverFecha(result[0][index].Fecha);
+                    this.serviciosEnProceso[index][10] = result[0][index].horaInicio;
+                    this.serviciosEnProceso[index][11] = result[0][index].horaFinal;
+                    this.serviciosEnProceso[index][12] = result[0][index].celularCliente;
+                    this.serviciosEnProceso[index][13] = result[0][index].pathImageAdmin;
                     this.serviciosEnProceso[index]['idServicio'] = idServicio;
                     this.serviciosEnProceso[index]['solicitado'] = true;
+                    this.serviciosEnProceso[index]['idDomiciliario'] = result[0][index].id_domiciliario;
+
                     index++;
                 }
                 callback({
@@ -108,7 +110,7 @@ class Servicio {
             } else {
                 //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
                 for (let i = 0; i < this.serviciosEnProceso.length; i++) {
-                    if (this.serviciosEnProceso['idServicio'] == data.idServicio) {
+                    if (this.serviciosEnProceso[i].idServicio == data.idServicio) {
                         this.serviciosEnProceso.splice(i, 1);
                         return callback({
                             ok: true,
@@ -116,7 +118,7 @@ class Servicio {
                     }
                 }
                 for (let i = 0; i < this.servicios.length; i++) {
-                    if (this.servicios['idServicio'] == data.idServicio) {
+                    if (this.servicios[i].idServicio == data.idServicio) {
                         this.servicios.splice(i, 1);
                         return callback({
                             ok: true,
@@ -143,17 +145,14 @@ class Servicio {
                 //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
                 let indexServicioAceptado;
                 for (let i = 0; i < this.servicios.length; i++) {
-                    if (this.servicios['idServicio'] == data.idServicio) {
+                    if (this.servicios[i].idServicio == data.idServicio) {
                         indexServicioAceptado = i;
                         break;
                     }
                 }
-                //Pasamos el servicio que esta sin asignar, al objeto que contiene los servicios ya asignados.
-                this.servicionEnProceso.push(this.servicios[indexServicioAceptado]);
+                //Eliminamos ese servicio por SIN_ASIGNAR, y procedemos a actulizar los servicios ya con asignaciones.
                 this.servicios.splice(indexServicioAceptado, 1);
-                callback({
-                    ok: true,
-                });
+                this.getServiciosAsignados(callback);
             }
         });
     }
@@ -171,7 +170,7 @@ class Servicio {
             } else {
                 //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
                 for (let i = 0; i < this.serviciosEnProceso.length; i++) {
-                    if (this.serviciosEnProceso['idServicio'] == data.idServicio) {
+                    if (this.serviciosEnProceso[i].idServicio == data.idServicio) {
                         this.serviciosEnProceso.splice(i, 1);
                         break;
                     }
@@ -218,7 +217,6 @@ class Servicio {
         //Si llega aca, es porque no hay servicios SIN ASIGNAR, devolvemos array vacio.
         return [];
     }
-
     devolverServicio(idServicio) {
         //Esta funcion vuelve a poner un servicio a disposicion de los domiciliarios,
         //por lo regular se usa cuando se rechaza un servicio por parte de los domiciliarios
