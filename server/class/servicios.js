@@ -59,6 +59,7 @@ class Servicio {
         //propiedad "this.servicios"
         MySQL.ejecutarQuery('CALL consultarServicios_ASIGNADO();', (err, result) => {
             if (err) {
+                console.log('Error Mysql');
                 return callback({
                     ok: false,
                 });
@@ -162,11 +163,10 @@ class Servicio {
         let query = `CALL concluirServicio(${idServicio});`;
         MySQL.ejecutarQuery(query, (err, result) => {
             if (err) {
-                let response = {
+                return callback({
                     ok: false,
                     msj: 'No se pudo concluir el  servicio',
-                };
-                return callback(response);
+                });
             } else {
                 //Recorreomos el array con la intencion de buscar la posicion donde se encuentra ese servicio
                 for (let i = 0; i < this.serviciosEnProceso.length; i++) {

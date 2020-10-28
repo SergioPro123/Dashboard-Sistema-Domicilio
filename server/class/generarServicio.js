@@ -30,13 +30,61 @@ class Domiciliario {
         });
     }
 
+    concluirServicio(idServicio, idDomiciliario, callback) {
+        console.log(this.serviciosAceptados);
+
+        //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
+        for (let i = 0; i < this.serviciosAceptados.length; i++) {
+            if (
+                this.serviciosAceptados[i].idDomiciliario == idDomiciliario &&
+                this.serviciosAceptados[i].servicio.idServicio == idServicio
+            ) {
+                let _this = this;
+                this.servicio.concluirServicio(
+                    {
+                        idServicio,
+                    },
+                    function (data) {
+                        //Si devuelve TRUE, es porque efectivamente se concluyo el servicio
+                        if (data.ok) {
+                            //Eliminamos de la variable el servicio que ya se concluyo
+                            _this.serviciosAceptados.splice(i, 1);
+                            //Solicitamos un servicio
+                            let servicio = _this.servicio.solicitarServicio;
+                            //Preguntamos si hay un servicio
+                            if (servicio.length > 0) {
+                                //Asigmanos un servicio al usuario, en espera que lo acepte
+                                let servicioSinAceptar = new serviciosAsignados(idDomiciliario, servicio);
+                                _this.servicioSinAceptar.push(servicioSinAceptar);
+                                return callback({ ok: true, servicio: servicioSinAceptar });
+                            } else {
+                                return callback({
+                                    ok: false,
+                                    msj: 'No hay servicios Disponibles.',
+                                    idDomiciliario: idDomiciliario,
+                                });
+                            }
+                        } else {
+                            return callback({ ok: false });
+                        }
+                    }
+                );
+            } else {
+                return callback({ ok: false });
+            }
+        }
+    }
     aceptarServicio(idServicio, idDomiciliario, callback) {
+        console.log('entro 1');
+        console.log('idServicio: ' + idServicio + ' - idDomiciliario: ' + idDomiciliario);
         //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
         for (let i = 0; i < this.servicioSinAceptar.length; i++) {
+            console.log('entro al for');
             if (
                 this.servicioSinAceptar[i].idDomiciliario == idDomiciliario &&
                 this.servicioSinAceptar[i].servicio.idServicio == idServicio
             ) {
+                console.log('entro al IF');
                 let _this = this;
                 //Aceptamos el servicio con la clase 'this.servicio', que se encarga de hacer este cambio en la base de datos
                 this.servicio.aceptarServicio(
@@ -45,7 +93,11 @@ class Domiciliario {
                         idDomiciliario,
                     },
                     function (data) {
+                        console.log('entro 2');
+
                         if (data.ok) {
+                            console.log('idServicio: ' + idServicio + ' - idDomiciliario: ' + idDomiciliario);
+
                             //Como este servicio fue aceptado por el domiciliario entonces pasamos este servicio a la variable
                             //ServicioAceptados, que se encarga de retener los servicios que fueron aceptados.
                             let serviciosAsignado = _this.servicio.serviciosEnProceso;
@@ -69,8 +121,6 @@ class Domiciliario {
                         }
                     }
                 );
-            } else {
-                return callback({ ok: false });
             }
         }
     }

@@ -48,6 +48,8 @@ socket.on('servicios', function (data) {
 socket.on('serviciosDetalles', function (data) {
     //Comprobamos si hay servicios asignados
     if (data.ok) {
+        console.log(data);
+        idServicioGlobal = data.idServicio;
         $('#pathImageAdminServicio').attr('src', 'uploads/images/' + data.servicio.servicio[13]);
         $('#clienteServicio').text(data.servicio.servicio[2]);
         $('#direccionServicio').text(data.servicio.servicio[4]);
@@ -57,6 +59,7 @@ socket.on('serviciosDetalles', function (data) {
         $('#valorServicio').text('$ ' + data.servicio.servicio[6]);
         $('#adicionalServicio').text('$ ' + data.servicio.servicio[7]);
         $('#valorTotalServicio').text('$ ' + (data.servicio.servicio[6] + data.servicio.servicio[7]));
+        $('#concluirServicio').attr('disabled', false);
         $('#ServicioDetalle').show();
     } else {
         $('#ServicioDetalle').hide();

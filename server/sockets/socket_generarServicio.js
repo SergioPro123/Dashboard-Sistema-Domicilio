@@ -68,6 +68,20 @@ const domiciliario = new Domiciliario(() => {
                 callback();
             });
         });
+        client.on('concluirServicio', (idServicio, callback) => {
+            domiciliario.concluirServicio(idServicio, client.usuario.id_usuario, function (data) {
+                console.log(data);
+                //despues de haber concluido el servicio, si devuelve TRUE, es porque existe otro servicio por aceptar.
+                if (data.ok) {
+                    io.to('id-' + client.usuario.id_usuario).emit('servicios', {
+                        ok: true,
+                        idServicio: data.servicio.idServicio,
+                        pathImageAdmin: data.servicio[13],
+                    });
+                }
+                callback();
+            });
+        });
 
         //---------Eventos del Socket-----------
 

@@ -232,7 +232,8 @@
                                                 <div class="row mb-2 mt-2">
                                                     <div class="col-12">
                                                         <button type="button" style="width: 100%;"
-                                                            class="btn  btn-rounded miBtn ">Concluir Servicio</button>
+                                                            class="btn  btn-rounded miBtn "
+                                                            id="concluirServicio">Concluir Servicio</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,6 +290,7 @@
         $(document).on('click', "#aceptarServicio", function () {
             //Aceptamos el servicio en el backend
             socket.emit('aceptarServicio', idServicioGlobal, function (data) {
+                console.log(data)
                 //Si sale todo correcto, entonces procedemos a mostrar los detalles de ese servicio
                 if (data.ok) {
                     //Ocultamos la carta de solicitud, y mostrmos el servicio con los detalles entregados por el servidor
@@ -303,10 +305,11 @@
                     $("#valorServicio").text("$ " + data.servicio.servicio[6]);
                     $("#adicionalServicio").text("$ " + data.servicio.servicio[7]);
                     $("#valorTotalServicio").text("$ " + (data.servicio.servicio[6] + data.servicio.servicio[7]));
+                    $('#concluirServicio').attr('disabled', false);
                     $('#ServicioDetalle').show();
                 } else {
                     //De lo contrario, le habilitamos nuevamente las opciones para que vuelva a intentar
-                    $(this).attr("disabled", false);
+                    $("#aceptarServicio").attr("disabled", false);
                     $("#rechazarServicio").attr("disabled", false);
                 }
             });
@@ -320,6 +323,13 @@
             });
             $(this).attr("disabled", "disabled")
             $("#aceptarServicio").attr("disabled", "disabled")
+        })
+        $(document).on('click', "#concluirServicio", function () {
+            socket.emit('concluirServicio', idServicioGlobal, function () {
+                $('#ServicioDetalle').hide();
+
+            });
+            $(this).attr("disabled", "disabled")
         })
     </script>
 
