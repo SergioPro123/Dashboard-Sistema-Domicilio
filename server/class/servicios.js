@@ -163,6 +163,7 @@ class Servicio {
         let query = `CALL concluirServicio(${idServicio});`;
         MySQL.ejecutarQuery(query, (err, result) => {
             if (err) {
+                console.log('okkkk');
                 return callback({
                     ok: false,
                     msj: 'No se pudo concluir el  servicio',

@@ -3,16 +3,13 @@ const { Domiciliario } = require('../class/generarServicio');
 
 const domiciliario = new Domiciliario(() => {
     io.on('connection', (client) => {
-        //console.log('Cliente Conectado: ', client.usuario.id_usuario);
         client.join('id-' + client.usuario.id_usuario);
-        //console.log(client.usuario);
         domiciliario.agregarUser(client.id, client.usuario.id_usuario, function (data) {
             //Comprobamos si hay data, lo que quiere decir que hay un servicio Disponible.
             if (data.ok) {
                 //Verificamos si es un servicio por asignar o ya asignado, ya que de esto depende de mostrar
                 //la informacion completa
                 if (data.servicio.servicio[3] == 'SIN_ASIGNAR') {
-                    //console.log(data);
                     //Emitimos al cliente, que tiene un servicio pendiente por aceptar.
                     io.to('id-' + client.usuario.id_usuario).emit('servicios', {
                         ok: true,
@@ -70,13 +67,12 @@ const domiciliario = new Domiciliario(() => {
         });
         client.on('concluirServicio', (idServicio, callback) => {
             domiciliario.concluirServicio(idServicio, client.usuario.id_usuario, function (data) {
-                console.log(data);
                 //despues de haber concluido el servicio, si devuelve TRUE, es porque existe otro servicio por aceptar.
                 if (data.ok) {
                     io.to('id-' + client.usuario.id_usuario).emit('servicios', {
                         ok: true,
-                        idServicio: data.servicio.idServicio,
-                        pathImageAdmin: data.servicio[13],
+                        idServicio: data.servicio.servicio.idServicio,
+                        pathImageAdmin: data.servicio.servicio[13],
                     });
                 }
                 callback();

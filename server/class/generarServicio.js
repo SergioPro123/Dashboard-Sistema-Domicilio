@@ -31,8 +31,6 @@ class Domiciliario {
     }
 
     concluirServicio(idServicio, idDomiciliario, callback) {
-        console.log(this.serviciosAceptados);
-
         //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
         for (let i = 0; i < this.serviciosAceptados.length; i++) {
             if (
@@ -49,6 +47,7 @@ class Domiciliario {
                         if (data.ok) {
                             //Eliminamos de la variable el servicio que ya se concluyo
                             _this.serviciosAceptados.splice(i, 1);
+
                             //Solicitamos un servicio
                             let servicio = _this.servicio.solicitarServicio;
                             //Preguntamos si hay un servicio
@@ -69,22 +68,17 @@ class Domiciliario {
                         }
                     }
                 );
-            } else {
-                return callback({ ok: false });
             }
         }
+        return callback({ ok: false });
     }
     aceptarServicio(idServicio, idDomiciliario, callback) {
-        console.log('entro 1');
-        console.log('idServicio: ' + idServicio + ' - idDomiciliario: ' + idDomiciliario);
         //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
         for (let i = 0; i < this.servicioSinAceptar.length; i++) {
-            console.log('entro al for');
             if (
                 this.servicioSinAceptar[i].idDomiciliario == idDomiciliario &&
                 this.servicioSinAceptar[i].servicio.idServicio == idServicio
             ) {
-                console.log('entro al IF');
                 let _this = this;
                 //Aceptamos el servicio con la clase 'this.servicio', que se encarga de hacer este cambio en la base de datos
                 this.servicio.aceptarServicio(
@@ -93,11 +87,7 @@ class Domiciliario {
                         idDomiciliario,
                     },
                     function (data) {
-                        console.log('entro 2');
-
                         if (data.ok) {
-                            console.log('idServicio: ' + idServicio + ' - idDomiciliario: ' + idDomiciliario);
-
                             //Como este servicio fue aceptado por el domiciliario entonces pasamos este servicio a la variable
                             //ServicioAceptados, que se encarga de retener los servicios que fueron aceptados.
                             let serviciosAsignado = _this.servicio.serviciosEnProceso;
@@ -112,10 +102,16 @@ class Domiciliario {
                                 _this.serviciosAceptados.push(servicios);
                             }
                             _this.servicioSinAceptar.splice(i, 1);
-                            return callback({
-                                ok: true,
-                                servicio: _this.serviciosAceptados[_this.serviciosAceptados.length - 1],
-                            });
+
+                            //revisamos si el usuario ya tiene un servicio por aceptar o por realizar
+                            let servicioAceptado = _this.serviciosAceptados.find(
+                                (servicio) => servicio.idDomiciliario === idDomiciliario
+                            );
+                            if (servicioAceptado != undefined) {
+                                return callback({ ok: true, servicio: servicioAceptado });
+                            } else {
+                                console.log('error');
+                            }
                         } else {
                             return callback({ ok: false });
                         }
@@ -191,7 +187,13 @@ class Domiciliario {
                 });
             }
         }
-        callback({ ok: false });
+        this.servicio.devolverServicio(idServicio);
+        this.servicioSinAceptar = this.servicioSinAceptar.filter(
+            (servicio) => servicio.servicio.idServicio != idServicio
+        );
+        return callback({
+            ok: false,
+        });
     }
 
     agregarUser(idSocket, idUser, callback) {
