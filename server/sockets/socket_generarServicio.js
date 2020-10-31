@@ -88,11 +88,26 @@ const domiciliario = new Domiciliario(() => {
 });
 
 const generarServicio = (req, res) => {
-    io.to('domiciliarios').emit('enviarMensaje', {
-        msj: 'hola Domiciliario',
+    //Agregamos el id del administrador, a la data.
+    req.body.idAdmin = req.usuario.id_usuario;
+    domiciliario.generarServicio(req.body, function (data) {
+        //Si recibe un TRUE, es porque se genero el servicio correctamente.
+        if (data.ok) {
+            //si devolvio un servicio, es porque hay que enviarlo por socket a un domiciliario
+            if (data.servicio) {
+                io.to('id-' + data.servicio.idDomiciliario).emit('servicios', {
+                    ok: true,
+                    idServicio: data.servicio.servicio.idServicio,
+                    pathImageAdmin: data.servicio.servicio[13],
+                });
+                return res.json({ ok: true });
+            } else {
+                return res.json({ ok: true });
+            }
+        } else {
+            return res.json({ ok: false });
+        }
     });
-    console.log(req.body);
-    return res.json({ ok: true });
 };
 
 module.exports = {

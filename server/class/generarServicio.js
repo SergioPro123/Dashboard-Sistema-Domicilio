@@ -30,6 +30,53 @@ class Domiciliario {
         });
     }
 
+    generarServicio(data, callback) {
+        let _this = this;
+        this.servicio.agregarServicio(data, function (data) {
+            if (data.ok) {
+                //Ya que se genero un nuevo servicio en la base de datos, procedemos a verificar y existe un domiciliario
+                //en espera de servicio
+
+                //Si por alguna razon no hay usuarios, entonces retornamos normalmente
+                if (_this.userUnique.length == 0) {
+                    return callback({
+                        ok: true,
+                    });
+                }
+                //Recorremos todos los usuarios almacenados en UserUnique, para asignarle este servicio recien generado
+                //al domiciliario que no tenga servicios
+                for (let i = 0; i < _this.userUnique.length; i++) {
+                    let servicioSinAceptar =
+                        _this.servicioSinAceptar.find(
+                            (servicio) => servicio.idDomiciliario === _this.userUnique[i].idUser
+                        ) ||
+                        _this.serviciosAceptados.find(
+                            (servicio) => servicio.idDomiciliario === _this.userUnique[i].idUser
+                        );
+                    if (servicioSinAceptar == undefined) {
+                        //Solicitamos un servicio
+                        let servicio = _this.servicio.solicitarServicio;
+                        //Preguntamos si hay un servicio
+                        if (servicio.length > 0) {
+                            //Asigmanos un servicio al usuario, en espera que lo acepte
+                            let servicioSinAceptar = new serviciosAsignados(_this.userUnique[i].idUser, servicio);
+                            _this.servicioSinAceptar.push(servicioSinAceptar);
+                            return callback({ ok: true, servicio: servicioSinAceptar });
+                        } else {
+                            return callback({ ok: true });
+                        }
+                    }
+                }
+                return callback({ ok: true });
+            } else {
+                return callback({ ok: false });
+            }
+        });
+    }
+
+    //Esta funcion se encarga de distribuir servicio recien generado, a algun domiciliario en espera, si lo hay.
+    distribuirServicio() {}
+
     concluirServicio(idServicio, idDomiciliario, callback) {
         //Comprobamos de que el servicio sea correspondiente, es decir que ese domiciliario se le asigno ese servicio
         for (let i = 0; i < this.serviciosAceptados.length; i++) {

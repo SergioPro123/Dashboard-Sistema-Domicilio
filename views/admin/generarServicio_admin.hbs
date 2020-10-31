@@ -11,13 +11,13 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
-    <!-- This page css -->
-    <!-- This page plugin CSS -->
-    <link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-    <link href="../dist/css/select2.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- This page plugin CSS -->
+    <link href="../assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="../dist/css/select2.min.css" rel="stylesheet">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -145,7 +145,7 @@
                                     <!-- Column -->
                                     <div class="col-md-6 col-lg-6 col-xlg-6">
                                         <button type="button" class=" miBtn btn btn-rounded" data-toggle="modal"
-                                            data-target="#signup-modal">
+                                            data-target="#signup-modal" id="abrirbtnGenerarServicio">
                                             <i class="fas fa-motorcycle"></i>
                                             Generar Servicio
                                         </button>
@@ -255,7 +255,8 @@
 
                         <div class="form-group text-center">
                             <button class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                            <button class="btn btn-primary" type="submit">Generar Servicio</button>
+                            <button class="btn btn-primary" type="submit" id="btnGenerarServicio">Generar
+                                Servicio</button>
                         </div>
 
                     </form>
@@ -272,24 +273,26 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- apps -->
     <!-- apps -->
+    <script src="../dist/js/app-style-switcher.js"></script>
     <script src="../dist/js/feather.min.js"></script>
-    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
     <!--Wave Effects -->
     <!-- themejs -->
     <!--Menu sidebar -->
     <script src="../dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../dist/js/custom.min.js"></script>
-    <!--This page plugins -->
-
+    <!-- This Page JS -->
     <script src="../assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="../assets/extra-libs/prism/prism.js"></script>
     <script src="../dist/js/select2.min.js"></script>
     <script src="../dist/js/select2-cascade.js"></script>
 
@@ -346,8 +349,12 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="../assets/js/socket-custom.js"></script>
     <script>
+        $(document).on('click', "#abrirbtnGenerarServicio", function () {
+            $('#btnGenerarServicio').attr("disabled", false);
+        });
         //Enviamos los datos a nuestro servidor, para agregar un nuevo cliente a nuestro sistema.
         $(document).on("submit", "form#formGenerarServicio", function (e) {
+            $("#btnGenerarServicio").attr("disabled", "disabled");
             e.stopPropagation();
             let info = $(this).serializeArray();
             let data = {
@@ -366,10 +373,10 @@
                 success: function (response) {
                     //codigo de exito
                     if (response.ok) {
-                        //location.reload();
+                        location.reload();
                         console.log("Servicio Generado!!")
                     } else {
-                        alert("Error en el Servidor: " + response.msj);
+                        alert("Error en el Servidor: ", response.msj);
                     }
                 },
                 error: function (error) {

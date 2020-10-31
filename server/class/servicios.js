@@ -195,11 +195,10 @@ class Servicio {
         let query = `CALL generarServicio(${idCliente}, ${idAdmin}, ${direccion}, ${tipoServicio},${valorTipoServicio},${descripcion}, ${adicional});`;
         MySQL.ejecutarQuery(query, (err, result) => {
             if (err) {
-                let response = {
+                return callback({
                     ok: false,
                     msj: 'No se pudo generar un nuevo servicio',
-                };
-                return callback(response);
+                });
             } else {
                 this.getServiciosSinAsignar(callback);
             }
