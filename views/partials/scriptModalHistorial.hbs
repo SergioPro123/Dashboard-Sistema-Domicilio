@@ -196,7 +196,7 @@
             success: function (response) {
                 //codigo de exito
                 if (response.ok) {
-                    alimentarTabla(response)
+                    alimentarTabla(response);
                 } else {
                     alert("Error en el Servidor: " + response.msj);
                 }
@@ -230,7 +230,33 @@
                 historial[i][j] = data.data.historial[i][j];
             }
         }
-        $("table#zero_config tbody").html(tableConstrida)
+        $('table#zero_config').DataTable().clear().destroy();
+        $("table#zero_config tbody").html(tableConstrida);
+        $('table#zero_config').DataTable({
+            language: {
+                search: 'Buscar',
+                emptyTable: 'No hay datos disponibles en la tabla',
+                info: 'Visualizando _START_ a _END_ de _TOTAL_ registros',
+                infoEmpty: 'Visualizando 0 a 0 de 0 registros',
+                infoFiltered: '(Filtrado de _MAX_ registros totales)',
+                infoPostFix: '',
+                thousands: ',',
+                lengthMenu: 'Visualizar _MENU_ registros',
+                loadingRecords: 'Cargando...',
+                processing: 'Procesando...',
+                zeroRecords: 'No se encontraron registros coincidentes',
+                paginate: {
+                    first: 'Primero',
+                    last: 'Último',
+                    next: '>',
+                    previous: '<',
+                },
+                aria: {
+                    sortAscending: ': activar para ordenar la columna ascendente',
+                    sortDescending: ': activar para ordenar la columna descendente',
+                },
+            },
+        });
 
     }
 </script>

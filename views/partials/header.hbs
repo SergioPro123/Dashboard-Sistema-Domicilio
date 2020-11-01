@@ -1,6 +1,7 @@
 <!-- ============================================================== -->
 <!-- Topbar header - style you can find in pages.scss -->
 <!-- ============================================================== -->
+
 <header class="topbar" data-navbarbg="skin6">
     <nav class="navbar top-navbar navbar-expand-md">
         <div class="navbar-header" data-logobg="skin6">
@@ -112,7 +113,7 @@
                             </li>
                             <li>
                                 <a class="nav-link pt-3 text-center text-dark" href="javascript:void(0);">
-                                    <strong>Check all notifications</strong>
+                                    <strong>Mirar todas las notificaciones</strong>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
                             </li>
@@ -129,10 +130,10 @@
                         <i data-feather="settings" class="svg-icon"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Acción</a>
+                        <a class="dropdown-item" href="#">Otras Acciones</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        {{!-- <a class="dropdown-item" href="#">Something else here</a> --}}
                     </div>
                 </li>
 
@@ -164,7 +165,7 @@
                                 class="svg-icon mr-2 ml-1"></i>
                             Configurar Cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                        <a class="dropdown-item" href="" onClick="cerrarSesion()"><i data-feather="power"
                                 class="svg-icon mr-2 ml-1"></i>
                             Cerrar Sesión</a>
                         <div class="dropdown-divider"></div>
@@ -179,6 +180,13 @@
         </div>
     </nav>
 </header>
+
+<script>
+    function cerrarSesion() {
+        document.cookie = "Authorization" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        $(location).attr('href', '/login');
+    }   
+</script>
 <!-- ============================================================== -->
 <!-- End Topbar header -->
 <!-- ============================================================== -->
