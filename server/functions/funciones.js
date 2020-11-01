@@ -24,8 +24,22 @@ const devolverFecha = (fechaObjeto) => {
     return fecha;
 };
 
+const fechaInicioyFinMes = () => {
+    let myDate = new Date();
+    let FechaDesde = new Date(myDate.getFullYear(), myDate.getMonth(), 1);
+    let FechaHasta = new Date(myDate.getFullYear(), myDate.getMonth() + 1, 0);
+    let desde = FechaDesde.getFullYear() + '-' + (FechaDesde.getMonth() + 1) + '-' + FechaDesde.getDate();
+    let hasta = FechaHasta.getFullYear() + '-' + (FechaHasta.getMonth() + 1) + '-' + FechaHasta.getDate();
+
+    return {
+        desde,
+        hasta,
+    };
+};
+
 module.exports = {
     capitalizar,
     fechaActual,
     devolverFecha,
+    fechaInicioyFinMes,
 };

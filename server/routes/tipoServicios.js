@@ -9,6 +9,8 @@ app.get('/tipoServicios', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
     if (rol == 'SUPER_ADMIN') {
         tipoServiciosControllers.renderTipoServicios(req, res);
+    } else {
+        return res.redirect('/dashboard');
     }
 });
 

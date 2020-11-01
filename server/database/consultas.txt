@@ -58,6 +58,8 @@ CALL consultarServiciosDomiciliario(idDomiciliario,desde,hasta); //Para administ
 
 CALL totalServicios(estadoServicio); //Devuelve el total de servicios pasado por parametro, eje: "COMPLETADO"
 
+CALL consultarEstadisticasVentasMes();//Devuelve la cantidad de servicios realizados por cada mes
+
 
 CALL consultarTipoServicios();//Consulta los tipos de servicios existentes, para el Super Adminisrador
 

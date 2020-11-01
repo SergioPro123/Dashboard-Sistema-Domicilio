@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-7 align-self-center">
                 <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
-                    ¡Buenos días {{data.infoPersonal.nombre}}!</h3>
+                    ¡Buen día {{data.infoPersonal.nombre}}!</h3>
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
@@ -47,8 +47,8 @@
                                     class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">{{data.estadisticas.clientesTotales.[1]}}%</span>
                                 {{/iff}}
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Servicios
-                                Realizados en el mes</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Clientes Activos en el
+                                Mes</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
                             <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
@@ -74,10 +74,10 @@
                                 {{/iff}}
                             </div>
                             <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Servicios
-                                Realizados en el mes</h6>
+                                Realizados en el Mes</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                            <span class="opacity-7 text-muted"><i class="fas fa-motorcycle"></i></span>
                         </div>
                     </div>
                 </div>
@@ -99,11 +99,10 @@
                                     class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">{{data.estadisticas.gananciasMes.[1]}}%</span>
                                 {{/iff}}
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Servicios
-                                Realizados en el mes</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ganancias en el Mes</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i class="fas fa-motorcycle"></i></span>
+                            <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
                         </div>
                     </div>
                 </div>
@@ -125,8 +124,8 @@
                                     class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">{{data.estadisticas.domiciliariosTotales.[1]}}%</span>
                                 {{/iff}}
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Servicios
-                                Realizados en el mes</h6>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Domiciliarios Activos en
+                                el Mes</h6>
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
                             <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
@@ -152,7 +151,7 @@
 
 
                             <li>
-                                <i class="fas fa-circle text-{{item.[2]}} font-10 mr-2"></i>
+                                <i class="fas fa-circle font-10 mr-2" style="color:{{item.[2]}} ;"></i>
                                 <span class="text-muted">{{item.[0]}}</span>
                                 <span class="text-dark float-right font-weight-medium">${{item.[1]}}</span>
                             </li>
