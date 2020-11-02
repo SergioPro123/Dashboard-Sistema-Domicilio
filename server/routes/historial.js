@@ -3,6 +3,7 @@ const app = express();
 
 const { verificaToken } = require('../middlewares/autenticacion');
 const historialConstrollers = require('../controllers/historial');
+const { capitalizar } = require('../functions/funciones');
 //Renderizamos la seccion de historialDia
 app.get('/historialDia', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
@@ -25,15 +26,21 @@ app.get('/historialDia', verificaToken, (req, res) => {
 //Renderizamos la seccion de historialTemporal
 app.get('/historialTemporal', verificaToken, (req, res) => {
     let rol = req.usuario.rol;
+    let data = {
+        infoPersonal: {
+            nombre: capitalizar(req.usuario.nombre),
+            pathImage: req.usuario.pathImage,
+        },
+    };
     switch (rol) {
         case 'SUPER_ADMIN':
-            return res.render('superAdmin/historialTemporal_superAdmin.hbs');
+            return res.render('superAdmin/historialTemporal_superAdmin.hbs', { data });
             break;
         case 'ADMIN':
-            return res.render('admin/historialTemporal_admin.hbs');
+            return res.render('admin/historialTemporal_admin.hbs', { data });
             break;
         case 'USER':
-            return res.render('domiciliario/historialTemporal_domiciliario.hbs');
+            return res.render('domiciliario/historialTemporal_domiciliario.hbs', { data });
             break;
         default:
             return res.redirect('/dashboard');

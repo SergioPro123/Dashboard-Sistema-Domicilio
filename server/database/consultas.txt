@@ -60,6 +60,9 @@ CALL totalServicios(estadoServicio); //Devuelve el total de servicios pasado por
 
 CALL consultarEstadisticasVentasMes();//Devuelve la cantidad de servicios realizados por cada mes
 
+CALL consultarEstadisticasGananciaMes(); //Devuelve la cantidad de ganancias acomulado del mes actual
+
+
 
 CALL consultarTipoServicios();//Consulta los tipos de servicios existentes, para el Super Adminisrador
 

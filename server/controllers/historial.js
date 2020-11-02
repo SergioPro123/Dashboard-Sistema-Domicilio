@@ -93,6 +93,7 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
                     historial,
                     infoPersonal: {
                         nombre: capitalizar(req.usuario.nombre),
+                        pathImage: req.usuario.pathImage,
                     },
                 },
             });
@@ -137,6 +138,7 @@ const consultarUsuarios = (req, res, query, rutaHBS) => {
                 dataUsuarios,
                 infoPersonal: {
                     nombre: capitalizar(req.usuario.nombre),
+                    pathImage: req.usuario.pathImage,
                 },
             },
         });

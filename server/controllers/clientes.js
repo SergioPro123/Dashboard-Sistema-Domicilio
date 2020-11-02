@@ -61,6 +61,7 @@ const consultarClientes = (req, res) => {
                     clientes,
                     infoPersonal: {
                         nombre: capitalizar(req.usuario.nombre),
+                        pathImage: req.usuario.pathImage,
                     },
                 },
             });

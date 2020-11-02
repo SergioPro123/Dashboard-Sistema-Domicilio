@@ -18,15 +18,38 @@ data:{
 
 }
 */
-let valoresGlobalAdmin = [];
-
 const { MySQL } = require('../database/mysql');
 const { capitalizar, fechaInicioyFinMes, devolverFecha } = require('../functions/funciones');
+
 const dashboardADMINS = (req, res, url) => {
-    data(req, res, url);
+    return res.render(url, {
+        data: {
+            estadisticas: {
+                clientesTotales: [0, 0],
+                serviciosMes: [0, 0],
+                gananciasMes: [0, 0],
+                domiciliariosTotales: [0, 0],
+            },
+            infoPersonal: {
+                nombre: capitalizar(req.usuario.nombre),
+                pathImage: req.usuario.pathImage,
+            },
+        },
+    });
 };
 
-const data = (req, res, url) => {
+const dashboardDOMICILIARIO = (req, res) => {
+    return res.render('domiciliario/dashboard_domiciliario.hbs', {
+        data: {
+            infoPersonal: {
+                nombre: capitalizar(req.usuario.nombre),
+                pathImage: req.usuario.pathImage,
+            },
+        },
+    });
+};
+
+const dashboardEstadisticasAdmin = (req, res) => {
     let fechas = fechaInicioyFinMes();
     //let query = `CALL consultarServiciosTemporal('${fechas.desde}','${fechas.hasta}')`;
     let query = `CALL consultarServiciosTemporal('2020-10-1','2020-10-31')`;
@@ -42,7 +65,7 @@ const data = (req, res, url) => {
         let serviciosRealizados = 0;
         let gananciasMes = 0;
         let domiciliariosActivos = 0;
-        valoresGlobalAdmin = [];
+        let valores = [];
         //Verifico que haya devuelto datos
         if (result.length > 0) {
             let index = 0;
@@ -94,13 +117,13 @@ const data = (req, res, url) => {
                     }
                     //
 
-                    if (valoresGlobalAdmin.length > 0) {
-                        for (let j = 0; j < valoresGlobalAdmin.length; j++) {
-                            if (historial[index][5] === valoresGlobalAdmin[j][0]) {
-                                valoresGlobalAdmin[j][1] += historial[index][6] + historial[index][7];
+                    if (valores.length > 0) {
+                        for (let j = 0; j < valores.length; j++) {
+                            if (historial[index][5] === valores[j][0]) {
+                                valores[j][1] += historial[index][6] + historial[index][7];
                                 break;
-                            } else if (j + 1 == valoresGlobalAdmin.length) {
-                                valoresGlobalAdmin.push([
+                            } else if (j + 1 == valores.length) {
+                                valores.push([
                                     historial[index][5],
                                     historial[index][6] + historial[index][7],
                                     colorHEX(),
@@ -109,76 +132,72 @@ const data = (req, res, url) => {
                             }
                         }
                     } else {
-                        valoresGlobalAdmin.push([
-                            historial[index][5],
-                            historial[index][6] + historial[index][7],
-                            colorHEX(),
-                        ]);
+                        valores.push([historial[index][5], historial[index][6] + historial[index][7], colorHEX()]);
                     }
                 }
                 index++;
             }
         }
-        return res.render(url, {
-            data: {
-                estadisticas: {
-                    clientesTotales: [clientesActivos, 0],
-                    serviciosMes: [serviciosRealizados, 0],
-                    gananciasMes: [gananciasMes, 0],
-                    domiciliariosTotales: [domiciliariosActivos, 0],
-                },
-                infoPersonal: {
-                    nombre: capitalizar(req.usuario.nombre),
-                },
-                ventasMes: {
-                    valores: valoresGlobalAdmin,
-                },
-            },
+        MySQL.ejecutarQuery('CALL consultarEstadisticasVentasMes();', (err, result) => {
+            if (err) {
+                return res.json({
+                    ok: false,
+                    msj: 'Error en la consulta',
+                });
+            }
+            let serviciosRealizadosLabels = [];
+            let serviciosRealizadosSeries = [];
+            if (result.length > 0) {
+                index = 0;
+
+                //Recorro cada registro
+                while (result[0][index]) {
+                    serviciosRealizadosLabels.unshift(capitalizar(result[0][index].mes));
+                    serviciosRealizadosSeries.unshift(result[0][index].cantidadServicios);
+                    index++;
+                }
+            }
+            MySQL.ejecutarQuery('CALL consultarEstadisticasGananciaMes();', (err, result) => {
+                if (err) {
+                    return res.json({
+                        ok: false,
+                        msj: 'Error en la consulta',
+                    });
+                }
+                let estadisticasGananciasLabels = [];
+                let estadisticasGananciasSeries = [];
+                if (result.length > 0) {
+                    index = 0;
+
+                    //Recorro cada registro
+                    while (result[0][index]) {
+                        estadisticasGananciasLabels.unshift(capitalizar(result[0][index].dia));
+                        estadisticasGananciasSeries.unshift(result[0][index].gananciaServicios);
+                        index++;
+                    }
+                }
+                return res.json({
+                    estadisticas: {
+                        clientesTotales: clientesActivos,
+                        serviciosMes: serviciosRealizados,
+                        gananciasMes: gananciasMes,
+                        domiciliariosTotales: domiciliariosActivos,
+                    },
+                    ventasMes: {
+                        valores,
+                    },
+                    estadisticasGanancias: {
+                        labels: estadisticasGananciasLabels,
+                        series: [estadisticasGananciasSeries],
+                    },
+                    serviciosRealizados: {
+                        labels: serviciosRealizadosLabels,
+                        series: [serviciosRealizadosSeries],
+                    },
+                });
+            });
         });
     });
-};
-
-const dashboardDOMICILIARIO = (req, res) => {
-    return res.render('domiciliario/dashboard_domiciliario.hbs', {
-        data: {
-            estadisticas: {
-                clientesTotales: [999, 1],
-                serviciosMes: [888, 0],
-                gananciasMes: [123456, -1],
-                domiciliariosTotales: [50, 5],
-            },
-            infoPersonal: {
-                nombre: capitalizar(req.usuario.nombre),
-            },
-            ventasMes: {
-                valores: [
-                    ['Valor Prueba 1', 22, 'primary'],
-                    ['Valor Prueba 2', 33, 'danger'],
-                    ['Valor Prueba 3', 55, 'cyan'],
-                    ['Valor Prueba 4', 99, 'success'],
-                ],
-            },
-        },
-    });
-};
-
-const dashboardEstadisticasAdmin = (req, res) => {
-    let data = {
-        estadistica: {
-            ventasMes: {
-                valores: valoresGlobalAdmin,
-            },
-            estadisticasGanancias: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                series: [[11, 10, 15, 21, 14, 23, 12]],
-            },
-            serviciosRealizados: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                series: [[5, 4, 3, 7, 10, 25]],
-            },
-        },
-    };
-    return res.json(data);
 };
 
 function generarLetra() {

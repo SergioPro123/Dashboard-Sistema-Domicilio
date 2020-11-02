@@ -181,6 +181,7 @@ const datoServicios = (req, res, estadoServicio, nombreServicio) => {
                 datoServicios: datoServiciosGlobal,
                 infoPersonal: {
                     nombre: capitalizar(req.usuario.nombre),
+                    pathImage: req.usuario.pathImage,
                 },
             },
         };

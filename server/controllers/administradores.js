@@ -34,6 +34,7 @@ const consultarAdministradores = (req, res) => {
                 estados: [['Habilitado'], ['Deshabilitado']],
                 infoPersonal: {
                     nombre: capitalizar(req.usuario.nombre),
+                    pathImage: req.usuario.pathImage,
                 },
             },
         });
