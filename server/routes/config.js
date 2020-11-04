@@ -11,6 +11,7 @@ app.use(require('./servicios').app);
 app.use(require('./clientes').app);
 app.use(require('./domiciliarios').app);
 app.use(require('./administradores').app);
+app.use(require('./generarLiquidacion').app);
 
 //app.use(dashboardController.error404);
 module.exports = {
