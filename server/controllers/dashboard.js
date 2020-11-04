@@ -9,7 +9,6 @@ data:{
         domiciliariosTotales,
         ventasMes:{
             columns:[],
-            color:[]
         }
     },
     infoPersonal:{
@@ -22,14 +21,32 @@ const { MySQL } = require('../database/mysql');
 const { capitalizar, fechaInicioyFinMes, devolverFecha } = require('../functions/funciones');
 
 const dashboardADMINS = (req, res, url) => {
+    let query = `CALL consultarTopDomiciliariosMes();`;
+    let topDomiciliarios = [];
+    MySQL.ejecutarQuery(query, (err, result) => {
+        if (err) {
+            return res.json({
+                ok: false,
+                msj: 'Error en la consulta',
+            });
+        }
+        if (result.length > 0) {
+            let index = 0;
+            //Recorro cada registro
+            while (result[0][index]) {
+                topDomiciliarios[index] = [];
+                topDomiciliarios[index][0] = capitalizar(result[0][index].nombre);
+                topDomiciliarios[index][1] = result[0][index].pathImage;
+                topDomiciliarios[index][2] = capitalizar(result[0][index].correo);
+                topDomiciliarios[index][3] = result[0][index].totalServicios;
+                topDomiciliarios[index][4] = result[0][index].totalGanancias;
+                index++;
+            }
+        }
+    });
     return res.render(url, {
         data: {
-            estadisticas: {
-                clientesTotales: [0, 0],
-                serviciosMes: [0, 0],
-                gananciasMes: [0, 0],
-                domiciliariosTotales: [0, 0],
-            },
+            topDomiciliarios,
             infoPersonal: {
                 nombre: capitalizar(req.usuario.nombre),
                 pathImage: req.usuario.pathImage,
@@ -123,16 +140,12 @@ const dashboardEstadisticasAdmin = (req, res) => {
                                 valores[j][1] += historial[index][6] + historial[index][7];
                                 break;
                             } else if (j + 1 == valores.length) {
-                                valores.push([
-                                    historial[index][5],
-                                    historial[index][6] + historial[index][7],
-                                    colorHEX(),
-                                ]);
+                                valores.push([historial[index][5], historial[index][6] + historial[index][7]]);
                                 break;
                             }
                         }
                     } else {
-                        valores.push([historial[index][5], historial[index][6] + historial[index][7], colorHEX()]);
+                        valores.push([historial[index][5], historial[index][6] + historial[index][7]]);
                     }
                 }
                 index++;
@@ -200,19 +213,6 @@ const dashboardEstadisticasAdmin = (req, res) => {
     });
 };
 
-function generarLetra() {
-    var letras = ['a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    var numero = (Math.random() * 15).toFixed(0);
-    return letras[numero];
-}
-
-function colorHEX() {
-    var coolor = '';
-    for (var i = 0; i < 6; i++) {
-        coolor = coolor + generarLetra();
-    }
-    return '#' + coolor;
-}
 module.exports = {
     dashboardADMINS,
     dashboardDOMICILIARIO,

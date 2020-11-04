@@ -62,6 +62,7 @@ CALL consultarEstadisticasVentasMes();//Devuelve la cantidad de servicios realiz
 
 CALL consultarEstadisticasGananciaMes(); //Devuelve la cantidad de ganancias acomulado del mes actual
 
+CALL consultarTopDomiciliariosMes(); //Devuelve el top de los 4 domiciliarios con mas ganancias en el mes actual
 
 
 CALL consultarTipoServicios();//Consulta los tipos de servicios existentes, para el Super Adminisrador
