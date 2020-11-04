@@ -43,15 +43,15 @@ const dashboardADMINS = (req, res, url) => {
                 index++;
             }
         }
-    });
-    return res.render(url, {
-        data: {
-            topDomiciliarios,
-            infoPersonal: {
-                nombre: capitalizar(req.usuario.nombre),
-                pathImage: req.usuario.pathImage,
+        return res.render(url, {
+            data: {
+                topDomiciliarios,
+                infoPersonal: {
+                    nombre: capitalizar(req.usuario.nombre),
+                    pathImage: req.usuario.pathImage,
+                },
             },
-        },
+        });
     });
 };
 
@@ -68,8 +68,7 @@ const dashboardDOMICILIARIO = (req, res) => {
 
 const dashboardEstadisticasAdmin = (req, res) => {
     let fechas = fechaInicioyFinMes();
-    //let query = `CALL consultarServiciosTemporal('${fechas.desde}','${fechas.hasta}')`;
-    let query = `CALL consultarServiciosTemporal('2020-10-1','2020-10-31')`;
+    let query = `CALL consultarServiciosTemporal('${fechas.desde}','${fechas.hasta}')`;
     let historial = [];
     MySQL.ejecutarQuery(query, (err, result) => {
         if (err) {
@@ -102,7 +101,6 @@ const dashboardEstadisticasAdmin = (req, res) => {
                 historial[index][10] = result[0][index].horaInicio;
                 historial[index][11] = result[0][index].horaFinal;
                 historial[index][12] = result[0][index].celularCliente;
-
                 //Contamos la cantidad de servicios completados en el mes
                 if (historial[index][3] == 'COMPLETADO') {
                     serviciosRealizados++;
@@ -112,6 +110,7 @@ const dashboardEstadisticasAdmin = (req, res) => {
                     if (index == 0) {
                         clientesActivos++;
                         domiciliariosActivos++;
+                        index++;
                         continue;
                     }
                     //Recorremos desde el principio hasta el valor de 'i', para verificar si el cliente ya se conto

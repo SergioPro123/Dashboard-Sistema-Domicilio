@@ -90,7 +90,7 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
             //Respondo  con los datos y renderizacion al cliente
             return res.render(rutaHBS, {
                 data: {
-                    historial,
+                    historial: historial.reverse(),
                     infoPersonal: {
                         nombre: capitalizar(req.usuario.nombre),
                         pathImage: req.usuario.pathImage,
@@ -102,7 +102,7 @@ const consultarHistorialMysql = (req, res, query, render, rutaHBS = '') => {
             return res.json({
                 ok: true,
                 data: {
-                    historial,
+                    historial: historial.reverse(),
                 },
             });
         }

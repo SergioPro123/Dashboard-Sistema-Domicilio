@@ -15,7 +15,9 @@ app.get('/dashboard', verificaToken, (req, res) => {
             dashboard.dashboardADMINS(req, res, 'admin/dashboard_admin.hbs');
             break;
         case 'USER':
-            dashboard.dashboardDOMICILIARIO(req, res);
+            //Por ahora, por ser un prototipo mostramos el mismo dashboard de admins a los domiciliarios
+            //dashboard.dashboardDOMICILIARIO(req, res);
+            dashboard.dashboardADMINS(req, res, 'domiciliario/dashboard_domiciliario.hbs');
             break;
         default:
             res.redirect('/login');
@@ -33,7 +35,7 @@ app.get('/dashboard/estadisticas', verificaToken, (req, res) => {
             dashboard.dashboardEstadisticasAdmin(req, res);
             break;
         case 'USER':
-            dashboard.dashboardDOMICILIARIO(req, res);
+            dashboard.dashboardEstadisticasAdmin(req, res);
             break;
         default:
             res.json({
