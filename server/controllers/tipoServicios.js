@@ -29,6 +29,7 @@ const renderTipoServicios = (req, res) => {
                 tipoServicios,
                 infoPersonal: {
                     nombre: capitalizar(req.usuario.nombre),
+                    pathImage: req.usuario.pathImage,
                 },
             },
         });
